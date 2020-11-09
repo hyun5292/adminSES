@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper는 여러 개가 존재할 수 있s으니 다른 maper아 중복이 되지 않도록 namespace를 선언 -->
+<mapper namespace="mMap">
+	<select id="MList" parameterType="hashmap"
+		resultType="com.company.dto.MemberDTO">
+		SELECT * FROM member ORDER BY M_NAME DESC limit #{startNum}, #{ContentNum};
+	</select>
+	
+	<select id="ListCnt" resultType="int">
+		SELECT count(*) FROM member;
+	</select>
+	
+	<select id="MSearchedList" parameterType="hashmap"
+		resultType="com.company.dto.MemberDTO">
+		SELECT * FROM member#{map};
+	</select>
+	
+	<select id="SearchedListCnt" parameterType="hashmap" resultType="int">
+		SELECT count(*) FROM member WHERE M_ID LIKE #{mId} AND M_NAME LIKE #{mName} AND M_KIND LIKE #{mKind} ORDER BY M_NAME DESC;
+	</select>
+</mapper>

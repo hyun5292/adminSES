@@ -46,6 +46,78 @@ table {
 }
 </style>
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+<script>
+	function SearchMember() {
+		var mKind = $('#mKind').val();
+		var mId = $('#mId').val();
+		var mName = $('#mName').val();
+
+		location.href = "search_m?mKind=" + mKind + "&mId=" + mId + "&mName="
+				+ mName;
+	}
+	
+	function NewMember() {
+		var mKind = $('#mKind').val();
+		var result = "";
+		
+		if(mKind == "일반") {
+			result = "m_general";
+		} else if(mKind == "직원") {
+			result = "m_admin";
+		} else if(mKind == "SNS사") {
+			result = "m_sns";
+		} else {
+			result = "m_search";
+		}
+		
+		location.href = result;
+	}
+
+	//url 에서 parameter 추출
+	function getParam(sname) {
+		var params = location.search.substr(location.search.indexOf("?") + 1);
+		var sval = "";
+		params = params.split("&");
+		for (var i = 0; i < params.length; i++) {
+			temp = params[i].split("=");
+			if ([ temp[0] ] == sname) {
+				sval = temp[1];
+			}
+		}
+
+		return sval;
+	}
+
+	function YesOrNo() {
+		var mKind = getParam("mKind");
+		var mId = getParam("mId");
+		var mName = getParam("mName");
+		var chk = true;
+
+		if ((mKind == null) || (mKind == "")) {
+			if ((mId == null) || (mId == "")) {
+				if ((mName == null) || (mName == "")) {
+					chk = false;
+				} else {
+					chk = true;
+				}
+			} else {
+				chk = true;
+			}
+		} else {
+			chk = true;
+		}
+
+		if (chk) {
+			$("#schm").show();
+			$("#msch").hide();
+		} else {
+			$("#schm").hide();
+			$("#msch").show();
+		}
+	}
+	window.onload = YesOrNo;
+</script>
 </head>
 <body>
 	<div class="page-wrapper chiller-theme toggled">
@@ -89,11 +161,11 @@ table {
 						<div class="panel-heading">
 							<table width="100%">
 								<tr>
-									<td>검색조건</td>
-									<td colspan="10" align="right">
-										<button type="button" class="btn btn-secondary">등록</button>
-										<button type="button" class="btn btn-secondary">조회</button>
-									</td>
+									<td width="15%">검색조건</td>
+									<td width="85%" align="right"><input type="button" onclick="SearchMember()"
+										class="btn btn-secondary" value="조회"> <input
+										type="button" onclick="NewMember()" class="btn btn-secondary"
+										value="등록"></td>
 								</tr>
 							</table>
 						</div>
@@ -103,20 +175,24 @@ table {
 									<tr>
 										<td align="right">회원분류</td>
 										<td width="10px"></td>
-										<td><select class="custom-select">
-												<option>일반</option>
-												<option>직원</option>
-												<option>SNS사</option>
+										<td><select class="custom-select" id="mKind" name="mKind">
+												<option value="${mKind}" selected="true">${mKind}</option>
+												<option value="일반">일반</option>
+												<option value="직원">직원</option>
+												<option value="SNS사">SNS사</option>
 										</select></td>
 										<td align="right">아이디</td>
 										<td width="10px"></td>
-										<td><input type="text" class="form-control" id="inputID"
-											placeholder="아이디" width="80%"></td>
+										<td><input type="text" class="form-control" id="mId"
+											name="mId" placeholder="아이디" width="80%" value="${mId}"></td>
 										<td width="10px"></td>
 										<td align="right">성명</td>
 										<td width="10px"></td>
-										<td><input type="text" class="form-control"
-											id="inputName" placeholder="성명" width="80%"></td>
+										<td><input type="text" class="form-control" name="mName"
+											id="mName" placeholder="성명" width="80%" value="${mName}"></td>
+									</tr>
+									<tr>
+										<td colspan="11" height="10px"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -129,78 +205,49 @@ table {
 							<tr>
 								<th width="10%"><center>번호</center></th>
 								<th width="25%"><center>아이디</center></th>
-								<th width="25%"><center>성명</center></th>
-								<th width="40%"><center>전화번호</center></th>
+								<th width="20%"><center>성명</center></th>
+								<th width="30%"><center>전화번호</center></th>
+								<th width="15%"><center>분류</center></th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>00</td>
-								<td>Honggildong</td>
-								<td>홍길동</td>
-								<td>010-0000-0000</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>Honggildong</td>
-								<td>홍길동</td>
-								<td>010-0000-0000</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>Honggildong</td>
-								<td>홍길동</td>
-								<td>010-0000-0000</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>Honggildong</td>
-								<td>홍길동</td>
-								<td>010-0000-0000</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>Honggildong</td>
-								<td>홍길동</td>
-								<td>010-0000-0000</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>Honggildong</td>
-								<td>홍길동</td>
-								<td>010-0000-0000</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>Honggildong</td>
-								<td>홍길동</td>
-								<td>010-0000-0000</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>Honggildong</td>
-								<td>홍길동</td>
-								<td>010-0000-0000</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>Honggildong</td>
-								<td>홍길동</td>
-								<td>010-0000-0000</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>Honggildong</td>
-								<td>홍길동</td>
-								<td>010-0000-0000</td>
-							</tr>
+							<c:forEach items="${dtos}" var="dto">
+								<tr>
+									<td>${dto.getNUM()}</td>
+									<td><a href="#">${dto.getM_ID()}</a></td>
+									<td>${dto.getM_NAME()}</td>
+									<td>0${dto.getM_TEL1()}-${dto.getM_TEL2()}-${dto.getM_TEL3()}</td>
+									<td>${dto.getM_KIND()}</td>
+								</tr>
+							</c:forEach>
 						</tbody>
 						<tfoot>
 							<tr>
-								<td colspan="4"></td>
+								<td colspan="5"></td>
 							</tr>
 							<tr align="center">
-								<td colspan="4"><< < 1 2 3 4 5 6 7 8 9 10 > >></td>
+								<td colspan="5" id="schm" name="schm"><a
+									href="search_m?pgnum=1&mKind=${mKind}&mId=${mId}&mName=${mName}"
+									style="text-decoration: none">${prev}${prev}</a> <a
+									href="search_m?pgnum=${before}&mKind=${mKind}&mId=${mId}&mName=${mName}"
+									style="text-decoration: none">${prev}</a> <c:forEach
+										items="${pg}" var="p">
+										<a
+											href="search_m?pgnum=${p}&mKind=${mKind}&mId=${mId}&mName=${mName}"
+											style="text-decoration: none">${p}</a>
+									</c:forEach> <a
+									href="search_m?pgnum=${after}&mKind=${mKind}&mId=${mId}&mName=${mName}"
+									style="text-decoration: none">${next}</a> <a
+									href="search_m?pgnum=${last}&mKind=${mKind}&mId=${mId}&mName=${mName}"
+									style="text-decoration: none">${next}${next}</a></td>
+								<td colspan="5" id="msch" name="msch"><a
+									href="m_search?pgnum=1" style="text-decoration: none">${prev}${prev}</a>
+									<a href="m_search?pgnum=${before}"
+									style="text-decoration: none">${prev}</a> <c:forEach
+										items="${pg}" var="p">
+										<a href="m_search?pgnum=${p}" style="text-decoration: none">${p}</a>
+									</c:forEach> <a href="qna?pgnum=${after}" style="text-decoration: none">${next}</a>
+									<a href="m_search?pgnum=${last}" style="text-decoration: none">${next}${next}</a></td>
 							</tr>
 						</tfoot>
 					</table>
