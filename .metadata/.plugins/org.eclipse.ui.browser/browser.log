@@ -1,0 +1,9 @@
+
+11월 09, 2020 16:31:42.27 NEW SESSION
+11월 09, 2020 16:31:42.27 [1109/163142.265:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+11월 09, 2020 17:57:35.18 [1109/175735.182:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+11월 09, 2020 22:29:25.70 [1109/222925.705:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+11월 09, 2020 23:27:21.14 [1109/232721.140:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+11월 10, 2020 24:05:33.94 [1110/000533.944:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+11월 10, 2020 01:00:15.59 [1110/010015.593:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+11월 10, 2020 01:11:24.79 [1110/011124.797:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)

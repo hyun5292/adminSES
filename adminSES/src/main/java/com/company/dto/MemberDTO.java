@@ -1,9 +1,11 @@
 package com.company.dto;
 
 public class MemberDTO {
+	private int NUM = 0;
 	private String M_ID = "";
 	private String M_PW = "";
 	private String M_NAME = "";
+	private String M_KIND = "";
 	private String M_EMAIL1 = "";
 	private String M_EMAIL2 = "";
 	private int M_TEL1 = 0;
@@ -22,6 +24,14 @@ public class MemberDTO {
 	private String M_SERVICE_DATE = "";
 	
 	public MemberDTO() {}
+	
+	public int getNUM() {
+		return NUM;
+	}
+
+	public void setNUM(int nUM) {
+		NUM = nUM;
+	}
 
 	public String getM_ID() {
 		return M_ID;
@@ -45,6 +55,14 @@ public class MemberDTO {
 
 	public void setM_NAME(String m_NAME) {
 		M_NAME = m_NAME;
+	}
+
+	public String getM_KIND() {
+		return M_KIND;
+	}
+
+	public void setM_KIND(String m_KIND) {
+		M_KIND = m_KIND;
 	}
 
 	public String getM_EMAIL1() {
@@ -180,28 +198,32 @@ public class MemberDTO {
 
 /*
 CREATE TABLE `member` (
-`M_ID` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
-`M_PW` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
-`M_NAME` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
-`M_EMAIL1` VARCHAR(40) NOT NULL COLLATE 'utf8_general_ci',
-`M_EMAIL2` VARCHAR(40) NOT NULL COLLATE 'utf8_general_ci',
-`M_TEL1` INT(11) NOT NULL DEFAULT '0',
-`M_TEL2` INT(11) NOT NULL DEFAULT '0',
-`M_TEL3` INT(11) NOT NULL DEFAULT '0',
-`M_BIRTH1` INT(11) NOT NULL DEFAULT '0',
-`M_BIRTH2` INT(11) NOT NULL DEFAULT '0',
-`M_BIRTH3` INT(11) NOT NULL DEFAULT '0',
-`M_FBCHK` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
-`M_KTCHK` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
-`M_NCHK` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
-`M_GCHK` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
-`M_EMAIL_CHK` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
-`M_TEL_CHK` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
-`M_SERVICE_CHK` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
-`M_SERVICE_DATE` VARCHAR(50) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
-PRIMARY KEY (`M_ID`) USING BTREE
+	`M_ID` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
+	`M_PW` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
+	`M_NAME` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
+	`M_KIND` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
+	`M_EMAIL1` VARCHAR(40) NOT NULL COLLATE 'utf8_general_ci',
+	`M_EMAIL2` VARCHAR(40) NOT NULL COLLATE 'utf8_general_ci',
+	`M_TEL1` INT(11) NOT NULL DEFAULT '0',
+	`M_TEL2` INT(11) NOT NULL DEFAULT '0',
+	`M_TEL3` INT(11) NOT NULL DEFAULT '0',
+	`M_BIRTH1` INT(11) NOT NULL DEFAULT '0',
+	`M_BIRTH2` INT(11) NOT NULL DEFAULT '0',
+	`M_BIRTH3` INT(11) NOT NULL DEFAULT '0',
+	`M_FBCHK` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
+	`M_KTCHK` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
+	`M_NCHK` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
+	`M_GCHK` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
+	`M_EMAIL_CHK` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
+	`M_TEL_CHK` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
+	`M_SERVICE_CHK` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
+	`M_SERVICE_DATE` VARCHAR(50) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
+	`M_STATE` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
+	PRIMARY KEY (`M_ID`) USING BTREE
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
+
+
 */

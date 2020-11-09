@@ -1986,3 +1986,9 @@
 2020-11-10 01:50:32,831 [Worker-178: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
 2020-11-10 01:50:32,832 [Worker-178: Building workspace] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
 2020-11-10 01:50:32,834 [Worker-178: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2020-11-10 02:08:15,183 [Worker-2: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2020-11-10 02:08:43,874 [Worker-11: Building workspace] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: com.spring:ex:1.0.0-BUILD-SNAPSHOT @ C:\adminSES\adminSES\pom.xml.
+2020-11-10 02:08:46,293 [Worker-11: Building workspace] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+2020-11-10 02:08:46,305 [Worker-11: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 2 resources
+2020-11-10 02:08:46,351 [Worker-11: Building workspace] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (MS949 actually) to copy filtered resources, i.e. build is platform dependent!
+2020-11-10 02:08:46,353 [Worker-11: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
