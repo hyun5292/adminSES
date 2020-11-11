@@ -127,4 +127,27 @@ public class M_SearchController {
 
 		return "/member/m_search";
 	}
+<<<<<<< HEAD
+=======
+	
+	// 어떤 분류의 직원인가
+	@RequestMapping("/chklistmkind")
+	public String CheckListmKind(HttpServletRequest request, Model model) {
+		String result = "m_search";
+		String mId = request.getParameter("mId");
+		String mKind = Ser_M.GetMKind(mId);
+		
+		if(mKind.equals("일반")) {
+			result = "m_general";
+		} else if(mKind.equals("직원")) {
+			result = "m_admin";
+		} else if(mKind.equals("SNS사")) {
+			result = "m_sns";
+		}
+		
+		model.addAttribute("mId", mId);
+		
+		return "redirect:/" + result;
+	}
+>>>>>>> 1f258bbb1ccf1215572a53076409f307eb673dcf
 }

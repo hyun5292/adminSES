@@ -12,6 +12,19 @@ public class SnsDTO {
 	
 	public SnsDTO() {}
 
+	public SnsDTO(String s_KIND, String s_NAME, int s_TEL1, int s_TEL2, int s_TEL3, String s_DEPT, String s_START_DT,
+			String s_END_DT) {
+		super();
+		S_KIND = s_KIND;
+		S_NAME = s_NAME;
+		S_TEL1 = s_TEL1;
+		S_TEL2 = s_TEL2;
+		S_TEL3 = s_TEL3;
+		S_DEPT = s_DEPT;
+		S_START_DT = s_START_DT;
+		S_END_DT = s_END_DT;
+	}
+
 	public String getS_KIND() {
 		return S_KIND;
 	}

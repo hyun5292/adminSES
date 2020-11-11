@@ -26,6 +26,13 @@ public class PageController {
 	// 메인으로 이동
 	@RequestMapping("/main")
 	public String GoMain(HttpServletRequest request, Model model) {
+		int MCnt = Ser_M.GeneralCnt();
+		int NoMCnt = Ser_M.GeneralNotUseCnt();
+
+		// 값 넘겨주기
+		model.addAttribute("MCnt", MCnt);
+		model.addAttribute("NoMCnt", NoMCnt);
+
 		return "/main";
 	}
 
@@ -129,6 +136,46 @@ public class PageController {
 	// 일반 회원으로 이동
 	@RequestMapping("/m_general")
 	public String GoMGeneral(HttpServletRequest request, Model model) {
+		MemberDTO mdto = new MemberDTO();
+		String mId = request.getParameter("mId");
+		String FB = "", KT = "", N = "", G = "";
+		
+		if(mId == null || mId.equals("")) {
+			mdto = new MemberDTO(0, "", "", "", "", "", "", 0, 0, 0, 0, 0, 0, "", "", "", "", "", "", "", 0, 0, 0, "");
+		} else {
+			mdto = Ser_M.GetMInfo(mId);
+		}
+		
+		if (mdto.getM_FBCHK().equals("Y")) {
+			FB = "Facebook";
+		} else {
+			FB = "";
+		}
+
+		if (mdto.getM_KTCHK().equals("Y")) {
+			KT = "KakaoTalk";
+		} else {
+			KT = "";
+		}
+
+		if (mdto.getM_NCHK().equals("Y")) {
+			N = "Naver";
+		} else {
+			N = "";
+		}
+
+		if (mdto.getM_GCHK().equals("Y")) {
+			G = "Google";
+		} else {
+			G = "";
+		}
+
+		model.addAttribute("mdto", mdto);
+		model.addAttribute("FB", FB);
+		model.addAttribute("KT", KT);
+		model.addAttribute("N", N);
+		model.addAttribute("G", G);
+
 		return "/member/m_general";
 	}
 

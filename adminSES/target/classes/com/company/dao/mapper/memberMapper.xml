@@ -4,13 +4,21 @@
 <mapper namespace="mMap">
 	<select id="MList" parameterType="hashmap"
 		resultType="com.company.dto.MemberDTO">
+<<<<<<< HEAD
 		SELECT * FROM member ORDER BY M_NAME DESC limit #{startNum}, #{ContentNum};
 	</select>
 	
+=======
+		SELECT * FROM member ORDER BY M_NAME DESC limit
+		#{startNum}, #{ContentNum};
+	</select>
+
+>>>>>>> 1f258bbb1ccf1215572a53076409f307eb673dcf
 	<select id="ListCnt" resultType="int">
 		SELECT count(*) FROM member;
 	</select>
 	
+<<<<<<< HEAD
 	<select id="MSearchedList" parameterType="hashmap"
 		resultType="com.company.dto.MemberDTO">
 		SELECT * FROM member WHERE M_ID LIKE #{mId} AND M_NAME LIKE #{mName} AND M_KIND LIKE #{mKind} ORDER BY M_NAME DESC limit #{startNum}, #{ContentNum};
@@ -18,5 +26,37 @@
 	
 	<select id="SearchedListCnt" parameterType="hashmap" resultType="int">
 		SELECT count(*) FROM member WHERE M_ID LIKE #{mId} AND M_NAME LIKE #{mName} AND M_KIND LIKE #{mKind} ORDER BY M_NAME DESC;
+=======
+	<select id="GeneralCnt" resultType="int">
+		SELECT count(*) FROM member WHERE M_KIND = '일반';
+	</select>
+	
+	<select id="GeneralNotUseCnt" resultType="int">
+		SELECT count(*) FROM member WHERE M_KIND = '일반' AND M_STATE = "N";
+	</select>
+
+	<select id="MSearchedList" parameterType="hashmap"
+		resultType="com.company.dto.MemberDTO">
+		SELECT * FROM member WHERE M_ID LIKE #{mId} AND M_NAME LIKE
+		#{mName} AND M_KIND LIKE #{mKind} ORDER BY M_NAME DESC limit
+		#{startNum}, #{ContentNum};
+	</select>
+
+	<select id="SearchedListCnt" parameterType="hashmap"
+		resultType="int">
+		SELECT count(*) FROM member WHERE M_ID LIKE #{mId} AND
+		M_NAME LIKE #{mName} AND M_KIND LIKE #{mKind} ORDER BY M_NAME DESC;
+	</select>
+
+	<select id="GetMKind" parameterType="String" resultType="String">
+		SELECT
+		M_KIND FROM member WHERE M_ID = #{mId};
+	</select>
+
+	<select id="GetMInfo" parameterType="String"
+		resultType="com.company.dto.MemberDTO">
+		SELECT
+		* FROM member WHERE M_ID = #{mId};
+>>>>>>> 1f258bbb1ccf1215572a53076409f307eb673dcf
 	</select>
 </mapper>

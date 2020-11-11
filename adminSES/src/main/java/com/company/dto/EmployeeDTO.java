@@ -16,8 +16,23 @@ public class EmployeeDTO {
 	
 	public EmployeeDTO() {}
 	
-	
-	
+	public EmployeeDTO(String e_ID, String e_PW, String e_NAME, String e_EMAIL1, String e_EMAIL2, int e_TEL1,
+			int e_TEL2, int e_TEL3, String e_ENTER_DT, String e_RESIGN_DT, String e_RANK, String e_AUTHORITY) {
+		super();
+		E_ID = e_ID;
+		E_PW = e_PW;
+		E_NAME = e_NAME;
+		E_EMAIL1 = e_EMAIL1;
+		E_EMAIL2 = e_EMAIL2;
+		E_TEL1 = e_TEL1;
+		E_TEL2 = e_TEL2;
+		E_TEL3 = e_TEL3;
+		E_ENTER_DT = e_ENTER_DT;
+		E_RESIGN_DT = e_RESIGN_DT;
+		E_RANK = e_RANK;
+		E_AUTHORITY = e_AUTHORITY;
+	}
+
 	public String getE_ID() {
 		return E_ID;
 	}

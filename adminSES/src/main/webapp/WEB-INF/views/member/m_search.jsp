@@ -51,6 +51,13 @@ table {
 		var mKind = $('#mKind').val();
 		var mId = $('#mId').val();
 		var mName = $('#mName').val();
+<<<<<<< HEAD
+=======
+		
+		if(mKind == null || mKind == "") {
+			mKind = "일반";
+		}
+>>>>>>> 1f258bbb1ccf1215572a53076409f307eb673dcf
 
 		location.href = "search_m?mKind=" + mKind + "&mId=" + mId + "&mName="
 				+ mName;
@@ -60,9 +67,13 @@ table {
 		var mKind = $('#mKind').val();
 		var result = "";
 		
+<<<<<<< HEAD
 		if(mKind == "일반") {
 			result = "m_general";
 		} else if(mKind == "직원") {
+=======
+		if(mKind == "직원") {
+>>>>>>> 1f258bbb1ccf1215572a53076409f307eb673dcf
 			result = "m_admin";
 		} else if(mKind == "SNS사") {
 			result = "m_sns";
@@ -214,10 +225,19 @@ table {
 							<c:forEach items="${dtos}" var="dto">
 								<tr>
 									<td>${dto.getNUM()}</td>
+<<<<<<< HEAD
 									<td><a href="#">${dto.getM_ID()}</a></td>
 									<td>${dto.getM_NAME()}</td>
 									<td>0${dto.getM_TEL1()}-${dto.getM_TEL2()}-${dto.getM_TEL3()}</td>
 									<td>${dto.getM_KIND()}</td>
+=======
+									<td><a href="chklistmkind?mId=${dto.getM_ID()}">${dto.getM_ID()}</a></td>
+									<td>${dto.getM_NAME()}</td>
+									<td>0${dto.getM_TEL1()}-${dto.getM_TEL2()}-${dto.getM_TEL3()}</td>
+									<td>${dto.getM_KIND()}</td>
+									<input type="hidden" id="listMId" value="${dto.getM_ID()}">
+									<input type="hidden" id="listMKind" value="${dto.getM_KIND()}">
+>>>>>>> 1f258bbb1ccf1215572a53076409f307eb673dcf
 								</tr>
 							</c:forEach>
 						</tbody>

@@ -8,6 +8,14 @@ public class EmpLogDTO {
 	
 	public EmpLogDTO() {}
 
+	public EmpLogDTO(int eL_NUM, String eL_ID, String eL_ACTIVITY, String eL_DATE) {
+		super();
+		EL_NUM = eL_NUM;
+		EL_ID = eL_ID;
+		EL_ACTIVITY = eL_ACTIVITY;
+		EL_DATE = eL_DATE;
+	}
+	
 	public int getEL_NUM() {
 		return EL_NUM;
 	}

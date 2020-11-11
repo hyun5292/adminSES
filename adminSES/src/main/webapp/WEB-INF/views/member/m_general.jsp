@@ -65,8 +65,7 @@ thead {
 			<div class="sidebar-content">
 				<div class="logo-wrapper waves-light" align="center"
 					style="padding: 10px 0px 0px 0px">
-					<a href="main">
-					<img width="90%"
+					<a href="main"> <img width="90%"
 						src="${pageContext.request.contextPath}/resources/images/mainmark.png"
 						class="img-fluid flex-center"></a>
 				</div>
@@ -105,13 +104,13 @@ thead {
 									<tr>
 										<td align="right">아이디</td>
 										<td width="10px"></td>
-										<td>honggildong</td>
+										<td>${mdto.getM_ID()}</td>
 										<td align="right">전화번호</td>
 										<td width="10px"></td>
-										<td>010-0000-0000</td>
-										<td align="right">유료서비스 가입 여부</td>
+										<td>0${mdto.getM_TEL1()}-${mdto.getM_TEL2()}-${mdto.getM_TEL3()}</td>
+										<td align="right"><a href="pay_service">유료서비스</a> 가입 여부</td>
 										<td width="10px"></td>
-										<td>가입</td>
+										<td>${mdto.getM_SERVICE_CHK()}</td>
 									</tr>
 									<tr>
 										<td colspan="9" height="10px"></td>
@@ -119,13 +118,14 @@ thead {
 									<tr>
 										<td align="right">성명</td>
 										<td width="10px"></td>
-										<td>홍길동</td>
+										<td>${mdto.getM_NAME()}</td>
 										<td align="right">이메일</td>
 										<td width="10px"></td>
-										<td>honggildong@naver.com</td>
+										<td>${mdto.getM_EMAIL1()}@${mdto.getM_EMAIL2()}</td>
 										<td align="right">유료서비스 가입일</td>
 										<td width="10px"></td>
-										<td>0000-00-00</td>
+										<td>${mdto.getM_SERVICE_DATE1()}년
+											${mdto.getM_SERVICE_DATE2()}월 ${mdto.getM_SERVICE_DATE3()}일</td>
 									</tr>
 									<tr>
 										<td colspan="9" height="10px"></td>
@@ -133,7 +133,7 @@ thead {
 									<tr>
 										<td align="right">동의한 SNS</td>
 										<td width="10px"></td>
-										<td colspan="4"></td>
+										<td colspan="4">${FB}${KT}${N}${G}</td>
 										<td align="right">유료서비스 월 납부 금액</td>
 										<td width="10px"></td>
 										<td>000,000 원</td>

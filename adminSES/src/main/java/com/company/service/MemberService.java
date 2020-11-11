@@ -38,4 +38,31 @@ public class MemberService implements MService {
 	public int SearchedListCnt(Map<String, Object> map) {
 		return mDAO.SearchedListCnt(map);
 	}
+<<<<<<< HEAD
+=======
+
+	// 회원의 회원 분류 가져오기
+	@Override
+	public String GetMKind(String mId) {
+		return mDAO.GetMKind(mId);
+	}
+
+	// 회원 정보 가져오기
+	@Override
+	public MemberDTO GetMInfo(String mId) {
+		return mDAO.GetMInfo(mId);
+	}
+
+	// 일반 회원 수 구하기
+	@Override
+	public int GeneralCnt() {
+		return mDAO.GeneralCnt();
+	}
+
+	// 탈퇴한 일반 회원 수 구하기
+	@Override
+	public int GeneralNotUseCnt() {
+		return mDAO.GeneralNotUseCnt();
+	}
+>>>>>>> 1f258bbb1ccf1215572a53076409f307eb673dcf
 }

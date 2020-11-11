@@ -21,10 +21,49 @@ public class MemberDTO {
 	private String M_EMAIL_CHK = "";
 	private String M_TEL_CHK = "";
 	private String M_SERVICE_CHK = "";
-	private String M_SERVICE_DATE = "";
+	private int M_SERVICE_DATE1 = 0;
+	private int M_SERVICE_DATE2 = 0;
+	private int M_SERVICE_DATE3 = 0;
+	private String M_STATE = "";
 	
 	public MemberDTO() {}
 	
+<<<<<<< HEAD
+=======
+	public MemberDTO(int nUM, String m_ID, String m_PW, String m_NAME, String m_KIND, String m_EMAIL1, String m_EMAIL2,
+			int m_TEL1, int m_TEL2, int m_TEL3, int m_BIRTH1, int m_BIRTH2, int m_BIRTH3, String m_FBCHK,
+			String m_KTCHK, String m_NCHK, String m_GCHK, String m_EMAIL_CHK, String m_TEL_CHK, String m_SERVICE_CHK,
+			int m_SERVICE_DATE1, int m_SERVICE_DATE2, int m_SERVICE_DATE3, String m_STATE) {
+		super();
+		NUM = nUM;
+		M_ID = m_ID;
+		M_PW = m_PW;
+		M_NAME = m_NAME;
+		M_KIND = m_KIND;
+		M_EMAIL1 = m_EMAIL1;
+		M_EMAIL2 = m_EMAIL2;
+		M_TEL1 = m_TEL1;
+		M_TEL2 = m_TEL2;
+		M_TEL3 = m_TEL3;
+		M_BIRTH1 = m_BIRTH1;
+		M_BIRTH2 = m_BIRTH2;
+		M_BIRTH3 = m_BIRTH3;
+		M_FBCHK = m_FBCHK;
+		M_KTCHK = m_KTCHK;
+		M_NCHK = m_NCHK;
+		M_GCHK = m_GCHK;
+		M_EMAIL_CHK = m_EMAIL_CHK;
+		M_TEL_CHK = m_TEL_CHK;
+		M_SERVICE_CHK = m_SERVICE_CHK;
+		M_SERVICE_DATE1 = m_SERVICE_DATE1;
+		M_SERVICE_DATE2 = m_SERVICE_DATE2;
+		M_SERVICE_DATE3 = m_SERVICE_DATE3;
+		M_STATE = m_STATE;
+	}
+
+
+
+>>>>>>> 1f258bbb1ccf1215572a53076409f307eb673dcf
 	public int getNUM() {
 		return NUM;
 	}
@@ -185,12 +224,36 @@ public class MemberDTO {
 		M_SERVICE_CHK = m_SERVICE_CHK;
 	}
 
-	public String getM_SERVICE_DATE() {
-		return M_SERVICE_DATE;
+	public int getM_SERVICE_DATE1() {
+		return M_SERVICE_DATE1;
 	}
 
-	public void setM_SERVICE_DATE(String m_SERVICE_DATE) {
-		M_SERVICE_DATE = m_SERVICE_DATE;
+	public void setM_SERVICE_DATE1(int m_SERVICE_DATE1) {
+		M_SERVICE_DATE1 = m_SERVICE_DATE1;
+	}
+
+	public int getM_SERVICE_DATE2() {
+		return M_SERVICE_DATE2;
+	}
+
+	public void setM_SERVICE_DATE2(int m_SERVICE_DATE2) {
+		M_SERVICE_DATE2 = m_SERVICE_DATE2;
+	}
+
+	public int getM_SERVICE_DATE3() {
+		return M_SERVICE_DATE3;
+	}
+
+	public void setM_SERVICE_DATE3(int m_SERVICE_DATE3) {
+		M_SERVICE_DATE3 = m_SERVICE_DATE3;
+	}
+
+	public String getM_STATE() {
+		return M_STATE;
+	}
+
+	public void setM_STATE(String m_STATE) {
+		M_STATE = m_STATE;
 	}
 	
 	
@@ -217,13 +280,23 @@ CREATE TABLE `member` (
 	`M_EMAIL_CHK` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
 	`M_TEL_CHK` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
 	`M_SERVICE_CHK` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
+<<<<<<< HEAD
 	`M_SERVICE_DATE` VARCHAR(50) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
+=======
+	`M_SERVICE_DATE1` INT(11) NOT NULL DEFAULT '0',
+	`M_SERVICE_DATE2` INT(11) NOT NULL DEFAULT '0',
+	`M_SERVICE_DATE3` INT(11) NOT NULL DEFAULT '0',
+>>>>>>> 1f258bbb1ccf1215572a53076409f307eb673dcf
 	`M_STATE` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
 	PRIMARY KEY (`M_ID`) USING BTREE
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
+<<<<<<< HEAD
 ;
 
 
 */
+=======
+;*/
+>>>>>>> 1f258bbb1ccf1215572a53076409f307eb673dcf

@@ -15,6 +15,21 @@ public class QnaDTO {
 	public QnaDTO() {
 	}
 
+	public QnaDTO(int nUM, int q_NUM, String q_TITLE, String m_ID, int q_PWD, String q_CONTENT, int q_YEAR, int q_MONTH,
+			int q_DAY, String q_REPLY) {
+		super();
+		NUM = nUM;
+		Q_NUM = q_NUM;
+		Q_TITLE = q_TITLE;
+		M_ID = m_ID;
+		Q_PWD = q_PWD;
+		Q_CONTENT = q_CONTENT;
+		Q_YEAR = q_YEAR;
+		Q_MONTH = q_MONTH;
+		Q_DAY = q_DAY;
+		Q_REPLY = q_REPLY;
+	}
+
 	public QnaDTO(String q_TITLE, String m_ID, int q_PWD, String q_CONTENT, int q_YEAR, int q_MONTH, int q_DAY,
 			String q_REPLY) {
 		super();
