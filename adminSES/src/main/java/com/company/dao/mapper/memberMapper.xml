@@ -4,19 +4,43 @@
 <mapper namespace="mMap">
 	<select id="MList" parameterType="hashmap"
 		resultType="com.company.dto.MemberDTO">
-		SELECT * FROM member ORDER BY M_NAME DESC limit #{startNum}, #{ContentNum};
+		SELECT * FROM member ORDER BY M_NAME DESC limit
+		#{startNum}, #{ContentNum};
 	</select>
-	
+
 	<select id="ListCnt" resultType="int">
 		SELECT count(*) FROM member;
 	</select>
 	
-	<select id="MSearchedList" parameterType="hashmap"
-		resultType="com.company.dto.MemberDTO">
-		SELECT * FROM member WHERE M_ID LIKE #{mId} AND M_NAME LIKE #{mName} AND M_KIND LIKE #{mKind} ORDER BY M_NAME DESC limit #{startNum}, #{ContentNum};
+	<select id="GeneralCnt" resultType="int">
+		SELECT count(*) FROM member WHERE M_KIND = '일반';
 	</select>
 	
-	<select id="SearchedListCnt" parameterType="hashmap" resultType="int">
-		SELECT count(*) FROM member WHERE M_ID LIKE #{mId} AND M_NAME LIKE #{mName} AND M_KIND LIKE #{mKind} ORDER BY M_NAME DESC;
+	<select id="GeneralNotUseCnt" resultType="int">
+		SELECT count(*) FROM member WHERE M_KIND = '일반' AND M_STATE = "N";
+	</select>
+
+	<select id="MSearchedList" parameterType="hashmap"
+		resultType="com.company.dto.MemberDTO">
+		SELECT * FROM member WHERE M_ID LIKE #{mId} AND M_NAME LIKE
+		#{mName} AND M_KIND LIKE #{mKind} ORDER BY M_NAME DESC limit
+		#{startNum}, #{ContentNum};
+	</select>
+
+	<select id="SearchedListCnt" parameterType="hashmap"
+		resultType="int">
+		SELECT count(*) FROM member WHERE M_ID LIKE #{mId} AND
+		M_NAME LIKE #{mName} AND M_KIND LIKE #{mKind} ORDER BY M_NAME DESC;
+	</select>
+
+	<select id="GetMKind" parameterType="String" resultType="String">
+		SELECT
+		M_KIND FROM member WHERE M_ID = #{mId};
+	</select>
+
+	<select id="GetMInfo" parameterType="String"
+		resultType="com.company.dto.MemberDTO">
+		SELECT
+		* FROM member WHERE M_ID = #{mId};
 	</select>
 </mapper>

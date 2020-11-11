@@ -12,6 +12,21 @@ public class PageDTO {
 	private int LastBlock; // 마지막 페이지 블록
 
 	public PageDTO() {
+		
+	}
+	
+	public PageDTO(int totalCnt, int pageNum, int contentNum, int startPage, int endPage, boolean prev, boolean next,
+			int curBlock, int lastBlock) {
+		super();
+		TotalCnt = totalCnt;
+		PageNum = pageNum;
+		ContentNum = contentNum;
+		StartPage = startPage;
+		EndPage = endPage;
+		Prev = prev;
+		Next = next;
+		CurBlock = curBlock;
+		LastBlock = lastBlock;
 	}
 
 	public void prevnext(int PageNum) {

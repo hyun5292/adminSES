@@ -26,6 +26,16 @@ public class MemberDAO {
 		return temp.selectOne("mMap.ListCnt");
 	}
 
+	// 일반 회원 수 구하기
+	public int GeneralCnt() {
+		return temp.selectOne("mMap.GeneralCnt");
+	}
+
+	// 탈퇴한 일반 회원 수 구하기
+	public int GeneralNotUseCnt() {
+		return temp.selectOne("mMap.GeneralNotUseCnt");
+	}
+
 	// 검색된 회원 목록 불러오기
 	public List<MemberDTO> GetSearchedMList(Map<String, Object> map) {
 		return temp.selectList("mMap.MSearchedList", map);
@@ -34,5 +44,15 @@ public class MemberDAO {
 	// 검색된 페이지 개수 구하기
 	public int SearchedListCnt(Map<String, Object> map) {
 		return temp.selectOne("mMap.SearchedListCnt", map);
+	}
+
+	// 회원의 회원 분류 가져오기
+	public String GetMKind(String mId) {
+		return temp.selectOne("mMap.GetMKind", mId);
+	}
+
+	// 회원 정보 가져오기
+	public MemberDTO GetMInfo(String mId) {
+		return temp.selectOne("mMap.GetMInfo", mId);
 	}
 }

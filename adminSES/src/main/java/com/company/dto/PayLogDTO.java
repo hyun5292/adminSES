@@ -8,6 +8,15 @@ public class PayLogDTO {
 	private String PL_DATE = "";
 	
 	public PayLogDTO () {}
+	
+	public PayLogDTO(String pL_NUM, String m_ID, String pL_TITLE, int pL_PRICE, String pL_DATE) {
+		super();
+		PL_NUM = pL_NUM;
+		M_ID = m_ID;
+		PL_TITLE = pL_TITLE;
+		PL_PRICE = pL_PRICE;
+		PL_DATE = pL_DATE;
+	}
 
 	public String getPL_NUM() {
 		return PL_NUM;

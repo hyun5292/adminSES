@@ -17,4 +17,16 @@ public interface MService {
 
 	// 검색된 페이지 개수 구하기
 	public int SearchedListCnt(Map<String, Object> map);
+
+	// 회원의 회원 분류 가져오기
+	public String GetMKind(String mId);
+
+	// 회원 정보 가져오기
+	public MemberDTO GetMInfo(String mId);
+
+	// 일반 회원 수 구하기
+	public int GeneralCnt();
+
+	// 탈퇴한 일반 회원 수 구하기
+	public int GeneralNotUseCnt();
 }

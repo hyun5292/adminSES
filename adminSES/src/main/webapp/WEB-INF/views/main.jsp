@@ -56,8 +56,7 @@ table {
 			<div class="sidebar-content">
 				<div class="logo-wrapper waves-light" align="center"
 					style="padding: 10px 0px 0px 0px">
-					<a href="main">
-					<img width="90%"
+					<a href="main"> <img width="90%"
 						src="${pageContext.request.contextPath}/resources/images/mainmark.png"
 						class="img-fluid flex-center"></a>
 				</div>
@@ -135,8 +134,8 @@ table {
 									</thead>
 									<tbody>
 										<tr>
-											<td>00명</td>
-											<td>00명</td>
+											<td>${MCnt}명</td>
+											<td>${NoMCnt}명</td>
 										</tr>
 									</tbody>
 								</table>
