@@ -14,66 +14,74 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.company.dto.MemberDTO;
 import com.company.dto.PageDTO;
+import com.company.dto.PayLogDTO;
+import com.company.dto.QnaDTO;
 import com.company.service.MService;
+import com.company.service.PLService;
+import com.company.service.QService;
 
 @Controller
 @Repository
 public class PageController {
-	// ì„œë¹„ìŠ¤ ì¸í„°í˜ì´ìŠ¤ ê°–ê³  ì™€ì„œ ì—¬ê¸°ì„œ ì •ì˜
+	// ¼­ºñ½º ÀÎÅÍÆäÀÌ½º °®°í ¿Í¼­ ¿©±â¼­ Á¤ÀÇ
 	@Autowired
 	MService Ser_M;
+	@Autowired
+	QService Ser_Q;
+	@Autowired
+	PLService Ser_PL;
 
-	// ë©”ì¸ìœ¼ë¡œ ì´ë™
+	// ¸ŞÀÎÀ¸·Î ÀÌµ¿
 	@RequestMapping("/main")
 	public String GoMain(HttpServletRequest request, Model model) {
 		int MCnt = Ser_M.GeneralCnt();
 		int NoMCnt = Ser_M.GeneralNotUseCnt();
 
-		// ê°’ ë„˜ê²¨ì£¼ê¸°
+		// °ª ³Ñ°ÜÁÖ±â
 		model.addAttribute("MCnt", MCnt);
 		model.addAttribute("NoMCnt", NoMCnt);
 
 		return "/main";
 	}
 
-	// ë°›ì€ ë¬¸ì˜ë¡œ ì´ë™
+	// ¹ŞÀº ¹®ÀÇ·Î ÀÌµ¿
 	@RequestMapping("/qna")
 	public String GoQna(HttpServletRequest request, Model model) {
 		return "/qna/qna";
 	}
 
-	// ë°›ì€ ë¬¸ì˜ ë‹µë³€ìœ¼ë¡œ ì´ë™
+	// ¹ŞÀº ¹®ÀÇ ´äº¯À¸·Î ÀÌµ¿
 	@RequestMapping("/qna_answer")
 	public String GoQnaAnswer(HttpServletRequest request, Model model) {
 		return "/qna/qna_answer";
 	}
 
-	// íšŒì› ê²€ìƒ‰ìœ¼ë¡œ ì´ë™
+	// È¸¿ø °Ë»öÀ¸·Î ÀÌµ¿
 	@RequestMapping("/m_search")
 	public String GoMSearch(HttpServletRequest request, Model model) {
 		String pgNum = request.getParameter("pgnum");
-		if (pgNum == null) // nullì´ë©´ ë§¨ ì²˜ìŒ
+		if (pgNum == null) // nullÀÌ¸é ¸Ç Ã³À½
 			pgNum = "1";
-		// intí˜•ìœ¼ë¡œ
+		// intÇüÀ¸·Î
 		int pgnum = Integer.parseInt(pgNum);
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageDTO pgDTO = new PageDTO();
 
-		// ì „ì²´ ê²Œì‹œê¸€ ê°œìˆ˜ ì„¤ì •
+		// ÀüÃ¼ °Ô½Ã±Û °³¼ö ¼³Á¤
 		pgDTO.setTotalCnt(Ser_M.PageCnt());
-		// í˜„ì¬ í˜ì´ì§€ ë²ˆí˜¸ ì„¤ì •
+		// ÇöÀç ÆäÀÌÁö ¹øÈ£ ¼³Á¤
 		pgDTO.setPageNum(pgnum);
-		// ë³´ì—¬ì¤„ ê²Œì‹œë¬¼ ìˆ˜ ì„¤ì •
+		// º¸¿©ÁÙ °Ô½Ã¹° ¼ö ¼³Á¤
 		pgDTO.setContentNum(10);
-		// í˜„ì¬ í˜ì´ì§€ ë¸”ë¡ ì„¤ì •
+		// ÇöÀç ÆäÀÌÁö ºí·Ï ¼³Á¤
 		pgDTO.setCurBlock(pgnum);
-		// ë§ˆì§€ë§‰ ë¸”ë¡ ë²ˆí˜¸ ì„¤ì •
+		// ¸¶Áö¸· ºí·Ï ¹øÈ£ ¼³Á¤
 		pgDTO.setLastBlock(pgDTO.getTotalCnt());
-		// ì´ì „ í™”ì‚´í‘œ í‘œì‹œ ì—¬ë¶€
+		// ÀÌÀü È­»ìÇ¥ Ç¥½Ã ¿©ºÎ
 		pgDTO.prevnext(pgnum);
-		// ì‹œì‘ í˜ì´ì§€ ì„¤ì •
+		// ½ÃÀÛ ÆäÀÌÁö ¼³Á¤
 		pgDTO.setStartPage(pgDTO.getCurBlock());
-		// ë§ˆì§€ë§‰ í˜ì´ì§€ ì„¤ì •
+		// ¸¶Áö¸· ÆäÀÌÁö ¼³Á¤
 		pgDTO.setEndPage(pgDTO.getLastBlock(), pgDTO.getCurBlock());
 
 		map.put("startNum", (pgnum - 1) * pgDTO.getContentNum());
@@ -84,7 +92,7 @@ public class PageController {
 		int first = (pgnum - 1) * pgDTO.getContentNum() + 1;
 		int last = first + pgDTO.getContentNum();
 		int j = 0;
-		// ê° ê²Œì‹œë¬¼ ë²ˆí˜¸
+		// °¢ °Ô½Ã¹° ¹øÈ£
 		for (int i = first; i < last; i++) {
 			if (i <= pgDTO.getTotalCnt()) {
 				dtos.get(j).setNUM(i);
@@ -94,14 +102,14 @@ public class PageController {
 
 		String prev = "", next = ""; // <, >
 
-		if (pgDTO.isPrev()) { // ì´ì „ ë¸”ë¡ì´ ì¡´ì¬í•˜ëŠ”ê°€
+		if (pgDTO.isPrev()) { // ÀÌÀü ºí·ÏÀÌ Á¸ÀçÇÏ´Â°¡
 			prev = "<";
 		}
-		if (pgDTO.isNext()) { // ë‹¤ìŒ ë¸”ë¡ì´ ì¡´ì¬í•˜ëŠ”ê°€
+		if (pgDTO.isNext()) { // ´ÙÀ½ ºí·ÏÀÌ Á¸ÀçÇÏ´Â°¡
 			next = ">";
 		}
 
-		// ë„˜ì–´ê°€ì„œ ì¶œë ¥ë  í˜ì´ì§€ ë²ˆí˜¸ë“¤
+		// ³Ñ¾î°¡¼­ Ãâ·ÂµÉ ÆäÀÌÁö ¹øÈ£µé
 		int[] pg;
 		if (dtos.size() == 0) {
 			pg = new int[1];
@@ -109,8 +117,8 @@ public class PageController {
 			pg = new int[(pgDTO.getEndPage() - pgDTO.getStartPage()) + 1];
 		}
 
-		// ì›ë˜ëŠ” ìë°”ìŠ¤í¬ë¦½íŠ¸ ì¨ì„œ í•´ì¤˜ì•¼ë˜ëŠ”ë° ë¬´ìŠ¨ íŒŒì¼ ë˜ ê°€ì ¸ì™€ì„œ ì„¤ì¹˜í•´ì•¼ ëœë‹¤ê¸¸ë˜
-		// ê·¸ëƒ¥ ì—¬ê¸°ì„œ ê°’ ê³„ì‚°í•´ì„œ ë„˜ê²¨ì£¼ê¸°
+		// ¿ø·¡´Â ÀÚ¹Ù½ºÅ©¸³Æ® ½á¼­ ÇØÁà¾ßµÇ´Âµ¥ ¹«½¼ ÆÄÀÏ ¶Ç °¡Á®¿Í¼­ ¼³Ä¡ÇØ¾ß µÈ´Ù±æ·¡
+		// ±×³É ¿©±â¼­ °ª °è»êÇØ¼­ ³Ñ°ÜÁÖ±â
 		j = 0;
 		for (int i = pgDTO.getStartPage(); i < pgDTO.getStartPage() + pgDTO.getContentNum(); i++) {
 			if (pg.length > j)
@@ -118,7 +126,7 @@ public class PageController {
 			j++;
 		}
 
-		// ê°’ ë„˜ê²¨ì£¼ê¸°
+		// °ª ³Ñ°ÜÁÖ±â
 		model.addAttribute("dtos", dtos);
 		model.addAttribute("before", pgDTO.getStartPage() - 1);
 		model.addAttribute("after", pgDTO.getEndPage() + 1);
@@ -133,19 +141,32 @@ public class PageController {
 		return "/member/m_search";
 	}
 
-	// ì¼ë°˜ íšŒì›ìœ¼ë¡œ ì´ë™
+	// ÀÏ¹İ È¸¿øÀ¸·Î ÀÌµ¿
 	@RequestMapping("/m_general")
 	public String GoMGeneral(HttpServletRequest request, Model model) {
+		Map<String, Object> Qmap = new HashMap<String, Object>();
+		Map<String, Object> Pmap = new HashMap<String, Object>();
 		MemberDTO mdto = new MemberDTO();
 		String mId = request.getParameter("mId");
 		String FB = "", KT = "", N = "", G = "";
-		
-		if(mId == null || mId.equals("")) {
+		PageDTO QpgDTO = new PageDTO();
+		PageDTO PpgDTO = new PageDTO();
+		String QpgNum = request.getParameter("qpgnum");
+		String PpgNum = request.getParameter("ppgnum");
+		if (QpgNum == null) // nullÀÌ¸é ¸Ç Ã³À½
+			QpgNum = "1";
+		if (PpgNum == null) // nullÀÌ¸é ¸Ç Ã³À½
+			PpgNum = "1";
+		// intÇüÀ¸·Î
+		int Qpgnum = Integer.parseInt(QpgNum);
+		int Ppgnum = Integer.parseInt(PpgNum);
+
+		if (mId == null || mId.equals("")) {
 			mdto = new MemberDTO(0, "", "", "", "", "", "", 0, 0, 0, 0, 0, 0, "", "", "", "", "", "", "", 0, 0, 0, "");
 		} else {
 			mdto = Ser_M.GetMInfo(mId);
 		}
-		
+
 		if (mdto.getM_FBCHK().equals("Y")) {
 			FB = "Facebook";
 		} else {
@@ -170,34 +191,114 @@ public class PageController {
 			G = "";
 		}
 
+		// ÀüÃ¼ °Ô½Ã±Û °³¼ö ¼³Á¤
+		QpgDTO.setTotalCnt(Ser_Q.getMemberQListCnt(mId));
+		// ÇöÀç ÆäÀÌÁö ¹øÈ£ ¼³Á¤
+		QpgDTO.setPageNum(Qpgnum);
+		// º¸¿©ÁÙ °Ô½Ã¹° ¼ö ¼³Á¤
+		QpgDTO.setContentNum(5);
+		// ÇöÀç ÆäÀÌÁö ºí·Ï ¼³Á¤
+		QpgDTO.setCurBlock(Qpgnum);
+		// ¸¶Áö¸· ºí·Ï ¹øÈ£ ¼³Á¤
+		QpgDTO.setLastBlock(QpgDTO.getTotalCnt());
+		// ÀÌÀü È­»ìÇ¥ Ç¥½Ã ¿©ºÎ
+		QpgDTO.prevnext(Qpgnum);
+		// ½ÃÀÛ ÆäÀÌÁö ¼³Á¤
+		QpgDTO.setStartPage(QpgDTO.getCurBlock());
+		// ¸¶Áö¸· ÆäÀÌÁö ¼³Á¤
+		QpgDTO.setEndPage(QpgDTO.getLastBlock(), QpgDTO.getCurBlock());
+
+		Qmap.put("mId", mId);
+		Qmap.put("startNum", (Qpgnum - 1) * QpgDTO.getContentNum());
+		Qmap.put("ContentNum", QpgDTO.getContentNum());
+
+		List<QnaDTO> qdtos = Ser_Q.getMemberQList(Qmap);
+		List<PayLogDTO> pdtos = Ser_PL.getMemberPLList(mId);
+		
+		int first = (Qpgnum - 1) * QpgDTO.getContentNum() + 1;
+		int last = first + QpgDTO.getContentNum();
+		int j = 0;
+		// °¢ °Ô½Ã¹° ¹øÈ£
+		for (int i = first; i < last; i++) {
+			if (i <= QpgDTO.getTotalCnt()) {
+				qdtos.get(j).setNUM(i);
+				j++;
+			}
+		}
+
+		String qprev = "", qnext = ""; // <, >
+
+		if (QpgDTO.isPrev()) { // ÀÌÀü ºí·ÏÀÌ Á¸ÀçÇÏ´Â°¡
+			qprev = "<";
+		}
+		if (QpgDTO.isNext()) { // ´ÙÀ½ ºí·ÏÀÌ Á¸ÀçÇÏ´Â°¡
+			qnext = ">";
+		}
+
+		// ³Ñ¾î°¡¼­ Ãâ·ÂµÉ ÆäÀÌÁö ¹øÈ£µé
+		int[] qpg;
+		if (qdtos.size() == 0) {
+			qpg = new int[1];
+		} else {
+			qpg = new int[(QpgDTO.getEndPage() - QpgDTO.getStartPage()) + 1];
+		}
+
+		// ¿ø·¡´Â ÀÚ¹Ù½ºÅ©¸³Æ® ½á¼­ ÇØÁà¾ßµÇ´Âµ¥ ¹«½¼ ÆÄÀÏ ¶Ç °¡Á®¿Í¼­ ¼³Ä¡ÇØ¾ß µÈ´Ù±æ·¡
+		// ±×³É ¿©±â¼­ °ª °è»êÇØ¼­ ³Ñ°ÜÁÖ±â
+		j = 0;
+		for (int i = QpgDTO.getStartPage(); i < QpgDTO.getStartPage() + QpgDTO.getContentNum(); i++) {
+			if (qpg.length > j)
+				qpg[j] = i;
+			j++;
+		}
+		for (int i = 0; i < qdtos.size(); i++) {
+			if ((qdtos.get(i).getQ_REPLY() == null) || (qdtos.get(i).getQ_REPLY().equals(""))) {
+				qdtos.get(i).setQ_chkREPLY("X");
+			} else {
+				qdtos.get(i).setQ_chkREPLY("O");
+			}
+		}
+
 		model.addAttribute("mdto", mdto);
 		model.addAttribute("FB", FB);
 		model.addAttribute("KT", KT);
 		model.addAttribute("N", N);
 		model.addAttribute("G", G);
+		model.addAttribute("qdtos", qdtos);
+		model.addAttribute("qbefore", QpgDTO.getStartPage() - 1);
+		model.addAttribute("qafter", QpgDTO.getEndPage() + 1);
+		model.addAttribute("qprev", qprev);
+		model.addAttribute("qpg", qpg);
+		model.addAttribute("qnext", qnext);
+		if (QpgDTO.getTotalCnt() % QpgDTO.getContentNum() > 0)
+			model.addAttribute("qlast", QpgDTO.getTotalCnt() / QpgDTO.getContentNum() + 1);
+		else
+			model.addAttribute("qlast", QpgDTO.getTotalCnt() / QpgDTO.getContentNum());
+
+		model.addAttribute("pdtos", pdtos);
 
 		return "/member/m_general";
 	}
 
-	// ì§ì› íšŒì›ìœ¼ë¡œ ì´ë™
+	// Á÷¿ø È¸¿øÀ¸·Î ÀÌµ¿
 	@RequestMapping("/m_admin")
 	public String GoMAdmin(HttpServletRequest request, Model model) {
 		return "/member/m_admin";
 	}
 
-	// SNSì‚¬ë¡œ ì´ë™
+	// SNS»ç·Î ÀÌµ¿
 	@RequestMapping("/m_sns")
 	public String GoMSns(HttpServletRequest request, Model model) {
 		return "/member/m_sns";
 	}
 
-	// íšŒì› ë©”ì¼ ì „ì†¡ìœ¼ë¡œ ì´ë™
+	// È¸¿ø ¸ŞÀÏ Àü¼ÛÀ¸·Î ÀÌµ¿
 	@RequestMapping("/m_mail")
 	public String GoMMail(HttpServletRequest request, Model model) {
 		return "/member/m_mail";
 	}
 
-	// ìœ ë£Œì„œë¹„ìŠ¤ë¡œ ì´ë™
+	// À¯·á¼­ºñ½º·Î ÀÌµ¿
 	@RequestMapping("/pay_service")
 	public String GoPayService(HttpServletRequest request, Model model) {
 		return "/pay_service";

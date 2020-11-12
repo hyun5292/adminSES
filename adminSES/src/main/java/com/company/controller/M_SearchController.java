@@ -22,23 +22,23 @@ import com.company.service.MService;
 @Controller
 @Repository
 public class M_SearchController {
-	// ì„œë¹„ìŠ¤ ì¸í„°í˜ì´ìŠ¤ ê°–ê³  ì™€ì„œ ì—¬ê¸°ì„œ ì •ì˜
+	// ¼­ºñ½º ÀÎÅÍÆäÀÌ½º °®°í ¿Í¼­ ¿©±â¼­ Á¤ÀÇ
 	@Autowired
 	MService Ser_M;
 
-	// íšŒì› ì¡°ê±´ ê²€ìƒ‰
+	// È¸¿ø Á¶°Ç °Ë»ö
 	@RequestMapping("/search_m")
 	public String SearchedList(HttpServletRequest request, Model model) {
-		// parameterë¡œ stringìœ¼ë¡œ ê± ë³´ë‚´ë‹ˆê¹Œ ì˜¤ë¥˜ë‚œë‹¤ ì´ ë˜¬ì‹ mapìœ¼ë¡œ ë³´ë‚´ì•¼ëœëŒ€ ë˜¬ì‹
+		// parameter·Î stringÀ¸·Î °Á º¸³»´Ï±î ¿À·ù³­´Ù ÀÌ ¶Ì½Ä mapÀ¸·Î º¸³»¾ßµÈ´ë ¶Ì½Ä
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageDTO pgDTO = new PageDTO();
 		String mKind = request.getParameter("mKind");
 		String mId = request.getParameter("mId");
 		String mName = request.getParameter("mName");
 		String pgNum = request.getParameter("pgnum");
-		if (pgNum == null) // nullì´ë©´ ë§¨ ì²˜ìŒ
+		if (pgNum == null) // nullÀÌ¸é ¸Ç Ã³À½
 			pgNum = "1";
-		// intí˜•ìœ¼ë¡œ
+		// intÇüÀ¸·Î
 		int pgnum = Integer.parseInt(pgNum);
 
 		if ((mKind != null) || (mKind != "")) {
@@ -51,21 +51,21 @@ public class M_SearchController {
 			map.put("mName", "%" + mName + "%");
 		}
 
-		// ì „ì²´ ê²Œì‹œê¸€ ê°œìˆ˜ ì„¤ì •
+		// ÀüÃ¼ °Ô½Ã±Û °³¼ö ¼³Á¤
 		pgDTO.setTotalCnt(Ser_M.SearchedListCnt(map));
-		// í˜„ì¬ í˜ì´ì§€ ë²ˆí˜¸ ì„¤ì •
+		// ÇöÀç ÆäÀÌÁö ¹øÈ£ ¼³Á¤
 		pgDTO.setPageNum(pgnum);
-		// ë³´ì—¬ì¤„ ê²Œì‹œë¬¼ ìˆ˜ ì„¤ì •
+		// º¸¿©ÁÙ °Ô½Ã¹° ¼ö ¼³Á¤
 		pgDTO.setContentNum(10);
-		// í˜„ì¬ í˜ì´ì§€ ë¸”ë¡ ì„¤ì •
+		// ÇöÀç ÆäÀÌÁö ºí·Ï ¼³Á¤
 		pgDTO.setCurBlock(pgnum);
-		// ë§ˆì§€ë§‰ ë¸”ë¡ ë²ˆí˜¸ ì„¤ì •
+		// ¸¶Áö¸· ºí·Ï ¹øÈ£ ¼³Á¤
 		pgDTO.setLastBlock(pgDTO.getTotalCnt());
-		// ì´ì „ í™”ì‚´í‘œ í‘œì‹œ ì—¬ë¶€
+		// ÀÌÀü È­»ìÇ¥ Ç¥½Ã ¿©ºÎ
 		pgDTO.prevnext(pgnum);
-		// ì‹œì‘ í˜ì´ì§€ ì„¤ì •
+		// ½ÃÀÛ ÆäÀÌÁö ¼³Á¤
 		pgDTO.setStartPage(pgDTO.getCurBlock());
-		// ë§ˆì§€ë§‰ í˜ì´ì§€ ì„¤ì •
+		// ¸¶Áö¸· ÆäÀÌÁö ¼³Á¤
 		pgDTO.setEndPage(pgDTO.getLastBlock(), pgDTO.getCurBlock());
 
 		map.put("startNum", (pgnum - 1) * pgDTO.getContentNum());
@@ -76,7 +76,7 @@ public class M_SearchController {
 		int first = (pgnum - 1) * pgDTO.getContentNum() + 1;
 		int last = first + pgDTO.getContentNum();
 		int j = 0;
-		// ê° ê²Œì‹œë¬¼ ë²ˆí˜¸
+		// °¢ °Ô½Ã¹° ¹øÈ£
 		for (int i = first; i < last; i++) {
 			if (i <= pgDTO.getTotalCnt()) {
 				dtos.get(j).setNUM(i);
@@ -86,14 +86,14 @@ public class M_SearchController {
 
 		String prev = "", next = ""; // <, >
 
-		if (pgDTO.isPrev()) { // ì´ì „ ë¸”ë¡ì´ ì¡´ì¬í•˜ëŠ”ê°€
+		if (pgDTO.isPrev()) { // ÀÌÀü ºí·ÏÀÌ Á¸ÀçÇÏ´Â°¡
 			prev = "<";
 		}
-		if (pgDTO.isNext()) { // ë‹¤ìŒ ë¸”ë¡ì´ ì¡´ì¬í•˜ëŠ”ê°€
+		if (pgDTO.isNext()) { // ´ÙÀ½ ºí·ÏÀÌ Á¸ÀçÇÏ´Â°¡
 			next = ">";
 		}
 
-		// ë„˜ì–´ê°€ì„œ ì¶œë ¥ë  í˜ì´ì§€ ë²ˆí˜¸ë“¤
+		// ³Ñ¾î°¡¼­ Ãâ·ÂµÉ ÆäÀÌÁö ¹øÈ£µé
 		int[] pg;
 		if (dtos.size() == 0) {
 			pg = new int[1];
@@ -101,8 +101,8 @@ public class M_SearchController {
 			pg = new int[(pgDTO.getEndPage() - pgDTO.getStartPage()) + 1];
 		}
 
-		// ì›ë˜ëŠ” ìë°”ìŠ¤í¬ë¦½íŠ¸ ì¨ì„œ í•´ì¤˜ì•¼ë˜ëŠ”ë° ë¬´ìŠ¨ íŒŒì¼ ë˜ ê°€ì ¸ì™€ì„œ ì„¤ì¹˜í•´ì•¼ ëœë‹¤ê¸¸ë˜
-		// ê·¸ëƒ¥ ì—¬ê¸°ì„œ ê°’ ê³„ì‚°í•´ì„œ ë„˜ê²¨ì£¼ê¸°
+		// ¿ø·¡´Â ÀÚ¹Ù½ºÅ©¸³Æ® ½á¼­ ÇØÁà¾ßµÇ´Âµ¥ ¹«½¼ ÆÄÀÏ ¶Ç °¡Á®¿Í¼­ ¼³Ä¡ÇØ¾ß µÈ´Ù±æ·¡
+		// ±×³É ¿©±â¼­ °ª °è»êÇØ¼­ ³Ñ°ÜÁÖ±â
 		j = 0;
 		for (int i = pgDTO.getStartPage(); i < pgDTO.getStartPage() + pgDTO.getContentNum(); i++) {
 			if (pg.length > j)
@@ -110,7 +110,7 @@ public class M_SearchController {
 			j++;
 		}
 
-		// ê°’ ë„˜ê²¨ì£¼ê¸°
+		// °ª ³Ñ°ÜÁÖ±â
 		model.addAttribute("dtos", dtos);
 		model.addAttribute("mKind", mKind);
 		model.addAttribute("mId", mId);
@@ -128,18 +128,18 @@ public class M_SearchController {
 		return "/member/m_search";
 	}
 	
-	// ì–´ë–¤ ë¶„ë¥˜ì˜ ì§ì›ì¸ê°€
+	// ¾î¶² ºĞ·ùÀÇ Á÷¿øÀÎ°¡
 	@RequestMapping("/chklistmkind")
 	public String CheckListmKind(HttpServletRequest request, Model model) {
 		String result = "m_search";
 		String mId = request.getParameter("mId");
 		String mKind = Ser_M.GetMKind(mId);
 		
-		if(mKind.equals("ì¼ë°˜")) {
+		if(mKind.equals("ÀÏ¹İ")) {
 			result = "m_general";
-		} else if(mKind.equals("ì§ì›")) {
+		} else if(mKind.equals("Á÷¿ø")) {
 			result = "m_admin";
-		} else if(mKind.equals("SNSì‚¬")) {
+		} else if(mKind.equals("SNS»ç")) {
 			result = "m_sns";
 		}
 		

@@ -16,42 +16,42 @@ public class MemberDAO {
 	@Autowired
 	public SqlSessionTemplate temp;
 
-	// list ê°€ì ¸ì™€
+	// list °¡Á®¿Í
 	public List<MemberDTO> GetMList(Map<String, Object> map) {
 		return temp.selectList("mMap.MList", map);
 	}
 
-	// ì „ì²´ í˜ì´ì§€ ê°œìˆ˜ êµ¬í•˜ê¸°
+	// ÀüÃ¼ ÆäÀÌÁö °³¼ö ±¸ÇÏ±â
 	public int ListCnt() {
 		return temp.selectOne("mMap.ListCnt");
 	}
 
-	// ì¼ë°˜ íšŒì› ìˆ˜ êµ¬í•˜ê¸°
+	// ÀÏ¹İ È¸¿ø ¼ö ±¸ÇÏ±â
 	public int GeneralCnt() {
 		return temp.selectOne("mMap.GeneralCnt");
 	}
 
-	// íƒˆí‡´í•œ ì¼ë°˜ íšŒì› ìˆ˜ êµ¬í•˜ê¸°
+	// Å»ÅğÇÑ ÀÏ¹İ È¸¿ø ¼ö ±¸ÇÏ±â
 	public int GeneralNotUseCnt() {
 		return temp.selectOne("mMap.GeneralNotUseCnt");
 	}
 
-	// ê²€ìƒ‰ëœ íšŒì› ëª©ë¡ ë¶ˆëŸ¬ì˜¤ê¸°
+	// °Ë»öµÈ È¸¿ø ¸ñ·Ï ºÒ·¯¿À±â
 	public List<MemberDTO> GetSearchedMList(Map<String, Object> map) {
 		return temp.selectList("mMap.MSearchedList", map);
 	}
 
-	// ê²€ìƒ‰ëœ í˜ì´ì§€ ê°œìˆ˜ êµ¬í•˜ê¸°
+	// °Ë»öµÈ ÆäÀÌÁö °³¼ö ±¸ÇÏ±â
 	public int SearchedListCnt(Map<String, Object> map) {
 		return temp.selectOne("mMap.SearchedListCnt", map);
 	}
 
-	// íšŒì›ì˜ íšŒì› ë¶„ë¥˜ ê°€ì ¸ì˜¤ê¸°
+	// È¸¿øÀÇ È¸¿ø ºĞ·ù °¡Á®¿À±â
 	public String GetMKind(String mId) {
 		return temp.selectOne("mMap.GetMKind", mId);
 	}
 
-	// íšŒì› ì •ë³´ ê°€ì ¸ì˜¤ê¸°
+	// È¸¿ø Á¤º¸ °¡Á®¿À±â
 	public MemberDTO GetMInfo(String mId) {
 		return temp.selectOne("mMap.GetMInfo", mId);
 	}

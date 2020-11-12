@@ -133,7 +133,7 @@ thead {
 									<tr>
 										<td align="right">동의한 SNS</td>
 										<td width="10px"></td>
-										<td colspan="4">${FB}${KT}${N}${G}</td>
+										<td colspan="4">${FB}    ${KT}    ${N}    ${G}</td>
 										<td align="right">유료서비스 월 납부 금액</td>
 										<td width="10px"></td>
 										<td>000,000 원</td>
@@ -188,43 +188,29 @@ thead {
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>00</td>
-										<td>제목이다아아아아</td>
-										<td>0000-00-00</td>
-										<td>O</td>
-									</tr>
-									<tr>
-										<td>00</td>
-										<td>제목이다아아아아</td>
-										<td>0000-00-00</td>
-										<td>O</td>
-									</tr>
-									<tr>
-										<td>00</td>
-										<td>제목이다아아아아</td>
-										<td>0000-00-00</td>
-										<td>O</td>
-									</tr>
-									<tr>
-										<td>00</td>
-										<td>제목이다아아아아</td>
-										<td>0000-00-00</td>
-										<td>O</td>
-									</tr>
-									<tr>
-										<td>00</td>
-										<td>제목이다아아아아</td>
-										<td>0000-00-00</td>
-										<td>O</td>
-									</tr>
+									<c:forEach items="${qdtos}" var="qdto">
+										<tr>
+											<td>${qdto.getNUM()}</td>
+											<td>${qdto.getQ_TITLE()}</td>
+											<td>${qdto.getQ_YEAR()}-${qdto.getQ_MONTH()}-${qdto.getQ_DAY()}</td>
+											<td>${qdto.getQ_chkREPLY()}</td>
+										</tr>
+									</c:forEach>
 								</tbody>
 								<tfoot>
 									<tr>
 										<td colspan="4"></td>
 									</tr>
-									<tr align="center">
-										<td colspan="4"><< < 1 2 3 4 5 6 7 8 9 10 > >></td>
+									<tr>
+										<td colspan="4" align="center">
+											<a href="#" style="text-decoration: none">${qprev}${qprev}</a> 
+											<a href="#" style="text-decoration: none">${qprev}</a> 
+											<c:forEach items="${qpg}" var="qp">
+												<a href="#" style="text-decoration: none">${qp}</a>
+											</c:forEach> 
+											<a href="#" style="text-decoration: none">${qnext}</a> 
+											<a href="#" style="text-decoration: none">${qnext}${qnext}</a>
+										</td>
 									</tr>
 								</tfoot>
 							</table>
@@ -261,42 +247,20 @@ thead {
 								<thead style="text-align: center;">
 									<tr>
 										<th width="15%"><center>번호</center></th>
-										<th width="25%"><center>항목</center></th>
-										<th width="30%"><center>금액</center></th>
+										<th width="30%"><center>항목</center></th>
+										<th width="25%"><center>금액</center></th>
 										<th width="30%"><center>날짜</center></th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>00</td>
-										<td>알림 서비스</td>
-										<td>000,000 원</td>
-										<td>0000-00-00</td>
-									</tr>
-									<tr>
-										<td>00</td>
-										<td>알림 서비스</td>
-										<td>000,000 원</td>
-										<td>0000-00-00</td>
-									</tr>
-									<tr>
-										<td>00</td>
-										<td>알림 서비스</td>
-										<td>000,000 원</td>
-										<td>0000-00-00</td>
-									</tr>
-									<tr>
-										<td>00</td>
-										<td>알림 서비스</td>
-										<td>000,000 원</td>
-										<td>0000-00-00</td>
-									</tr>
-									<tr>
-										<td>00</td>
-										<td>알림 서비스</td>
-										<td>000,000 원</td>
-										<td>0000-00-00</td>
-									</tr>
+									<c:forEach items="${pdtos}" var="pdto">
+										<tr>
+											<td>${pdto.getNUM()}</td>
+											<td>${pdto.getPL_TITLE()}</td>
+											<td>${pdto.getPL_PRICE()}원</td>
+											<td>${pdto.getPL_DATE1()}-${pdto.getPL_DATE2()}-${pdto.getPL_DATE3()}</td>
+										</tr>
+									</c:forEach>
 								</tbody>
 								<tfoot>
 									<tr>

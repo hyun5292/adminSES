@@ -6,27 +6,27 @@ import java.util.Map;
 import com.company.dto.MemberDTO;
 
 public interface MService {
-	// íšŒì› ëª©ë¡ ë¶ˆëŸ¬ì˜¤ê¸°
+	// È¸¿ø ¸ñ·Ï ºÒ·¯¿À±â
 	public List<MemberDTO> GetMList(Map<String, Object> map);
 
-	// ì „ì²´ í˜ì´ì§€ ê°œìˆ˜ êµ¬í•˜ê¸°
+	// ÀüÃ¼ ÆäÀÌÁö °³¼ö ±¸ÇÏ±â
 	public int PageCnt();
 
-	// ê²€ìƒ‰ëœ íšŒì› ëª©ë¡ ë¶ˆëŸ¬ì˜¤ê¸°
+	// °Ë»öµÈ È¸¿ø ¸ñ·Ï ºÒ·¯¿À±â
 	public List<MemberDTO> GetSearchedMList(Map<String, Object> map);
 
-	// ê²€ìƒ‰ëœ í˜ì´ì§€ ê°œìˆ˜ êµ¬í•˜ê¸°
+	// °Ë»öµÈ ÆäÀÌÁö °³¼ö ±¸ÇÏ±â
 	public int SearchedListCnt(Map<String, Object> map);
 
-	// íšŒì›ì˜ íšŒì› ë¶„ë¥˜ ê°€ì ¸ì˜¤ê¸°
+	// È¸¿øÀÇ È¸¿ø ºĞ·ù °¡Á®¿À±â
 	public String GetMKind(String mId);
 
-	// íšŒì› ì •ë³´ ê°€ì ¸ì˜¤ê¸°
+	// È¸¿ø Á¤º¸ °¡Á®¿À±â
 	public MemberDTO GetMInfo(String mId);
 
-	// ì¼ë°˜ íšŒì› ìˆ˜ êµ¬í•˜ê¸°
+	// ÀÏ¹İ È¸¿ø ¼ö ±¸ÇÏ±â
 	public int GeneralCnt();
 
-	// íƒˆí‡´í•œ ì¼ë°˜ íšŒì› ìˆ˜ êµ¬í•˜ê¸°
+	// Å»ÅğÇÑ ÀÏ¹İ È¸¿ø ¼ö ±¸ÇÏ±â
 	public int GeneralNotUseCnt();
 }

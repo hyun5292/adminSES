@@ -11,6 +11,7 @@ public class QnaDTO {
 	private int Q_MONTH = 0;
 	private int Q_DAY = 0;
 	private String Q_REPLY = "";
+	private String Q_chkREPLY = "";
 
 	public QnaDTO() {
 	}
@@ -122,6 +123,15 @@ public class QnaDTO {
 	public void setQ_REPLY(String q_REPLY) {
 		Q_REPLY = q_REPLY;
 	}
+
+	public String getQ_chkREPLY() {
+		return Q_chkREPLY;
+	}
+
+	public void setQ_chkREPLY(String q_chkREPLY) {
+		Q_chkREPLY = q_chkREPLY;
+	}
+	
 }
 
 /*

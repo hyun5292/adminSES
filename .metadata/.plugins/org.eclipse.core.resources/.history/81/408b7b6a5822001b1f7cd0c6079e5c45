@@ -1,8 +1,0 @@
-package com.company.service;
-
-import java.util.List;
-
-public interface MService {
-	// 회원 목록 불러오기
-	public List<QnaDTO> GetMList(Map<String, Object> map);
-}

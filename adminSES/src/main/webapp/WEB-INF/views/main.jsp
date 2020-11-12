@@ -62,6 +62,26 @@ table {
 				</div>
 				&nbsp;
 				<!-- sidebar-header  -->
+				<div class="sidebar-search">
+					<div>
+						<div class="input-group">
+							<table width="90%" align="center">
+								<tr>
+									<td><input type="text" class="form-control search-menu"
+										placeholder="Search..."></td>
+									<td>
+										<div class="input-group-append">
+											<span class="input-group-text"> <i
+												class="fa fa-search" aria-hidden="true"></i>
+											</span>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- sidebar-search  -->
 				<div class="sidebar-menu">
 					<ul>
 						<li class="sidebar"><a href="qna"> <i

@@ -15,49 +15,49 @@ public class MemberService implements MService {
 	@Inject
 	MemberDAO mDAO;
 
-	// íšŒì› ëª©ë¡ ë¶ˆëŸ¬ì˜¤ê¸°
+	// È¸¿ø ¸ñ·Ï ºÒ·¯¿À±â
 	@Override
 	public List<MemberDTO> GetMList(Map<String, Object> map) {
 		return mDAO.GetMList(map);
 	}
 
-	// ì „ì²´ í˜ì´ì§€ ê°œìˆ˜ êµ¬í•˜ê¸°
+	// ÀüÃ¼ ÆäÀÌÁö °³¼ö ±¸ÇÏ±â
 	@Override
 	public int PageCnt() {
 		return mDAO.ListCnt();
 	}
 
-	// ê²€ìƒ‰ëœ íšŒì› ëª©ë¡ ë¶ˆëŸ¬ì˜¤ê¸°
+	// °Ë»öµÈ È¸¿ø ¸ñ·Ï ºÒ·¯¿À±â
 	@Override
 	public List<MemberDTO> GetSearchedMList(Map<String, Object> map) {
 		return mDAO.GetSearchedMList(map);
 	}
 
-	// ê²€ìƒ‰ëœ í˜ì´ì§€ ê°œìˆ˜ êµ¬í•˜ê¸°
+	// °Ë»öµÈ ÆäÀÌÁö °³¼ö ±¸ÇÏ±â
 	@Override
 	public int SearchedListCnt(Map<String, Object> map) {
 		return mDAO.SearchedListCnt(map);
 	}
 
-	// íšŒì›ì˜ íšŒì› ë¶„ë¥˜ ê°€ì ¸ì˜¤ê¸°
+	// È¸¿øÀÇ È¸¿ø ºĞ·ù °¡Á®¿À±â
 	@Override
 	public String GetMKind(String mId) {
 		return mDAO.GetMKind(mId);
 	}
 
-	// íšŒì› ì •ë³´ ê°€ì ¸ì˜¤ê¸°
+	// È¸¿ø Á¤º¸ °¡Á®¿À±â
 	@Override
 	public MemberDTO GetMInfo(String mId) {
 		return mDAO.GetMInfo(mId);
 	}
 
-	// ì¼ë°˜ íšŒì› ìˆ˜ êµ¬í•˜ê¸°
+	// ÀÏ¹İ È¸¿ø ¼ö ±¸ÇÏ±â
 	@Override
 	public int GeneralCnt() {
 		return mDAO.GeneralCnt();
 	}
 
-	// íƒˆí‡´í•œ ì¼ë°˜ íšŒì› ìˆ˜ êµ¬í•˜ê¸°
+	// Å»ÅğÇÑ ÀÏ¹İ È¸¿ø ¼ö ±¸ÇÏ±â
 	@Override
 	public int GeneralNotUseCnt() {
 		return mDAO.GeneralNotUseCnt();

@@ -1,21 +1,35 @@
 package com.company.dto;
 
 public class PayLogDTO {
+	private int NUM = 0;
 	private String PL_NUM = "";
 	private String M_ID = "";
 	private String PL_TITLE = "";
 	private int PL_PRICE = 0;
-	private String PL_DATE = "";
+	private int PL_DATE1 = 0;
+	private int PL_DATE2 = 0;
+	private int PL_DATE3 = 0;
 	
 	public PayLogDTO () {}
 	
-	public PayLogDTO(String pL_NUM, String m_ID, String pL_TITLE, int pL_PRICE, String pL_DATE) {
+	public PayLogDTO(String pL_NUM, String m_ID, String pL_TITLE, int pL_PRICE, int pL_DATE1, int pL_DATE2, int pL_DATE3) {
 		super();
 		PL_NUM = pL_NUM;
 		M_ID = m_ID;
 		PL_TITLE = pL_TITLE;
 		PL_PRICE = pL_PRICE;
-		PL_DATE = pL_DATE;
+		PL_DATE1 = pL_DATE1;
+		PL_DATE2 = pL_DATE2;
+		PL_DATE3 = pL_DATE3;
+	}
+
+	
+	public int getNUM() {
+		return NUM;
+	}
+
+	public void setNUM(int nUM) {
+		NUM = nUM;
 	}
 
 	public String getPL_NUM() {
@@ -50,27 +64,48 @@ public class PayLogDTO {
 		PL_PRICE = pL_PRICE;
 	}
 
-	public String getPL_DATE() {
-		return PL_DATE;
+	public int getPL_DATE1() {
+		return PL_DATE1;
 	}
 
-	public void setPL_DATE(String pL_DATE) {
-		PL_DATE = pL_DATE;
+	public void setPL_DATE1(int pL_DATE1) {
+		PL_DATE1 = pL_DATE1;
 	}
+
+	public int getPL_DATE2() {
+		return PL_DATE2;
+	}
+
+	public void setPL_DATE2(int pL_DATE2) {
+		PL_DATE2 = pL_DATE2;
+	}
+
+	public int getPL_DATE3() {
+		return PL_DATE3;
+	}
+
+	public void setPL_DATE3(int pL_DATE3) {
+		PL_DATE3 = pL_DATE3;
+	}
+
+	
 	
 	
 }
 
 /*
 CREATE TABLE `pay_log` (
-`PL_NUM` VARCHAR(20) NOT NULL COLLATE 'latin1_swedish_ci',
-`M_ID` VARCHAR(20) NOT NULL COLLATE 'latin1_swedish_ci',
-`PL_TITLE` VARCHAR(20) NOT NULL COLLATE 'latin1_swedish_ci',
-`PL_PRICE` INT(11) NOT NULL,
-`PL_DATE` VARCHAR(50) NOT NULL COLLATE 'latin1_swedish_ci',
-PRIMARY KEY (`PL_NUM`) USING BTREE
+	`PL_NUM` INT(11) NOT NULL AUTO_INCREMENT,
+	`M_ID` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
+	`PL_TITLE` VARCHAR(100) NOT NULL COLLATE 'utf8_general_ci',
+	`PL_PRICE` INT(11) NOT NULL,
+	`PL_DATE1` INT(11) NOT NULL DEFAULT '0',
+	`PL_DATE2` INT(11) NOT NULL DEFAULT '0',
+	`PL_DATE3` INT(11) NOT NULL DEFAULT '0',
+	PRIMARY KEY (`PL_NUM`) USING BTREE
 )
 COLLATE='latin1_swedish_ci'
 ENGINE=InnoDB
 ;
+
 */
