@@ -4,7 +4,8 @@
 <mapper namespace="qMap">
 	<select id="getMemberQList" parameterType="hashmap"
 		resultType="com.company.dto.QnaDTO">
-		SELECT * FROM qna WHERE M_ID LIKE #{mId} ORDER BY Q_YEAR DESC, Q_MONTH DESC, Q_DAY DESC limit
+		SELECT * FROM qna WHERE M_ID LIKE #{mId} ORDER BY Q_YEAR
+		DESC, Q_MONTH DESC, Q_DAY DESC limit
 		#{startNum},
 		#{ContentNum};
 	</select>
@@ -12,5 +13,24 @@
 	<select id="getMemberQListCnt" parameterType="String"
 		resultType="int">
 		SELECT count(*) FROM qna WHERE M_ID LIKE #{mId};
+	</select>
+
+	<select id="getSearchedMemberQListCnt" parameterType="hashmap"
+		resultType="int">
+		SELECT count(*) FROM qna WHERE M_ID LIKE #{mId} AND Q_YEAR
+		BETWEEN #{qSYear} AND #{qEYear} AND Q_MONTH BETWEEN #{qSMonth} AND
+		#{qEMonth};
+	</select>
+
+	<select id="getSearchedMemberQList" parameterType="hashmap"
+		resultType="com.company.dto.QnaDTO">
+		SELECT * FROM qna WHERE M_ID LIKE #{mId} AND Q_YEAR
+		BETWEEN
+		#{qSYear} AND #{qEYear} AND Q_MONTH BETWEEN #{qSMonth} AND
+		#{qEMonth} ORDER BY Q_YEAR
+		DESC, Q_MONTH
+		DESC, Q_DAY DESC limit
+		#{startNum},
+		#{ContentNum};
 	</select>
 </mapper>

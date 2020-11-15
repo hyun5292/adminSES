@@ -25,5 +25,15 @@ public class QnaDAO {
 	public int getMemberQListCnt(String mId) {
 		return temp.selectOne("qMap.getMemberQListCnt", mId);
 	}
+
+	// 검색된 회원의 문의 내역 개수 가져오기
+	public int getSearchedMemberQListCnt(Map<String, Object> qmap) {
+		return temp.selectOne("qMap.getSearchedMemberQListCnt", qmap);
+	}
+
+	// 검색된 회원의 문의 내역 가져오기
+	public List<QnaDTO> getSearchedMemberQList(Map<String, Object> qmap) {
+		return temp.selectList("qMap.getSearchedMemberQList", qmap);
+	}
 	
 }

@@ -1,32 +1,17 @@
 package com.company.dto;
 
 public class PageDTO {
-	private int TotalCnt; // ì „ì²´ ê²Œì‹œë¬¼ ê°œìˆ˜
-	private int PageNum; // í˜„ì¬ í˜ì´ì§€ ë²ˆí˜¸
-	private int ContentNum; // í•œ í˜ì´ì§€ì— í‘œì‹œí•  í˜ì´ì§€ ìˆ˜
-	private int StartPage; // í˜„ì¬ í˜ì´ì§€ ë¸”ë¡ì˜ ì‹œì‘ í˜ì´ì§€
-	private int EndPage; // í˜„ì¬ í˜ì´ì§€ ë¸”ë¡ì˜ ë§ˆì§€ë§‰ í˜ì´ì§€
-	private boolean Prev; // ì´ì „ í˜ì´ì§€ë¡œ ê°€ëŠ” í™”ì‚´í‘œ
-	private boolean Next; // ë‹¤ìŒ í˜ì´ì§€ë¡œ ê°€ëŠ” í™”ì‚´í‘œ
-	private int CurBlock; // í˜„ì¬ í˜ì´ì§€ ë¸”ë¡
-	private int LastBlock; // ë§ˆì§€ë§‰ í˜ì´ì§€ ë¸”ë¡
+	private int TotalCnt; // ÀüÃ¼ °Ô½Ã¹° °³¼ö
+	private int PageNum; // ÇöÀç ÆäÀÌÁö ¹øÈ£
+	private int ContentNum; // ÇÑ ÆäÀÌÁö¿¡ Ç¥½ÃÇÒ ÆäÀÌÁö ¼ö
+	private int StartPage; // ÇöÀç ÆäÀÌÁö ºí·ÏÀÇ ½ÃÀÛ ÆäÀÌÁö
+	private int EndPage; // ÇöÀç ÆäÀÌÁö ºí·ÏÀÇ ¸¶Áö¸· ÆäÀÌÁö
+	private boolean Prev; // ÀÌÀü ÆäÀÌÁö·Î °¡´Â È­»ìÇ¥
+	private boolean Next; // ´ÙÀ½ ÆäÀÌÁö·Î °¡´Â È­»ìÇ¥
+	private int CurBlock; // ÇöÀç ÆäÀÌÁö ºí·Ï
+	private int LastBlock; // ¸¶Áö¸· ÆäÀÌÁö ºí·Ï
 
 	public PageDTO() {
-		
-	}
-	
-	public PageDTO(int totalCnt, int pageNum, int contentNum, int startPage, int endPage, boolean prev, boolean next,
-			int curBlock, int lastBlock) {
-		super();
-		TotalCnt = totalCnt;
-		PageNum = pageNum;
-		ContentNum = contentNum;
-		StartPage = startPage;
-		EndPage = endPage;
-		Prev = prev;
-		Next = next;
-		CurBlock = curBlock;
-		LastBlock = lastBlock;
 	}
 
 	public void prevnext(int PageNum) {
@@ -51,7 +36,7 @@ public class PageDTO {
 		}
 	}
 
-	// ì „ì²´ í˜ì´ì§€ ìˆ˜ ê³„ì‚°
+	// ÀüÃ¼ ÆäÀÌÁö ¼ö °è»ê
 	public int CalcPage(int TotalCnt, int ContentNum) {
 		int total;
 		total = TotalCnt / ContentNum;
@@ -101,7 +86,7 @@ public class PageDTO {
 		if (GetLastBlock == GetCurrBlock) {
 			EndPage = CalcPage(getTotalCnt(), getContentNum());
 		} else {
-			EndPage = 1;
+			EndPage = getStartPage() + 4;
 		}
 	}
 

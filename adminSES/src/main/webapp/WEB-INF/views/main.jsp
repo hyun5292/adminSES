@@ -65,14 +65,14 @@ table {
 				<div class="sidebar-search">
 					<div>
 						<div class="input-group">
-							<table width="90%" align="center">
+							<table>
 								<tr>
 									<td><input type="text" class="form-control search-menu"
 										placeholder="Search..."></td>
 									<td>
 										<div class="input-group-append">
 											<span class="input-group-text"> <i
-												class="fa fa-search" aria-hidden="true"></i>
+												class="fa fa-search" height="100%" aria-hidden="true"></i>
 											</span>
 										</div>
 									</td>

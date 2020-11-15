@@ -199,6 +199,11 @@ body {
   margin-right: 4px;
   color: #5cb85c;
 }
+/*-----------------------sidebar-search------------------------*/
+
+.sidebar-wrapper .sidebar-search > div {
+  padding: 5px 20px;
+}
 
 /*----------------------sidebar-menu-------------------------*/
 

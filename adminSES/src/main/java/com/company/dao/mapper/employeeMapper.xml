@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- mapper는 여러 개가 존재할 수 있으니 다른 maper아 중복이 되지 않도록 namespace를 선언 -->
-<mapper namespace="empMapper">
-
+<mapper namespace="eMap">
+	<select id="ELogin" parameterType="String"
+		resultType="com.company.dto.EmployeeDTO">
+		SELECT * from Employee
+		WHERE E_ID like #{param1}
+	</select>
 </mapper>

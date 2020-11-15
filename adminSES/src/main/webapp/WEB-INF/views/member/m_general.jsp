@@ -56,6 +56,42 @@ thead {
 	$('.input-daterange input').each(function() {
 		$(this).datepicker('clearDates');
 	});
+	
+	function SearchQna() {
+		var mId = $('#mId').val();
+		var qStartDT = $('#qStartDT').val();
+		var qEndDT = $('#qEndDT').val();
+		
+		location.href = "emp_qna_search?mId="+mId+"&qStartDT="+qStartDT+"&qEndDT="+qEndDT+";";
+	}
+	
+	function SearchPayLog() {
+		var mId = $('#mId').val();
+		var pStartDT = $('#pStartDT').val();
+		var pEndDT = $('#pEndDT').val();
+
+		location.href = "emp_paylog_search?mId="+mId+"&pStartDT="+pStartDT+"&pEndDT="+pEndDT+";";
+	}
+	
+	function tfootVisible(){
+		var qStartDT =  $('#qStartDT').val();
+		var pStartDT =  $('#pStartDT').val();
+		if(qStartDT == null || qStartDT == "null"){
+			$("#tfschQna").hide();
+			$("#tfQna").show();
+		} else if(qStartDT != null || qStartDT != "null"){
+			$("#tfschQna").show();
+			$("#tfQna").hide();
+		}
+		if(pStartDT == null || pStartDT == "null"){
+			$("#tfschPay").hide();
+			$("#tfPay").show();
+		} else if(pStartDT != null || pStartDT != "null"){
+			$("#tfschPay").show();
+			$("#tfPay").hide();
+		}
+	}
+ window.onload=tfootVisible;
 </script>
 </head>
 <body>
@@ -99,6 +135,7 @@ thead {
 					<div class="panel panel-default">
 						<div class="panel-heading">회원정보</div>
 						<div class="panel-body">
+						<input type="hidden" id="mId" name="mId" value="${mdto.getM_ID()}">
 							<table class="tblInfo" width="100%">
 								<tbody>
 									<tr>
@@ -133,7 +170,7 @@ thead {
 									<tr>
 										<td align="right">동의한 SNS</td>
 										<td width="10px"></td>
-										<td colspan="4">${FB}    ${KT}    ${N}    ${G}</td>
+										<td colspan="4">${FB}&nbsp;${KT}&nbsp;${N}&nbsp;${G}</td>
 										<td align="right">유료서비스 월 납부 금액</td>
 										<td width="10px"></td>
 										<td>000,000 원</td>
@@ -156,24 +193,26 @@ thead {
 					<table width="100%">
 						<tr>
 							<td width="60%" align="right">
-								<div class="input-group input-daterange" id="QnaDT">
+								<div class="input-group input-daterange" id="QnaDT" name="QnaDT">
 									<div class="input-group input-daterange">
-										<input type="text" class="form-control"
-											data-date-format="yyyy-mm-dd" maxlength="15">
+										<input type="text" class="form-control" id="qStartDT" name="qStartDT"
+											data-date-format="yyyy-mm-dd" maxlength="15" value="${qStartDT}">
 										<div class="input-group-addon">to</div>
-										<input type="text" class="form-control"
-											data-date-format="yyyy-mm-dd" maxlength="15">
+										<input type="text" class="form-control" id="qEndDT" name="qEndDT"
+											data-date-format="yyyy-mm-dd" maxlength="15" value="${qEndDT}">
 									</div>
 								</div>
 							</td>
 							<td width="40%" align="right">
-								<button type="button" class="btn btn-secondary">검색</button>
+								<button type="button" onclick="SearchQna()" class="btn btn-secondary">검색</button>
 							</td>
 						</tr>
 						<tr>
 							<td colspan="2" height="10px"></td>
 						</tr>
 					</table>
+					<input type="hidden" value="${qpgnum}" name="qpgnum" id="qpgnum">
+					<input type="hidden" value="${ppgnum}" name="ppgnum" id="ppgnum">
 					<div class="panel panel-default">
 						<div class="panel-heading">문의내역</div>
 						<div class="panel-body">
@@ -197,20 +236,46 @@ thead {
 										</tr>
 									</c:forEach>
 								</tbody>
-								<tfoot>
+								<tfoot id="tfQna" name="tfQna">
 									<tr>
 										<td colspan="4"></td>
 									</tr>
 									<tr>
-										<td colspan="4" align="center">
-											<a href="#" style="text-decoration: none">${qprev}${qprev}</a> 
-											<a href="#" style="text-decoration: none">${qprev}</a> 
-											<c:forEach items="${qpg}" var="qp">
-												<a href="#" style="text-decoration: none">${qp}</a>
-											</c:forEach> 
-											<a href="#" style="text-decoration: none">${qnext}</a> 
-											<a href="#" style="text-decoration: none">${qnext}${qnext}</a>
-										</td>
+										<td colspan="4" align="center"><a
+											href="m_general?mId=${mdto.getM_ID()}&qpgnum=1"
+											style="text-decoration: none">${qprev}${qprev}</a> <a
+											href="m_general?mId=${mdto.getM_ID()}&qpgnum=${qbefore}"
+											style="text-decoration: none">${qprev}</a> <c:forEach
+												items="${qpg}" var="qp">
+												<a
+													href="m_general?mId=${mdto.getM_ID()}&qpgnum=${qp}"
+													style="text-decoration: none">${qp}</a>
+											</c:forEach> <a
+											href="m_general?mId=${mdto.getM_ID()}&qpgnum=${qafter}"
+											style="text-decoration: none">${qnext}</a> <a
+											href="m_general?mId=${mdto.getM_ID()}&qpgnum=${qlast}"
+											style="text-decoration: none">${qnext}${qnext}</a></td>
+									</tr>
+								</tfoot>
+								<tfoot id="tfschQna" name="tfschQna">
+									<tr>
+										<td colspan="4"></td>
+									</tr>
+									<tr>
+										<td colspan="4" align="center"><a
+											href="emp_qna_search?mId=${mdto.getM_ID()}&qStartDT=${qStartDT}&qEndDT=${qEndDT}&qpgnum=1"
+											style="text-decoration: none">${qprev}${qprev}</a> <a
+											href="emp_qna_search?mId=${mdto.getM_ID()}&qStartDT=${qStartDT}&qEndDT=${qEndDT}&qpgnum=${qbefore}"
+											style="text-decoration: none">${qprev}</a> <c:forEach
+												items="${qpg}" var="qp">
+												<a
+													href="emp_qna_search?mId=${mdto.getM_ID()}&qStartDT=${qStartDT}&qEndDT=${qEndDT}&qpgnum=${qp}"
+													style="text-decoration: none">${qp}</a>
+											</c:forEach> <a
+											href="emp_qna_search?mId=${mdto.getM_ID()}&qStartDT=${qStartDT}&qEndDT=${qEndDT}&qpgnum=${qafter}"
+											style="text-decoration: none">${qnext}</a> <a
+											href="emp_qna_search?mId=${mdto.getM_ID()}&qStartDT=${qStartDT}&qEndDT=${qEndDT}&qpgnum=${qlast}"
+											style="text-decoration: none">${qnext}${qnext}</a></td>
 									</tr>
 								</tfoot>
 							</table>
@@ -221,18 +286,18 @@ thead {
 					<table width="100%">
 						<tr>
 							<td width="60%" align="right">
-								<div class="input-group input-daterange" id="PayDT">
+								<div class="input-group input-daterange" id="payDT" name="payDT">
 									<div class="input-group input-daterange">
-										<input type="text" class="form-control"
-											data-date-format="yyyy-mm-dd" maxlength="15">
+										<input type="text" class="form-control" id="pStartDT" name="pStartDT"
+											data-date-format="yyyy-mm-dd" maxlength="15" value="${pStartDT}">
 										<div class="input-group-addon">to</div>
-										<input type="text" class="form-control"
-											data-date-format="yyyy-mm-dd" maxlength="15">
+										<input type="text" class="form-control" id="pEndDT" name="pEndDT"
+											data-date-format="yyyy-mm-dd" maxlength="15" value="${pEndDT}">
 									</div>
 								</div>
 							</td>
 							<td width="50%" align="right">
-								<button type="button" class="btn btn-secondary">검색</button>
+								<button type="button" onclick="SearchPayLog()" class="btn btn-secondary">검색</button>
 							</td>
 						</tr>
 						<tr>
@@ -262,12 +327,44 @@ thead {
 										</tr>
 									</c:forEach>
 								</tbody>
-								<tfoot>
+								<tfoot id="tfPay" name="tfPay">
 									<tr>
 										<td colspan="4"></td>
 									</tr>
-									<tr align="center">
-										<td colspan="4"><< < 1 2 3 4 5 6 7 8 9 10 > >></td>
+									<tr>
+										<td colspan="4" align="center"><a
+											href="m_general?mId=${mdto.getM_ID()}&ppgnum=1"
+											style="text-decoration: none">${pprev}${pprev}</a> <a
+											href="m_general?mId=${mdto.getM_ID()}&ppgnum=${pbefore}"
+											style="text-decoration: none">${pprev}</a> <c:forEach
+												items="${plpg}" var="pp">
+												<a href="m_general?mId=${mdto.getM_ID()}&&ppgnum=${pp}"
+													style="text-decoration: none">${pp}</a>
+											</c:forEach> <a
+											href="m_general?mId=${mdto.getM_ID()}&ppgnum=${pafter}"
+											style="text-decoration: none">${pnext}</a> <a
+											href="m_general?mId=${mdto.getM_ID()}&ppgnum=${plast}"
+											style="text-decoration: none">${pnext}${pnext}</a></td>
+									</tr>
+								</tfoot>
+								<tfoot id="tfschPay" name="tfschPay">
+									<tr>
+										<td colspan="4"></td>
+									</tr>
+									<tr>
+										<td colspan="4" align="center"><a
+											href="emp_paylog_search?mId=${mdto.getM_ID()}&pStartDT=${pStartDT}&pEndDT=${pEndDT}&qpgnum=1&ppgnum=1"
+											style="text-decoration: none">${pprev}${pprev}</a> <a
+											href="emp_paylog_search?mId=${mdto.getM_ID()}&pStartDT=${pStartDT}&pEndDT=${pEndDT}&qpgnum=1&ppgnum=${pbefore}"
+											style="text-decoration: none">${pprev}</a> <c:forEach
+												items="${plpg}" var="pp">
+												<a href="emp_paylog_search?mId=${mdto.getM_ID()}&pStartDT=${pStartDT}&pEndDT=${pEndDT}&qpgnum=1&ppgnum=${pp}"
+													style="text-decoration: none">${pp}</a>
+											</c:forEach> <a
+											href="emp_paylog_search?mId=${mdto.getM_ID()}&pStartDT=${pStartDT}&pEndDT=${pEndDT}&qpgnum1&ppgnum=${pafter}"
+											style="text-decoration: none">${pnext}</a> <a
+											href="emp_paylog_search?mId=${mdto.getM_ID()}&pStartDT=${pStartDT}&pEndDT=${pEndDT}&qpgnum=1&ppgnum=${plast}"
+											style="text-decoration: none">${pnext}${pnext}</a></td>
 									</tr>
 								</tfoot>
 							</table>
@@ -287,15 +384,6 @@ thead {
 		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 		crossorigin="anonymous"></script>
 	<script type="text/javascript">
-		$("#QnaDT").datepicker({
-			weekStart : 1,
-			daysOfWeekHighlighted : "6,0",
-			autoclose : true,
-			todayHighlight : true,
-			format : "yyyy/mm/dd",
-			endDate : "today"
-		});
-		$("#QnaDT").datepicker("setDate", new Date());
 		$("#payDT").datepicker({
 			weekStart : 1,
 			daysOfWeekHighlighted : "6,0",
@@ -305,7 +393,7 @@ thead {
 			endDate : "today"
 		});
 		$("#payDT").datepicker("setDate", new Date());
-		$("#QnaDT").each(function() {
+		$("#payDT").each(function() {
 			var $inputs = $(this).find('input');
 
 			$inputs.datepicker();
@@ -322,7 +410,17 @@ thead {
 				});
 			}
 		})
-		$("#payDT").each(function() {
+
+		$("#QnaDT").datepicker({
+			weekStart : 1,
+			daysOfWeekHighlighted : "6,0",
+			autoclose : true,
+			todayHighlight : true,
+			format : "yyyy/mm/dd",
+			endDate : "today"
+		});
+		$("#QnaDT").datepicker("setDate", new Date());
+		$("#QnaDT").each(function() {
 			var $inputs = $(this).find('input');
 
 			$inputs.datepicker();
