@@ -27,3 +27,5 @@
 11월 16, 2020 16:49:18.00 [1116/164918.009:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
 11월 16, 2020 19:30:46.85 [3744:5824:1116/193046.853:ERROR:socket_stream.cc(219)] Closing stream with result -2
 11월 16, 2020 22:30:48.15 [3744:5824:1116/223048.155:ERROR:socket_stream.cc(219)] Closing stream with result -2
+11월 17, 2020 01:05:14.87 [1117/010514.870:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+11월 17, 2020 01:37:05.74 [1117/013705.749:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)

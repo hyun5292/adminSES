@@ -47,6 +47,13 @@ thead {
 		$(this).datepicker('clearDates');
 	});
 	
+	function SearchEmpLog() {
+		var mId = $('#eId').val();
+		var StartDT = $('#StartDT').val();
+		var EndDT = $('#EndDT').val();
+		location.href = "el_sch?mId="+mId+"&StartDT="+StartDT+"&EndDT="+EndDT+";";
+	}
+	
 	//url 에서 parameter 추출
 	function getParam(sname) {
 		var params = location.search.substr(location.search.indexOf("?") + 1);
@@ -62,13 +69,21 @@ thead {
 	}
 	
 	function isRegister(){
-		var dto = getParam("dto");
-		if(dto == null || dto == "null"){
+		var mId = getParam("mId");
+		if(mId == null || mId == ""){
 			$("#btnRegister").show();
-			$("#btnRemove").hide();
-		} else if {
-			$("#btnRemove").show();
+		} else {
 			$("#btnRegister").hide();
+			$("#eId").attr("readonly", "true");
+			$("#eTel1").attr("disabled", "true");
+			$("#eTel2").attr("readonly", "true");
+			$("#eTel3").attr("readonly", "true");
+			$("#eRank").attr("readonly", "true");
+			$("#eName").attr("readonly", "true");
+			$("#eEmail1").attr("readonly", "true");
+			$("#eEmail2").attr("disabled", "true");
+			$("#inDT").attr("disabled", "true");
+			$("#exitDT").attr("disabled", "true");
 		}
 	}
  window.onload=isRegister;
@@ -114,14 +129,12 @@ thead {
 				<div class="col-md-10">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<table class="tblInfo" width="100%">
+							<table border="0" class="tblInfo" width="100%">
 								<tr>
-									<td>직원정보</td>
-									<td colspan="10" align="right">
+									<td width="90%">직원정보</td>
+									<td width="10%" align="right">
 										<button type="button" id="btnRegister" name="btnRegister"
 											class="btn btn-secondary">등록</button>
-										<button type="button" id="btnRemove" name="btnRemove"
-											class="btn btn-secondary">수정</button>
 									</td>
 								</tr>
 							</table>
@@ -210,10 +223,10 @@ thead {
 													<td>
 														<div class="input-group input-daterange" id="joinDT" name="joinDT">
 															<div class="input-group input-daterange">
-																<input type="text" class="form-control"
+																<input type="text" class="form-control" id="inDT" name="inDT"
 																	data-date-format="yyyy-mm-dd" maxlength="15" value="${dto.getE_ENTER_DT1()}-${dto.getE_ENTER_DT2()}-${dto.getE_ENTER_DT3()}">
 																<div class="input-group-addon">to</div>
-																<input type="text" class="form-control"
+																<input type="text" class="form-control" id="exitDT" name="exitDT"
 																	data-date-format="yyyy-mm-dd" maxlength="15" value="${dto.getE_RESIGN_DT1()}-${dto.getE_RESIGN_DT2()}-${dto.getE_RESIGN_DT3()}">
 															</div>
 														</div>
@@ -235,16 +248,16 @@ thead {
 							<td width="40%" align="right">
 								<div class="input-group input-daterange" id="searchDT">
 									<div class="input-group input-daterange">
-										<input type="text" class="form-control"
-											data-date-format="yyyy-mm-dd" maxlength="15">
+										<input type="text" class="form-control" id="StartDT" name="StartDT"
+											data-date-format="yyyy-mm-dd" maxlength="15" value="${StartDT}">
 										<div class="input-group-addon">to</div>
-										<input type="text" class="form-control"
-											data-date-format="yyyy-mm-dd" maxlength="15">
+										<input type="text" class="form-control" id="EndDT" name="EndDT"
+											data-date-format="yyyy-mm-dd" maxlength="15" value="${EndDT}">
 									</div>
 								</div>
 							</td>
 							<td width="8%" align="right">
-								<button type="button" class="btn btn-secondary">검색</button>
+								<button type="button" onclick="SearchEmpLog()" class="btn btn-secondary">검색</button>
 							</td>
 						</tr>
 						<tr>
@@ -260,18 +273,27 @@ thead {
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>00</td>
-								<td>활동이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
+							<c:forEach items="${dtos}" var="dto">
+								<tr>
+									<td>${dto.getNUM()}</td>
+									<td>${dto.getEL_ACTIVITY()}</td>
+									<td>${dto.getEL_DATE()}</td>
+								</tr>
+							</c:forEach>
 						</tbody>
 						<tfoot>
 							<tr>
 								<td colspan="4"></td>
 							</tr>
 							<tr align="center">
-								<td colspan="4"><< < 1 2 3 4 5 6 7 8 9 10 > >></td>
+								<td colspan="4"><a
+									href="${elLink}&pgnum=1" style="text-decoration: none">${prev}${prev}</a>
+									<a href="${elLink}&pgnum=${before}"
+									style="text-decoration: none">${prev}</a> <c:forEach
+										items="${pg}" var="p">
+										<a href="${elLink}&pgnum=${p}" style="text-decoration: none">${p}</a>
+									</c:forEach> <a href="${elLink}&pgnum=${after}" style="text-decoration: none">${next}</a>
+									<a href="${elLink}&pgnum=${last}" style="text-decoration: none">${next}${next}</a></td>
 							</tr>
 						</tfoot>
 					</table>

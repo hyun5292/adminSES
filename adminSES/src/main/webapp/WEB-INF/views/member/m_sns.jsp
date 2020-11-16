@@ -54,6 +54,18 @@ thead {
 	$('.input-daterange input').each(function() {
 		$(this).datepicker('clearDates');
 	});
+	
+	function isRegister(){
+		var mId = getParam("mId");
+		if(mId == null || mId == ""){
+			$("#btnRegister").show();
+			$("#btnRemove").hide();
+		} else {
+			$("#btnRegister").hide();
+			$("#btnRemove").show();
+		}
+	}
+ window.onload=isRegister;
 </script>
 </head>
 <body>

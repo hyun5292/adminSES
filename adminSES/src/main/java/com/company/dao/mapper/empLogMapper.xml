@@ -2,5 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- mapper는 여러 개가 존재할 수 있으니 다른 mapper아 중복이 되지 않도록 namespace를 선언 -->
 <mapper namespace="elMap">
-
+	<select id="GetELPageCnt" resultType="int">
+		SELECT count(*) FROM emp_log WHERE EL_ID LIKE #{mId};
+	</select>
+	
+	<select id="GetELList" parameterType="hashmap"
+		resultType="com.company.dto.EmpLogDTO">
+		SELECT * FROM emp_log WHERE EL_ID LIKE #{mId} ORDER BY EL_DATE DESC limit #{startNum}, #{ContentNum};
+	</select>
+	
+	<select id="GetSchELPageCnt" resultType="int">
+		SELECT count(*) FROM emp_log WHERE EL_ID LIKE #{mId} AND EL_DATE BETWEEN #{StartDT} AND #{EndDT};
+	</select>
+	
+	<select id="GetSchELList" parameterType="hashmap"
+		resultType="com.company.dto.EmpLogDTO">
+		SELECT * FROM emp_log WHERE EL_ID LIKE #{mId} AND EL_DATE BETWEEN #{StartDT} AND #{EndDT} ORDER BY EL_DATE DESC limit #{startNum}, #{ContentNum};
+	</select>
 </mapper>

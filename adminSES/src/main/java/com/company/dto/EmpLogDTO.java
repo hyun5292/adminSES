@@ -1,6 +1,7 @@
 package com.company.dto;
 
 public class EmpLogDTO {
+	private int NUM = 0;
 	private int EL_NUM = 0;
 	private String EL_ID = "";
 	private String EL_ACTIVITY = "";
@@ -15,7 +16,14 @@ public class EmpLogDTO {
 		EL_ACTIVITY = eL_ACTIVITY;
 		EL_DATE = eL_DATE;
 	}
-	
+
+	public int getNUM() {
+		return NUM;
+	}
+
+	public void setNUM(int nUM) {
+		NUM = nUM;
+	}
 	public int getEL_NUM() {
 		return EL_NUM;
 	}
@@ -52,16 +60,17 @@ public class EmpLogDTO {
 
 /*
 CREATE TABLE `emp_log` (
-	`EL_NUM` INT(11) NOT NULL,
+	`EL_NUM` INT(11) NOT NULL AUTO_INCREMENT,
 	`EL_ID` VARCHAR(20) NOT NULL DEFAULT '' COLLATE 'utf8_general_ci',
-	`EL_ACTIVITY` VARCHAR(40) NOT NULL COLLATE 'utf8_general_ci',
-	`EL_DATE` VARCHAR(50) NOT NULL COLLATE 'utf8_general_ci',
+	`EL_ACTIVITY` VARCHAR(100) NOT NULL COLLATE 'utf8_general_ci',
+	`EL_DATE` TIMESTAMP NOT NULL DEFAULT current_timestamp(),
 	PRIMARY KEY (`EL_NUM`) USING BTREE,
 	INDEX `E_ID` (`EL_ID`) USING BTREE,
-	CONSTRAINT `E_ID` FOREIGN KEY (`EL_ID`) REFERENCES `adminses`.`employee` (`E_ID`) ON UPDATE RESTRICT ON DELETE RESTRICT
+	CONSTRAINT `E_ID` FOREIGN KEY (`EL_ID`) REFERENCES `adminses`.`employee` (`M_ID`) ON UPDATE RESTRICT ON DELETE RESTRICT
 )
 COLLATE='latin1_swedish_ci'
 ENGINE=InnoDB
+AUTO_INCREMENT=12
 ;
 
 */
