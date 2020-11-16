@@ -12,10 +12,12 @@ import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.company.dto.EmployeeDTO;
 import com.company.dto.MemberDTO;
 import com.company.dto.PageDTO;
 import com.company.dto.PayLogDTO;
 import com.company.dto.QnaDTO;
+import com.company.service.EService;
 import com.company.service.MService;
 import com.company.service.PLService;
 import com.company.service.QService;
@@ -30,6 +32,8 @@ public class PageController {
 	QService Ser_Q;
 	@Autowired
 	PLService Ser_PL;
+	@Autowired
+	EService Ser_E;
 
 	// 로그인 페이지로 이동
 	@RequestMapping("/login")
@@ -40,13 +44,6 @@ public class PageController {
 	// 메인으로 이동
 	@RequestMapping("/main")
 	public String GoMain(HttpServletRequest request, Model model) {
-		int MCnt = Ser_M.GeneralCnt();
-		int NoMCnt = Ser_M.GeneralNotUseCnt();
-
-		// 값 넘겨주기
-		model.addAttribute("MCnt", MCnt);
-		model.addAttribute("NoMCnt", NoMCnt);
-
 		return "/main";
 	}
 
@@ -65,13 +62,15 @@ public class PageController {
 	// 회원 검색으로 이동
 	@RequestMapping("/m_search")
 	public String GoMSearch(HttpServletRequest request, Model model) {
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> map = new HashMap<String, Object>();
+		PageDTO pgDTO = new PageDTO();
+
 		String pgNum = request.getParameter("pgnum");
 		if (pgNum == null) // null이면 맨 처음
 			pgNum = "1";
 		// int형으로
 		int pgnum = Integer.parseInt(pgNum);
-		Map<String, Object> map = new HashMap<String, Object>();
-		PageDTO pgDTO = new PageDTO();
 
 		// 전체 게시글 개수 설정
 		pgDTO.setTotalCnt(Ser_M.PageCnt());
@@ -93,7 +92,12 @@ public class PageController {
 		map.put("startNum", (pgnum - 1) * pgDTO.getContentNum());
 		map.put("ContentNum", pgDTO.getContentNum());
 
+		// 회원 목록 불러오기
 		List<MemberDTO> dtos = Ser_M.GetMList(map);
+
+		for (int i = 0; i < dtos.size(); i++) {
+			dtos.get(i).setM_KIND("일반");
+		}
 
 		int first = (pgnum - 1) * pgDTO.getContentNum() + 1;
 		int last = first + pgDTO.getContentNum();
@@ -133,6 +137,7 @@ public class PageController {
 		}
 
 		// 값 넘겨주기
+		model.addAttribute("mlink", "m_search");
 		model.addAttribute("dtos", dtos);
 		model.addAttribute("before", pgDTO.getStartPage() - 1);
 		model.addAttribute("after", pgDTO.getEndPage() + 1);
@@ -310,6 +315,7 @@ public class PageController {
 			}
 		}
 
+		model.addAttribute("mgQLink", "m_general?mId=" + mId);
 		model.addAttribute("mdto", mdto);
 		model.addAttribute("FB", FB);
 		model.addAttribute("KT", KT);
@@ -326,6 +332,7 @@ public class PageController {
 		else
 			model.addAttribute("qlast", QpgDTO.getTotalCnt() / QpgDTO.getContentNum());
 
+		model.addAttribute("mgPLLink", "m_general?mId=" + mId);
 		model.addAttribute("pdtos", pdtos);
 		model.addAttribute("pbefore", PpgDTO.getStartPage() - 1);
 		model.addAttribute("pafter", PpgDTO.getEndPage() + 1);
@@ -344,8 +351,17 @@ public class PageController {
 	@RequestMapping("/m_admin")
 	public String GoMAdmin(HttpServletRequest request, Model model) {
 		String mId = request.getParameter("mId");
+
+		// 직원 정보 가져오기
+		EmployeeDTO dto = Ser_E.GetEInfo(mId);
+
+		model.addAttribute("dto", dto);
 		
-		
+		if(dto.getE_RESIGN_DT1() == 0) {
+			dto.setE_RESIGN_DT1(dto.getE_ENTER_DT1());
+			dto.setE_RESIGN_DT2(dto.getE_ENTER_DT2());
+			dto.setE_RESIGN_DT3(dto.getE_ENTER_DT3());
+		}
 		
 		return "/member/m_admin";
 	}

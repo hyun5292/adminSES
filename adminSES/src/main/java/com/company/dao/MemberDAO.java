@@ -16,9 +16,9 @@ public class MemberDAO {
 	@Autowired
 	public SqlSessionTemplate temp;
 
-	// list 가져와
+	// 회원 목록 불러오기
 	public List<MemberDTO> GetMList(Map<String, Object> map) {
-		return temp.selectList("mMap.MList", map);
+		return temp.selectList("mMap.GetMList", map);
 	}
 
 	// 전체 페이지 개수 구하기
@@ -26,19 +26,14 @@ public class MemberDAO {
 		return temp.selectOne("mMap.ListCnt");
 	}
 
-	// 일반 회원 수 구하기
-	public int GeneralCnt() {
-		return temp.selectOne("mMap.GeneralCnt");
+	// 조건 검색 회원 목록 불러오기
+	public List<MemberDTO> GetSchMList(Map<String, Object> map) {
+		return temp.selectList("mMap.GetSchMList", map);
 	}
 
-	// 탈퇴한 일반 회원 수 구하기
-	public int GeneralNotUseCnt() {
-		return temp.selectOne("mMap.GeneralNotUseCnt");
-	}
-
-	// 검색된 회원 목록 불러오기
-	public List<MemberDTO> GetSearchedMList(Map<String, Object> map) {
-		return temp.selectList("mMap.MSearchedList", map);
+	// 조건 검색 회원 페이지 개수 구하기
+	public int GetSchPageCnt(Map<String, Object> map) {
+		return temp.selectOne("mMap.GetSchPageCnt", map);
 	}
 
 	// 검색된 페이지 개수 구하기
@@ -54,5 +49,15 @@ public class MemberDAO {
 	// 회원 정보 가져오기
 	public MemberDTO GetMInfo(String mId) {
 		return temp.selectOne("mMap.GetMInfo", mId);
+	}
+
+	// 일반 회원 수 구하기
+	public int GeneralCnt() {
+		return temp.selectOne("mMap.GeneralCnt");
+	}
+
+	// 탈퇴한 일반 회원 수 구하기
+	public int GeneralNotUseCnt() {
+		return temp.selectOne("mMap.GeneralNotUseCnt");
 	}
 }

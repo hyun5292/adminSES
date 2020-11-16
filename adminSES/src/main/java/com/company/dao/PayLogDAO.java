@@ -36,5 +36,4 @@ public class PayLogDAO {
 	public List<PayLogDTO> getSearchedMemberPLList(Map<String, Object> pmap) {
 		return temp.selectList("plMap.getSearchedMemberPLList", pmap);
 	}
-	
 }

@@ -53,9 +53,9 @@ public class EmpLogDTO {
 /*
 CREATE TABLE `emp_log` (
 	`EL_NUM` INT(11) NOT NULL,
-	`EL_ID` VARCHAR(20) NOT NULL DEFAULT '' COLLATE 'latin1_swedish_ci',
-	`EL_ACTIVITY` VARCHAR(40) NOT NULL COLLATE 'latin1_swedish_ci',
-	`EL_DATE` VARCHAR(50) NOT NULL COLLATE 'latin1_swedish_ci',
+	`EL_ID` VARCHAR(20) NOT NULL DEFAULT '' COLLATE 'utf8_general_ci',
+	`EL_ACTIVITY` VARCHAR(40) NOT NULL COLLATE 'utf8_general_ci',
+	`EL_DATE` VARCHAR(50) NOT NULL COLLATE 'utf8_general_ci',
 	PRIMARY KEY (`EL_NUM`) USING BTREE,
 	INDEX `E_ID` (`EL_ID`) USING BTREE,
 	CONSTRAINT `E_ID` FOREIGN KEY (`EL_ID`) REFERENCES `adminses`.`employee` (`E_ID`) ON UPDATE RESTRICT ON DELETE RESTRICT
@@ -63,4 +63,5 @@ CREATE TABLE `emp_log` (
 COLLATE='latin1_swedish_ci'
 ENGINE=InnoDB
 ;
+
 */

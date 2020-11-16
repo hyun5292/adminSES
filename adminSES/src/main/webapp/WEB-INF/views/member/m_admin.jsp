@@ -46,6 +46,32 @@ thead {
 	$('.input-daterange input').each(function() {
 		$(this).datepicker('clearDates');
 	});
+	
+	//url 에서 parameter 추출
+	function getParam(sname) {
+		var params = location.search.substr(location.search.indexOf("?") + 1);
+		var sval = "";
+		params = params.split("&");
+		for (var i = 0; i < params.length; i++) {
+			temp = params[i].split("=");
+			if ([ temp[0] ] == sname) {
+				sval = temp[1];
+			}
+		}
+		return sval;
+	}
+	
+	function isRegister(){
+		var dto = getParam("dto");
+		if(dto == null || dto == "null"){
+			$("#btnRegister").show();
+			$("#btnRemove").hide();
+		} else if {
+			$("#btnRemove").show();
+			$("#btnRegister").hide();
+		}
+	}
+ window.onload=isRegister;
 </script>
 </head>
 <body>
@@ -92,14 +118,16 @@ thead {
 								<tr>
 									<td>직원정보</td>
 									<td colspan="10" align="right">
-										<button type="button" class="btn btn-secondary">등록</button>
-										<button type="button" class="btn btn-secondary">수정</button>
+										<button type="button" id="btnRegister" name="btnRegister"
+											class="btn btn-secondary">등록</button>
+										<button type="button" id="btnRemove" name="btnRemove"
+											class="btn btn-secondary">수정</button>
 									</td>
 								</tr>
 							</table>
 						</div>
 						<div class="panel-body">
-							<table class="tblInfo" width="100%">
+							<table border="0" class="tblInfo" width="100%">
 								<tbody>
 									<tr>
 										<td align="right" width="10%">아이디</td>
@@ -107,8 +135,8 @@ thead {
 										<td width="20%">
 											<table width="60%">
 												<tr>
-													<td><input type="text" class="form-control"
-														id="inputID" placeholder="아이디"></td>
+													<td><input type="text" class="form-control" id="eId"
+														name="eId" placeholder="아이디" value="${dto.getM_ID()}"></td>
 												</tr>
 											</table>
 										</td>
@@ -117,27 +145,28 @@ thead {
 										<td width="45%">
 											<table border="0" width="77%">
 												<tr>
-													<td width="20%"><select class="custom-select">
+													<td width="20%"><select class="custom-select"
+														id="eTel1" name="eTel1">
+															<option selected="true">0${dto.getM_TEL1()}</option>
 															<option>010</option>
 															<option>011</option>
 															<option>012</option>
 													</select></td>
 													<td align="center">-</td>
 													<td width="40%"><input type="text"
-														class="form-control" id="inputID"></td>
+														class="form-control" id="eTel2" name="eTel2"
+														value="${dto.getM_TEL2()}"></td>
 													<td align="center">-</td>
 													<td width="40%"><input type="text"
-														class="form-control" id="inputID"></td>
+														class="form-control" id="eTel3" name="eTel3"
+														value="${dto.getM_TEL3()}"></td>
 												</tr>
 											</table>
 										</td>
 										<td align="right" width="5%">직급</td>
 										<td width="1%"></td>
-										<td width="10%"><select class="custom-select">
-												<option>대리</option>
-												<option>과장</option>
-												<option>부장</option>
-										</select></td>
+										<td width="10%"><input type="text" class="form-control"
+											id="eRank" name="eRank" value="${dto.getE_RANK()}"></td>
 									</tr>
 									<tr>
 										<td colspan="9" height="10px"></td>
@@ -148,29 +177,27 @@ thead {
 										<td width="20%">
 											<table width="60%">
 												<tr>
-													<td><input type="text" class="form-control"
-														id="inputName" placeholder="성명"></td>
+													<td><input type="text" class="form-control" id="eName"
+														name="eName" placeholder="성명" value="${dto.getM_NAME()}"></td>
 												</tr>
 											</table>
 										</td>
 										<td align="right">이메일</td>
 										<td width="1%"></td>
-										<td><table>
+										<td colspan="4"><table>
 												<tr>
 													<td><input type="text" class="form-control"
-														id="inputID" placeholder="이메일" width="100px"></td>
+														id="eEmail1" name="eEmail1" placeholder="이메일"
+														width="100px" value="${dto.getE_EMAIL1()}"></td>
 													<td>@</td>
-													<td>
-														<select class="custom-select">
-												<option>naver.com</option>
-												<option>daum.net</option>
-										</select>
-													</td>
+													<td><select class="custom-select" id="eEmail2"
+														name="eEmail2">
+															<option selected="true">${dto.getE_EMAIL2()}</option>
+															<option>naver.com</option>
+															<option>daum.net</option>
+													</select></td>
 												</tr>
 											</table></td>
-										<td align="right">권한</td>
-										<td width="1%"></td>
-										<td>관리자</td>
 									</tr>
 									<tr>
 										<td colspan="9" height="10px"></td>
@@ -181,13 +208,13 @@ thead {
 										<td colspan="4"><table width="70%">
 												<tr>
 													<td>
-														<div class="input-group input-daterange" id="joinDT">
+														<div class="input-group input-daterange" id="joinDT" name="joinDT">
 															<div class="input-group input-daterange">
 																<input type="text" class="form-control"
-																	data-date-format="yyyy-mm-dd" maxlength="15">
+																	data-date-format="yyyy-mm-dd" maxlength="15" value="${dto.getE_ENTER_DT1()}-${dto.getE_ENTER_DT2()}-${dto.getE_ENTER_DT3()}">
 																<div class="input-group-addon">to</div>
 																<input type="text" class="form-control"
-																	data-date-format="yyyy-mm-dd" maxlength="15">
+																	data-date-format="yyyy-mm-dd" maxlength="15" value="${dto.getE_RESIGN_DT1()}-${dto.getE_RESIGN_DT2()}-${dto.getE_RESIGN_DT3()}">
 															</div>
 														</div>
 													</td>
@@ -233,51 +260,6 @@ thead {
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>00</td>
-								<td>활동이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>활동이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>활동이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>활동이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>활동이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>활동이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>활동이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>활동이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>활동이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
 							<tr>
 								<td>00</td>
 								<td>활동이다아아아아</td>

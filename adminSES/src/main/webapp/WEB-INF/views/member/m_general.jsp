@@ -32,20 +32,16 @@
 .tblInfo {
 	font-size: 1.5rem;
 }
-
 table {
 	font-size: 1.3rem;
 }
-
 thead {
 	font-size: 1.3rem;
 }
-
 #QnafromDT {
 	font-size: 1.3rem;
 	width: 100px;
 }
-
 #QnatoDT {
 	font-size: 1.3rem;
 	width: 100px;
@@ -69,29 +65,9 @@ thead {
 		var mId = $('#mId').val();
 		var pStartDT = $('#pStartDT').val();
 		var pEndDT = $('#pEndDT').val();
-
 		location.href = "emp_paylog_search?mId="+mId+"&pStartDT="+pStartDT+"&pEndDT="+pEndDT+";";
 	}
 	
-	function tfootVisible(){
-		var qStartDT =  $('#qStartDT').val();
-		var pStartDT =  $('#pStartDT').val();
-		if(qStartDT == null || qStartDT == "null"){
-			$("#tfschQna").hide();
-			$("#tfQna").show();
-		} else if(qStartDT != null || qStartDT != "null"){
-			$("#tfschQna").show();
-			$("#tfQna").hide();
-		}
-		if(pStartDT == null || pStartDT == "null"){
-			$("#tfschPay").hide();
-			$("#tfPay").show();
-		} else if(pStartDT != null || pStartDT != "null"){
-			$("#tfschPay").show();
-			$("#tfPay").hide();
-		}
-	}
- window.onload=tfootVisible;
 </script>
 </head>
 <body>
@@ -236,45 +212,24 @@ thead {
 										</tr>
 									</c:forEach>
 								</tbody>
-								<tfoot id="tfQna" name="tfQna">
+								<tfoot>
 									<tr>
 										<td colspan="4"></td>
 									</tr>
 									<tr>
 										<td colspan="4" align="center"><a
-											href="m_general?mId=${mdto.getM_ID()}&qpgnum=1"
+											href="${mgQLink}&qpgnum=1"
 											style="text-decoration: none">${qprev}${qprev}</a> <a
-											href="m_general?mId=${mdto.getM_ID()}&qpgnum=${qbefore}"
+											href="${mgQLink}&qpgnum=${qbefore}"
 											style="text-decoration: none">${qprev}</a> <c:forEach
 												items="${qpg}" var="qp">
 												<a
-													href="m_general?mId=${mdto.getM_ID()}&qpgnum=${qp}"
+													href="${mgQLink}&qpgnum=${qp}"
 													style="text-decoration: none">${qp}</a>
 											</c:forEach> <a
-											href="m_general?mId=${mdto.getM_ID()}&qpgnum=${qafter}"
+											href="${mgQLink}&qpgnum=${qafter}"
 											style="text-decoration: none">${qnext}</a> <a
-											href="m_general?mId=${mdto.getM_ID()}&qpgnum=${qlast}"
-											style="text-decoration: none">${qnext}${qnext}</a></td>
-									</tr>
-								</tfoot>
-								<tfoot id="tfschQna" name="tfschQna">
-									<tr>
-										<td colspan="4"></td>
-									</tr>
-									<tr>
-										<td colspan="4" align="center"><a
-											href="emp_qna_search?mId=${mdto.getM_ID()}&qStartDT=${qStartDT}&qEndDT=${qEndDT}&qpgnum=1"
-											style="text-decoration: none">${qprev}${qprev}</a> <a
-											href="emp_qna_search?mId=${mdto.getM_ID()}&qStartDT=${qStartDT}&qEndDT=${qEndDT}&qpgnum=${qbefore}"
-											style="text-decoration: none">${qprev}</a> <c:forEach
-												items="${qpg}" var="qp">
-												<a
-													href="emp_qna_search?mId=${mdto.getM_ID()}&qStartDT=${qStartDT}&qEndDT=${qEndDT}&qpgnum=${qp}"
-													style="text-decoration: none">${qp}</a>
-											</c:forEach> <a
-											href="emp_qna_search?mId=${mdto.getM_ID()}&qStartDT=${qStartDT}&qEndDT=${qEndDT}&qpgnum=${qafter}"
-											style="text-decoration: none">${qnext}</a> <a
-											href="emp_qna_search?mId=${mdto.getM_ID()}&qStartDT=${qStartDT}&qEndDT=${qEndDT}&qpgnum=${qlast}"
+											href="${mgQLink}&qpgnum=${qlast}"
 											style="text-decoration: none">${qnext}${qnext}</a></td>
 									</tr>
 								</tfoot>
@@ -327,41 +282,21 @@ thead {
 										</tr>
 									</c:forEach>
 								</tbody>
-								<tfoot id="tfPay" name="tfPay">
+								<tfoot>
 									<tr>
 										<td colspan="4"></td>
 									</tr>
 									<tr>
 										<td colspan="4" align="center"><a
-											href="m_general?mId=${mdto.getM_ID()}&ppgnum=1"
+											href="${mgPLLink}&ppgnum=1"
 											style="text-decoration: none">${pprev}${pprev}</a> <a
-											href="m_general?mId=${mdto.getM_ID()}&ppgnum=${pbefore}"
+											href="${mgPLLink}&ppgnum=${pbefore}"
 											style="text-decoration: none">${pprev}</a> <c:forEach
 												items="${plpg}" var="pp">
-												<a href="m_general?mId=${mdto.getM_ID()}&&ppgnum=${pp}"
+												<a href="${mgPLLink}&ppgnum=${pp}"
 													style="text-decoration: none">${pp}</a>
 											</c:forEach> <a
-											href="m_general?mId=${mdto.getM_ID()}&ppgnum=${pafter}"
-											style="text-decoration: none">${pnext}</a> <a
-											href="m_general?mId=${mdto.getM_ID()}&ppgnum=${plast}"
-											style="text-decoration: none">${pnext}${pnext}</a></td>
-									</tr>
-								</tfoot>
-								<tfoot id="tfschPay" name="tfschPay">
-									<tr>
-										<td colspan="4"></td>
-									</tr>
-									<tr>
-										<td colspan="4" align="center"><a
-											href="emp_paylog_search?mId=${mdto.getM_ID()}&pStartDT=${pStartDT}&pEndDT=${pEndDT}&qpgnum=1&ppgnum=1"
-											style="text-decoration: none">${pprev}${pprev}</a> <a
-											href="emp_paylog_search?mId=${mdto.getM_ID()}&pStartDT=${pStartDT}&pEndDT=${pEndDT}&qpgnum=1&ppgnum=${pbefore}"
-											style="text-decoration: none">${pprev}</a> <c:forEach
-												items="${plpg}" var="pp">
-												<a href="emp_paylog_search?mId=${mdto.getM_ID()}&pStartDT=${pStartDT}&pEndDT=${pEndDT}&qpgnum=1&ppgnum=${pp}"
-													style="text-decoration: none">${pp}</a>
-											</c:forEach> <a
-											href="emp_paylog_search?mId=${mdto.getM_ID()}&pStartDT=${pStartDT}&pEndDT=${pEndDT}&qpgnum1&ppgnum=${pafter}"
+											href="${mgPLLink}&ppgnum=${pafter}"
 											style="text-decoration: none">${pnext}</a> <a
 											href="emp_paylog_search?mId=${mdto.getM_ID()}&pStartDT=${pStartDT}&pEndDT=${pEndDT}&qpgnum=1&ppgnum=${plast}"
 											style="text-decoration: none">${pnext}${pnext}</a></td>
@@ -395,7 +330,6 @@ thead {
 		$("#payDT").datepicker("setDate", new Date());
 		$("#payDT").each(function() {
 			var $inputs = $(this).find('input');
-
 			$inputs.datepicker();
 			if ($inputs.length >= 2) {
 				var $from = $inputs.eq(0);
@@ -410,7 +344,6 @@ thead {
 				});
 			}
 		})
-
 		$("#QnaDT").datepicker({
 			weekStart : 1,
 			daysOfWeekHighlighted : "6,0",
@@ -422,7 +355,6 @@ thead {
 		$("#QnaDT").datepicker("setDate", new Date());
 		$("#QnaDT").each(function() {
 			var $inputs = $(this).find('input');
-
 			$inputs.datepicker();
 			if ($inputs.length >= 2) {
 				var $from = $inputs.eq(0);

@@ -35,5 +35,4 @@ public class QnaDAO {
 	public List<QnaDTO> getSearchedMemberQList(Map<String, Object> qmap) {
 		return temp.selectList("qMap.getSearchedMemberQList", qmap);
 	}
-	
 }

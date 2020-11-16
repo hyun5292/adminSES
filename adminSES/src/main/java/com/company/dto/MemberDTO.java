@@ -59,8 +59,6 @@ public class MemberDTO {
 		M_STATE = m_STATE;
 	}
 
-
-
 	public int getNUM() {
 		return NUM;
 	}

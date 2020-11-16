@@ -6,20 +6,18 @@ import java.util.Map;
 import com.company.dto.MemberDTO;
 
 public interface MService {
+
 	// 회원 목록 불러오기
-	public List<MemberDTO> GetMList(Map<String, Object> map);
+	List<MemberDTO> GetMList(Map<String, Object> map);
 
 	// 전체 페이지 개수 구하기
 	public int PageCnt();
 
-	// 검색된 회원 목록 불러오기
-	public List<MemberDTO> GetSearchedMList(Map<String, Object> map);
+	// 조건 검색 회원 목록 불러오기
+	List<MemberDTO> GetSchMList(Map<String, Object> map);
 
-	// 검색된 페이지 개수 구하기
-	public int SearchedListCnt(Map<String, Object> map);
-
-	// 회원의 회원 분류 가져오기
-	public String GetMKind(String mId);
+	// 조건 검색 회원 페이지 개수 구하기
+	int GetSchPageCnt(Map<String, Object> map);
 
 	// 회원 정보 가져오기
 	public MemberDTO GetMInfo(String mId);

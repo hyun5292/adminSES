@@ -1,19 +1,37 @@
 package com.company.service;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Service;
 
 import com.company.dao.EmployeeDAO;
 import com.company.dto.EmployeeDTO;
 
+@Service
 public class EmployeeService implements EService{
 	@Inject
 	EmployeeDAO eDAO;
 
-	// 로그인
+	// 조건 검색 직원 목록 불러오기
 	@Override
-	public EmployeeDTO ELogin(HttpServletRequest request) {
-		return eDAO.ELogin(request.getParameter("eId"));
+	public List<EmployeeDTO> GetSchEList(Map<String, Object> map) {
+		return eDAO.GetSchEList(map);
 	}
 
+	// 조건 검색 직원 페이지 개수 구하기
+	@Override
+	public int GetSchPageCnt(Map<String, Object> map) {
+		return eDAO.GetSchPageCnt(map);
+	}
+
+	// 직원 정보 가져오기
+	@Override
+	public EmployeeDTO GetEInfo(String mId) {
+		return eDAO.GetEInfo(mId);
+	}
+	
 }

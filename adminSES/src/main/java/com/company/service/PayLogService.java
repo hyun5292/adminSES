@@ -39,5 +39,4 @@ public class PayLogService implements PLService{
 	public List<PayLogDTO> getSearchedMemberPLList(Map<String, Object> pmap) {
 		return plDAO.getSearchedMemberPLList(pmap);
 	}
-
 }

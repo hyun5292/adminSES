@@ -27,24 +27,18 @@ public class MemberService implements MService {
 		return mDAO.ListCnt();
 	}
 
-	// 검색된 회원 목록 불러오기
+	// 조건 검색 회원 목록 불러오기
 	@Override
-	public List<MemberDTO> GetSearchedMList(Map<String, Object> map) {
-		return mDAO.GetSearchedMList(map);
+	public List<MemberDTO> GetSchMList(Map<String, Object> map) {
+		return mDAO.GetSchMList(map);
 	}
 
-	// 검색된 페이지 개수 구하기
+	// 조건 검색 회원 페이지 개수 구하기
 	@Override
-	public int SearchedListCnt(Map<String, Object> map) {
-		return mDAO.SearchedListCnt(map);
+	public int GetSchPageCnt(Map<String, Object> map) {
+		return mDAO.GetSchPageCnt(map);
 	}
-
-	// 회원의 회원 분류 가져오기
-	@Override
-	public String GetMKind(String mId) {
-		return mDAO.GetMKind(mId);
-	}
-
+	
 	// 회원 정보 가져오기
 	@Override
 	public MemberDTO GetMInfo(String mId) {

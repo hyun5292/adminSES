@@ -32,15 +32,12 @@
 .log-div {
 	height: 100%;
 }
-
 .short-div {
 	height: 50%;
 }
-
 .imgchart {
 	height: 30%;
 }
-
 table {
 	font-size: 1.6rem;
 }
@@ -51,13 +48,21 @@ table {
 		var mKind = $('#mKind').val();
 		var mId = $('#mId').val();
 		var mName = $('#mName').val();
+		var result = "m_search";
 		
 		if(mKind == null || mKind == "") {
 			mKind = "일반";
 		}
-
-		location.href = "search_m?mKind=" + mKind + "&mId=" + mId + "&mName="
-				+ mName;
+		
+		if(mKind == "직원") {
+			result = "sch_admin";
+		} else if(mKind == "SNS사") {
+			result = "sch_sns";
+		} else {
+			result = "sch_general";
+		}
+		
+		location.href = result + "?mKind=" + mKind + "&mId=" + mId + "&mName="+ mName;
 	}
 	
 	function NewMember() {
@@ -74,51 +79,6 @@ table {
 		
 		location.href = result;
 	}
-
-	//url 에서 parameter 추출
-	function getParam(sname) {
-		var params = location.search.substr(location.search.indexOf("?") + 1);
-		var sval = "";
-		params = params.split("&");
-		for (var i = 0; i < params.length; i++) {
-			temp = params[i].split("=");
-			if ([ temp[0] ] == sname) {
-				sval = temp[1];
-			}
-		}
-
-		return sval;
-	}
-
-	function YesOrNo() {
-		var mKind = getParam("mKind");
-		var mId = getParam("mId");
-		var mName = getParam("mName");
-		var chk = true;
-
-		if ((mKind == null) || (mKind == "")) {
-			if ((mId == null) || (mId == "")) {
-				if ((mName == null) || (mName == "")) {
-					chk = false;
-				} else {
-					chk = true;
-				}
-			} else {
-				chk = true;
-			}
-		} else {
-			chk = true;
-		}
-
-		if (chk) {
-			$("#schm").show();
-			$("#msch").hide();
-		} else {
-			$("#schm").hide();
-			$("#msch").show();
-		}
-	}
-	window.onload = YesOrNo;
 </script>
 </head>
 <body>
@@ -216,7 +176,7 @@ table {
 							<c:forEach items="${dtos}" var="dto">
 								<tr>
 									<td>${dto.getNUM()}</td>
-									<td><a href="chklistmkind?mId=${dto.getM_ID()}">${dto.getM_ID()}</a></td>
+									<td><a href="chklistmkind?mId=${dto.getM_ID()}&mKind=${dto.getM_KIND()}">${dto.getM_ID()}</a></td>
 									<td>${dto.getM_NAME()}</td>
 									<td>0${dto.getM_TEL1()}-${dto.getM_TEL2()}-${dto.getM_TEL3()}</td>
 									<td>${dto.getM_KIND()}</td>
@@ -230,28 +190,14 @@ table {
 								<td colspan="5"></td>
 							</tr>
 							<tr align="center">
-								<td colspan="5" id="schm" name="schm"><a
-									href="search_m?pgnum=1&mKind=${mKind}&mId=${mId}&mName=${mName}"
-									style="text-decoration: none">${prev}${prev}</a> <a
-									href="search_m?pgnum=${before}&mKind=${mKind}&mId=${mId}&mName=${mName}"
-									style="text-decoration: none">${prev}</a> <c:forEach
-										items="${pg}" var="p">
-										<a
-											href="search_m?pgnum=${p}&mKind=${mKind}&mId=${mId}&mName=${mName}"
-											style="text-decoration: none">${p}</a>
-									</c:forEach> <a
-									href="search_m?pgnum=${after}&mKind=${mKind}&mId=${mId}&mName=${mName}"
-									style="text-decoration: none">${next}</a> <a
-									href="search_m?pgnum=${last}&mKind=${mKind}&mId=${mId}&mName=${mName}"
-									style="text-decoration: none">${next}${next}</a></td>
 								<td colspan="5" id="msch" name="msch"><a
-									href="m_search?pgnum=1" style="text-decoration: none">${prev}${prev}</a>
-									<a href="m_search?pgnum=${before}"
+									href="${mlink}?mKind=${mKind}&mId=${mId}&mName=${mName}&pgnum=1" style="text-decoration: none">${prev}${prev}</a>
+									<a href="${mlink}?mKind=${mKind}&mId=${mId}&mName=${mName}&pgnum=${before}"
 									style="text-decoration: none">${prev}</a> <c:forEach
 										items="${pg}" var="p">
-										<a href="m_search?pgnum=${p}" style="text-decoration: none">${p}</a>
-									</c:forEach> <a href="qna?pgnum=${after}" style="text-decoration: none">${next}</a>
-									<a href="m_search?pgnum=${last}" style="text-decoration: none">${next}${next}</a></td>
+										<a href="${mlink}?mKind=${mKind}&mId=${mId}&mName=${mName}&pgnum=${p}" style="text-decoration: none">${p}</a>
+									</c:forEach> <a href="${mlink}?mKind=${mKind}&mId=${mId}&mName=${mName}&pgnum=${after}" style="text-decoration: none">${next}</a>
+									<a href="${mlink}?mKind=${mKind}&mId=${mId}&mName=${mName}&pgnum=${last}" style="text-decoration: none">${next}${next}</a></td>
 							</tr>
 						</tfoot>
 					</table>

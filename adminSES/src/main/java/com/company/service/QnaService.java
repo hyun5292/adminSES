@@ -11,7 +11,7 @@ import com.company.dao.QnaDAO;
 import com.company.dto.QnaDTO;
 
 @Service
-public class QnaService implements QService{
+public class QnaService implements QService {
 	@Inject
 	QnaDAO qDAO;
 
@@ -38,5 +38,4 @@ public class QnaService implements QService{
 	public List<QnaDTO> getSearchedMemberQList(Map<String, Object> qmap) {
 		return qDAO.getSearchedMemberQList(qmap);
 	}
-
 }

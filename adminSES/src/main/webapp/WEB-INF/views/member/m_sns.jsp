@@ -110,13 +110,13 @@ thead {
 							<table class="tblInfo" width="100%">
 								<tbody>
 									<tr>
-										<td align="right" width="10%">아이디</td>
+										<td align="right" width="10%">성명</td>
 										<td width="1%"></td>
 										<td width="20%">
 											<table width="90%">
 												<tr>
 													<td><input type="text" class="form-control"
-														id="inputID" placeholder="아이디"></td>
+														id="sName" placeholder="성명"></td>
 												</tr>
 											</table>
 										</td>

@@ -83,13 +83,13 @@ public class M_GeneralController {
 		} else {
 			G = "";
 		}
-		
+
 		Qmap.put("mId", mId);
 		Qmap.put("qSYear", qStartDT[0].toString());
 		Qmap.put("qSMonth", qStartDT[1].toString());
 		Qmap.put("qEYear", qEndDT[0].toString());
 		Qmap.put("qEMonth", qEndDT[1].toString());
-		
+
 		// 전체 게시글 개수 설정
 		QpgDTO.setTotalCnt(Ser_Q.getSearchedMemberQListCnt(Qmap));
 		PpgDTO.setTotalCnt(Ser_PL.getMemberPLListCnt(mId));
@@ -117,7 +117,7 @@ public class M_GeneralController {
 
 		Qmap.put("startNum", (Qpgnum - 1) * QpgDTO.getContentNum());
 		Qmap.put("ContentNum", QpgDTO.getContentNum());
-		
+
 		Pmap.put("mId", mId);
 		Pmap.put("startNum", (Ppgnum - 1) * PpgDTO.getContentNum());
 		Pmap.put("ContentNum", PpgDTO.getContentNum());
@@ -135,7 +135,7 @@ public class M_GeneralController {
 				q_j++;
 			}
 		}
-		
+
 		int pl_first = (Ppgnum - 1) * PpgDTO.getContentNum() + 1;
 		int pl_last = pl_first + PpgDTO.getContentNum();
 		int pl_j = 0;
@@ -155,7 +155,7 @@ public class M_GeneralController {
 		if (QpgDTO.isNext()) { // 다음 블록이 존재하는가
 			qnext = ">";
 		}
-		
+
 		String plprev = "", plnext = ""; // <, >
 
 		if (PpgDTO.isPrev()) { // 이전 블록이 존재하는가
@@ -192,7 +192,7 @@ public class M_GeneralController {
 				plpg[pl_j] = i;
 			pl_j++;
 		}
-		
+
 		for (int i = 0; i < qdtos.size(); i++) {
 			if ((qdtos.get(i).getQ_REPLY() == null) || (qdtos.get(i).getQ_REPLY().equals(""))) {
 				qdtos.get(i).setQ_chkREPLY("X");
@@ -200,9 +200,10 @@ public class M_GeneralController {
 				qdtos.get(i).setQ_chkREPLY("O");
 			}
 		}
-		model.addAttribute("qStartDT", qStartDT[0]+"/"+qStartDT[1]+"/"+qStartDT[2]);
-		model.addAttribute("qEndDT", qEndDT[0]+"/"+qEndDT[1]+"/"+qEndDT[2]);
+		model.addAttribute("qStartDT", qStartDT[0] + "/" + qStartDT[1] + "/" + qStartDT[2]);
+		model.addAttribute("qEndDT", qEndDT[0] + "/" + qEndDT[1] + "/" + qEndDT[2]);
 
+		model.addAttribute("mgQLink", "emp_qna_search?mId="+mId+"&qStartDT="+qStartDT1+"&qEndDT="+qEndDT1);
 		model.addAttribute("mdto", mdto);
 		model.addAttribute("FB", FB);
 		model.addAttribute("KT", KT);
@@ -219,6 +220,7 @@ public class M_GeneralController {
 		else
 			model.addAttribute("qlast", QpgDTO.getTotalCnt() / QpgDTO.getContentNum());
 
+		model.addAttribute("mgPLLink", "m_general?mId="+mId);
 		model.addAttribute("pdtos", pdtos);
 		model.addAttribute("pbefore", PpgDTO.getStartPage() - 1);
 		model.addAttribute("pafter", PpgDTO.getEndPage() + 1);
@@ -286,7 +288,7 @@ public class M_GeneralController {
 		} else {
 			G = "";
 		}
-		
+
 		Pmap.put("mId", mId);
 		Pmap.put("pSYear", pStartDT[0].toString());
 		Pmap.put("pSMonth", pStartDT[1].toString());
@@ -321,7 +323,7 @@ public class M_GeneralController {
 		Qmap.put("mId", mId);
 		Qmap.put("startNum", (Qpgnum - 1) * QpgDTO.getContentNum());
 		Qmap.put("ContentNum", QpgDTO.getContentNum());
-		
+
 		Pmap.put("startNum", (Ppgnum - 1) * PpgDTO.getContentNum());
 		Pmap.put("ContentNum", PpgDTO.getContentNum());
 
@@ -338,7 +340,7 @@ public class M_GeneralController {
 				q_j++;
 			}
 		}
-		
+
 		int pl_first = (Ppgnum - 1) * PpgDTO.getContentNum() + 1;
 		int pl_last = pl_first + PpgDTO.getContentNum();
 		int pl_j = 0;
@@ -358,7 +360,7 @@ public class M_GeneralController {
 		if (QpgDTO.isNext()) { // 다음 블록이 존재하는가
 			qnext = ">";
 		}
-		
+
 		String plprev = "", plnext = ""; // <, >
 
 		if (PpgDTO.isPrev()) { // 이전 블록이 존재하는가
@@ -395,7 +397,7 @@ public class M_GeneralController {
 				plpg[pl_j] = i;
 			pl_j++;
 		}
-		
+
 		for (int i = 0; i < qdtos.size(); i++) {
 			if ((qdtos.get(i).getQ_REPLY() == null) || (qdtos.get(i).getQ_REPLY().equals(""))) {
 				qdtos.get(i).setQ_chkREPLY("X");
@@ -403,9 +405,10 @@ public class M_GeneralController {
 				qdtos.get(i).setQ_chkREPLY("O");
 			}
 		}
-		model.addAttribute("pStartDT", pStartDT[0]+"/"+pStartDT[1]+"/"+pStartDT[2]);
-		model.addAttribute("pEndDT", pEndDT[0]+"/"+pEndDT[1]+"/"+pEndDT[2]);
+		model.addAttribute("pStartDT", pStartDT[0] + "/" + pStartDT[1] + "/" + pStartDT[2]);
+		model.addAttribute("pEndDT", pEndDT[0] + "/" + pEndDT[1] + "/" + pEndDT[2]);
 
+		model.addAttribute("mgQLink", "m_general?mId="+mId);
 		model.addAttribute("mdto", mdto);
 		model.addAttribute("FB", FB);
 		model.addAttribute("KT", KT);
@@ -422,6 +425,7 @@ public class M_GeneralController {
 		else
 			model.addAttribute("qlast", QpgDTO.getTotalCnt() / QpgDTO.getContentNum());
 
+		model.addAttribute("mgPLLink", "emp_paylog_search?mId="+mId+"&pStartDT="+pStartDT1+"&pEndDT="+pEndDT1);
 		model.addAttribute("pdtos", pdtos);
 		model.addAttribute("pbefore", PpgDTO.getStartPage() - 1);
 		model.addAttribute("pafter", PpgDTO.getEndPage() + 1);
