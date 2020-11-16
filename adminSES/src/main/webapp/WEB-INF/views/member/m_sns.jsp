@@ -55,6 +55,20 @@ thead {
 		$(this).datepicker('clearDates');
 	});
 	
+	//url 에서 parameter 추출
+	function getParam(sname) {
+		var params = location.search.substr(location.search.indexOf("?") + 1);
+		var sval = "";
+		params = params.split("&");
+		for (var i = 0; i < params.length; i++) {
+			temp = params[i].split("=");
+			if ([ temp[0] ] == sname) {
+				sval = temp[1];
+			}
+		}
+		return sval;
+	}
+	
 	function isRegister(){
 		var mId = getParam("mId");
 		if(mId == null || mId == ""){
@@ -112,8 +126,8 @@ thead {
 								<tr>
 									<td>SNS사 담당자 정보</td>
 									<td colspan="10" align="right">
-										<button type="button" class="btn btn-secondary">등록</button>
-										<button type="button" class="btn btn-secondary">수정</button>
+										<button type="button" id="btnRegister" name="btnRegister" class="btn btn-secondary">등록</button>
+										<button type="button" id="btnRemove" name="btnRemove" class="btn btn-secondary">수정</button>
 									</td>
 								</tr>
 							</table>
@@ -128,13 +142,14 @@ thead {
 											<table width="90%">
 												<tr>
 													<td><input type="text" class="form-control"
-														id="sName" placeholder="성명"></td>
+														id="sName" name="sName" placeholder="성명" value="${dto.getM_NAME()}"></td>
 												</tr>
 											</table>
 										</td>
 										<td align="right" width="10%">SNS사</td>
 										<td width="1%"></td>
-										<td width="10%" font-size="1.3rem"><select class="custom-select">
+										<td width="10%" font-size="1.3rem"><select class="custom-select" id="sKind" name="sKind">
+												<option selected="true">${dto.getM_ID()}</option>
 												<option>Naver</option>
 												<option>Facebook</option>
 												<option>Google</option>
@@ -145,17 +160,18 @@ thead {
 										<td width="40%">
 											<table border="0" width="77%">
 												<tr>
-													<td width="30%"><select class="custom-select">
+													<td width="30%"><select class="custom-select" id="sTel1" name="sTel1">
+															<option selected="true">0${dto.getM_TEL1()}</option>
 															<option>010</option>
 															<option>011</option>
 															<option>012</option>
 													</select></td>
 													<td align="center">-</td>
 													<td width="35%"><input type="text"
-														class="form-control" id="inputID"></td>
+														class="form-control" id="sTel2" name="sTel2" value="${dto.getM_TEL2()}"></td>
 													<td align="center">-</td>
 													<td width="35%"><input type="text"
-														class="form-control" id="inputID"></td>
+														class="form-control" id="sTel3" name="sTel3" value="${dto.getM_TEL3()}"></td>
 												</tr>
 											</table>
 										</td>
@@ -170,7 +186,7 @@ thead {
 											<table width="90%">
 												<tr>
 													<td><input type="text" class="form-control"
-														id="inputID" placeholder="부서"></td>
+														id="sDept" name="sDept" placeholder="부서" value="${dto.getS_DEPT()}"></td>
 												</tr>
 											</table>
 										</td>
@@ -181,11 +197,11 @@ thead {
 													<td>
 														<div class="input-group input-daterange" id="joinDT">
 															<div class="input-group input-daterange">
-																<input type="text" class="form-control"
-																	data-date-format="yyyy-mm-dd" maxlength="15">
+																<input type="text" class="form-control" id="inDT" name="inDT"
+																	data-date-format="yyyy-mm-dd" maxlength="15" value="${dto.getS_START_DT1()}-${dto.getS_START_DT2()}-${dto.getS_START_DT3()}">
 																<div class="input-group-addon">to</div>
-																<input type="text" class="form-control"
-																	data-date-format="yyyy-mm-dd" maxlength="15">
+																<input type="text" class="form-control" id="exitDT" name="exitDT"
+																	data-date-format="yyyy-mm-dd" maxlength="15" value="${dto.getS_END_DT1()}-${dto.getS_END_DT2()}-${dto.getS_END_DT3()}">
 															</div>
 														</div>
 													</td>

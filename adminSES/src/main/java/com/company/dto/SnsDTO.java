@@ -9,13 +9,18 @@ public class SnsDTO {
 	private int S_TEL2 = 0;
 	private int S_TEL3 = 0;
 	private String S_DEPT = "";
-	private String S_START_DT = "";
-	private String S_END_DT = "";
-	
-	public SnsDTO() {}
+	private int S_START_DT1 = 0;
+	private int S_START_DT2 = 0;
+	private int S_START_DT3 = 0;
+	private int S_END_DT1 = 0;
+	private int S_END_DT2 = 0;
+	private int S_END_DT3 = 0;
 
-	public SnsDTO(String s_KIND, String s_NAME, int s_TEL1, int s_TEL2, int s_TEL3, String s_DEPT, String s_START_DT,
-			String s_END_DT) {
+	public SnsDTO() {
+	}
+
+	public SnsDTO(String s_KIND, String s_NAME, int s_TEL1, int s_TEL2, int s_TEL3, String s_DEPT, int s_START_DT1,
+			int s_START_DT2, int s_START_DT3, int s_END_DT1, int s_END_DT2, int s_END_DT3) {
 		super();
 		M_ID = s_KIND;
 		M_NAME = s_NAME;
@@ -23,8 +28,12 @@ public class SnsDTO {
 		S_TEL2 = s_TEL2;
 		S_TEL3 = s_TEL3;
 		S_DEPT = s_DEPT;
-		S_START_DT = s_START_DT;
-		S_END_DT = s_END_DT;
+		S_START_DT1 = s_START_DT1;
+		S_START_DT2 = s_START_DT2;
+		S_START_DT3 = s_START_DT3;
+		S_END_DT1 = s_END_DT1;
+		S_END_DT1 = s_END_DT2;
+		S_END_DT1 = s_END_DT3;
 	}
 
 	public int getNUM() {
@@ -56,7 +65,7 @@ public class SnsDTO {
 	}
 
 	public void setM_KIND(String m_KIND) {
-		M_KIND = m_KIND;
+		M_KIND = "SNS»ç";
 	}
 
 	public int getM_TEL1() {
@@ -91,28 +100,83 @@ public class SnsDTO {
 		S_DEPT = s_DEPT;
 	}
 
-	public String getS_START_DT() {
-		return S_START_DT;
+	public int getS_TEL1() {
+		return S_TEL1;
 	}
 
-	public void setS_START_DT(String s_START_DT) {
-		S_START_DT = s_START_DT;
+	public void setS_TEL1(int s_TEL1) {
+		S_TEL1 = s_TEL1;
 	}
 
-	public String getS_END_DT() {
-		return S_END_DT;
+	public int getS_TEL2() {
+		return S_TEL2;
 	}
 
-	public void setS_END_DT(String s_END_DT) {
-		S_END_DT = s_END_DT;
+	public void setS_TEL2(int s_TEL2) {
+		S_TEL2 = s_TEL2;
 	}
 
+	public int getS_TEL3() {
+		return S_TEL3;
+	}
+
+	public void setS_TEL3(int s_TEL3) {
+		S_TEL3 = s_TEL3;
+	}
+
+	public int getS_START_DT1() {
+		return S_START_DT1;
+	}
+
+	public void setS_START_DT1(int s_START_DT1) {
+		S_START_DT1 = s_START_DT1;
+	}
+
+	public int getS_START_DT2() {
+		return S_START_DT2;
+	}
+
+	public void setS_START_DT2(int s_START_DT2) {
+		S_START_DT2 = s_START_DT2;
+	}
+
+	public int getS_START_DT3() {
+		return S_START_DT3;
+	}
+
+	public void setS_START_DT3(int s_START_DT3) {
+		S_START_DT3 = s_START_DT3;
+	}
+
+	public int getS_END_DT1() {
+		return S_END_DT1;
+	}
+
+	public void setS_END_DT1(int s_END_DT1) {
+		S_END_DT1 = s_END_DT1;
+	}
+
+	public int getS_END_DT2() {
+		return S_END_DT2;
+	}
+
+	public void setS_END_DT2(int s_END_DT2) {
+		S_END_DT2 = s_END_DT2;
+	}
+
+	public int getS_END_DT3() {
+		return S_END_DT3;
+	}
+
+	public void setS_END_DT3(int s_END_DT3) {
+		S_END_DT3 = s_END_DT3;
+	}
 	
 	
 }
 /*
 CREATE TABLE `sns` (
-	`S_KIND` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
+	`M_ID` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
 	`M_NAME` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
 	`M_TEL1` INT(11) NOT NULL,
 	`M_TEL2` INT(11) NOT NULL,
@@ -124,10 +188,10 @@ CREATE TABLE `sns` (
 	`S_END_DT1` INT(11) NOT NULL DEFAULT '0',
 	`S_END_DT2` INT(11) NOT NULL DEFAULT '0',
 	`S_END_DT3` INT(11) NOT NULL DEFAULT '0',
-	PRIMARY KEY (`S_KIND`) USING BTREE
+	PRIMARY KEY (`M_ID`) USING BTREE
 )
 COLLATE='latin1_swedish_ci'
 ENGINE=InnoDB
 ;
 
-*/
+ */

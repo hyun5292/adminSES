@@ -96,7 +96,7 @@ public class MemberDTO {
 	}
 
 	public void setM_KIND(String m_KIND) {
-		M_KIND = m_KIND;
+		M_KIND = "¿œπ›";
 	}
 
 	public String getM_EMAIL1() {

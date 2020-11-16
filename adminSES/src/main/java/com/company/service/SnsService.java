@@ -27,4 +27,10 @@ public class SnsService implements SService{
 		return sDAO.GetSchPageCnt(map);
 	}
 
+	// 조건 검색 SNS사 담당자 정보 불러오기
+	@Override
+	public SnsDTO GetSInfo(String mId) {
+		return sDAO.GetSInfo(mId);
+	}
+
 }

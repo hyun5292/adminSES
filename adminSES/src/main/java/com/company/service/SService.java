@@ -13,4 +13,7 @@ public interface SService {
 	// 조건 검색 SNS사 담당자 페이지 개수 구하기
 	int GetSchPageCnt(Map<String, Object> map);
 
+	// 조건 검색 SNS사 담당자 정보 불러오기
+	SnsDTO GetSInfo(String mId);
+
 }

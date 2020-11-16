@@ -25,5 +25,10 @@ public class SnsDAO {
 	public int GetSchPageCnt(Map<String, Object> map) {
 		return temp.selectOne("snsMap.GetSchPageCnt", map);
 	}
+
+	// 조건 검색 SNS사 담당자 정보 불러오기
+	public SnsDTO GetSInfo(String mId) {
+		return temp.selectOne("snsMap.GetSInfo", mId);
+	}
 	
 }

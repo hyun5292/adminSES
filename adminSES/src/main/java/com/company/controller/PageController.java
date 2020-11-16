@@ -18,11 +18,13 @@ import com.company.dto.MemberDTO;
 import com.company.dto.PageDTO;
 import com.company.dto.PayLogDTO;
 import com.company.dto.QnaDTO;
+import com.company.dto.SnsDTO;
 import com.company.service.ELService;
 import com.company.service.EService;
 import com.company.service.MService;
 import com.company.service.PLService;
 import com.company.service.QService;
+import com.company.service.SService;
 
 @Controller
 @Repository
@@ -38,6 +40,8 @@ public class PageController {
 	EService Ser_E;
 	@Autowired
 	ELService Ser_EL;
+	@Autowired
+	SService Ser_S;
 
 	// 로그인 페이지로 이동
 	@RequestMapping("/login")
@@ -439,7 +443,7 @@ public class PageController {
 		}
 
 		// 값 넘겨주기
-		model.addAttribute("elLink", "m_admin?mId="+mId);
+		model.addAttribute("elLink", "m_admin?mId=" + mId);
 		model.addAttribute("dto", dto);
 		model.addAttribute("dtos", dtos);
 		model.addAttribute("before", pgDTO.getStartPage() - 1);
@@ -458,6 +462,23 @@ public class PageController {
 	// SNS사로 이동
 	@RequestMapping("/m_sns")
 	public String GoMSns(HttpServletRequest request, Model model) {
+		String mId = request.getParameter("mId");
+
+		// 직원 정보 가져오기
+		SnsDTO dto = Ser_S.GetSInfo(mId);
+		
+		if (dto != null) {
+			if (dto.getS_END_DT1() == 0) {
+				dto.setS_END_DT1(dto.getS_START_DT1());
+				dto.setS_END_DT2(dto.getS_START_DT2());
+				dto.setS_END_DT3(dto.getS_START_DT3());
+			}
+		} else {
+			dto = new SnsDTO();
+		}
+		
+		model.addAttribute("dto", dto);
+
 		return "/member/m_sns";
 	}
 

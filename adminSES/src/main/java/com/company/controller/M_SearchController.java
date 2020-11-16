@@ -75,7 +75,7 @@ public class M_SearchController {
 
 		// 회원 목록 불러오기
 		List<MemberDTO> dtos = Ser_M.GetSchMList(map);
-
+		
 		for (int i = 0; i < dtos.size(); i++) {
 			dtos.get(i).setM_KIND("일반");
 		}
@@ -177,7 +177,7 @@ public class M_SearchController {
 
 		// 회원 목록 불러오기
 		List<EmployeeDTO> dtos = Ser_E.GetSchEList(map);
-
+		
 		for (int i = 0; i < dtos.size(); i++) {
 			dtos.get(i).setM_KIND("직원");
 		}
@@ -346,7 +346,7 @@ public class M_SearchController {
 		String result = "m_search";
 		String mId = request.getParameter("mId");
 		String mKind = request.getParameter("mKind");
-
+		
 		if (mKind.equals("일반")) {
 			result = "m_general";
 		} else if (mKind.equals("직원")) {

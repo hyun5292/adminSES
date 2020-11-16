@@ -70,7 +70,7 @@ public class EmployeeDTO {
 		return M_KIND;
 	}
 	public void setM_KIND(String m_KIND) {
-		M_KIND = m_KIND;
+		M_KIND = "Á÷¿ø";
 	}
 	public String getE_EMAIL1() {
 		return E_EMAIL1;
