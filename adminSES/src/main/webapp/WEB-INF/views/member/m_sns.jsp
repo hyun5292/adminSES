@@ -54,6 +54,68 @@ thead {
 	$('.input-daterange input').each(function() {
 		$(this).datepicker('clearDates');
 	});
+	
+	function check() {
+		var regNumber = /^[0-9]*$/;
+		
+		if ($('#sName').val() == "") {
+			alert("성명을 입력하세요!!");
+			$('#sName').focus();
+			return false;
+		} else if ($('#sKind').val() == "" || $('#sKind').val() == null) {
+			alert("SNS사를 선택하세요!!");
+			$('#sKind').focus();
+			return false;
+		} else if ($('#sTel1').val() == "" || $('#sTel1').val() == 00) {
+			alert("전화번호를 선택하세요!!");
+			return false;
+		} else if ($('#sTel2').val() == "" || $('#sTel2').val() == 0) {
+			alert("전화번호를 입력하세요!!");
+			$('#sTel2').focus();
+			return false;
+		} else if(!regNumber.test($('#sTel2').val())) {
+			alert("숫자만 입력하세요");
+			$('#sTel2').focus();
+			$('#sTel2').select();
+			return false;
+		} else if ($('#sTel2').val().length<4 || $('#sTel2').val().length>4) {
+			alert("전화번호는 4자리입니다!!")
+			$('#sTel2').focus();
+			$('#sTel2').select();
+			return false;
+		} else if ($('#sTel3').val() == "" || $('#sTel3').val() == 0) {
+			alert("전화번호를 입력하세요!!");
+			$('#sTel3').focus();
+			return false;
+		} else if(!regNumber.test($('#sTel3').val())) {
+			alert("숫자만 입력하세요");
+			$('#sTel3').focus();
+			$('#sTel3').select();
+			return false;
+		} else if ($('#sTel3').val().length<4 || $('#sTel3').val().length>4) {
+			alert("전화번호는 4자리입니다!!")
+			$('#sTel3').focus();
+			$('#sTel3').select();
+			return false;
+		} else if ($('#sDept').val() == "") {
+			alert("부서를 입력하세요!!");
+			$('#sDept').focus();
+			return false;
+		} else if ($('#inDT').val() == "") {
+			alert("입사일을 선택하세요!!");
+			$('#inDT').focus();
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	function DeleteSns() {
+		var sKind = $('#sKind').val();
+		var inDT = $('#inDT').val();
+		
+		location.href = "delete_sns?sKind="+sKind+"&inDT="+inDT+";";
+	}
 
 	//url 에서 parameter 추출
 	function getParam(sname) {
@@ -71,19 +133,32 @@ thead {
 	
 	function SearchSnsQLog() {
 		var mId = getParam("mId");
+		var mKind = getParam("inDT");
 		var StartDT = $('#StartDT').val();
 		var EndDT = $('#EndDT').val();
-		location.href = "sns_qsch?mId="+mId+"&StartDT="+StartDT+"&EndDT="+EndDT+";";
+		location.href = "sns_qsch?mId="+mId+"&mKind="+mKind+"&StartDT="+StartDT+"&EndDT="+EndDT+";";
 	}
 
 	function isRegister() {
+		var date = new Date();
 		var mId = getParam("mId");
 		if (mId == null || mId == "") {
 			$("#btnRegister").show();
+			$("#btnModify").hide();
 			$("#btnRemove").hide();
+			$("tfoot").hide();
+			$("#btnSearch").attr("disabled", "true");
+			$("#StartDT").attr("disabled", "true");
+			$("#EndDT").attr("disabled", "true");
+			$("#sTel1")[0].value="010";
+			$("#inDT").attr("value", date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate());
+			$("#exitDT").attr("value", "0000-00-00");
 		} else {
 			$("#btnRegister").hide();
+			$("#btnModify").show();
 			$("#btnRemove").show();
+			$("#inDT").attr("disabled", "true");
+			$("#sKind").attr("disabled", "true");
 		}
 	}
 	window.onload = isRegister;
@@ -127,21 +202,27 @@ thead {
 		<div class="container-fluid">
 			<div class="row-fluid" style="width: 110%">
 				<div class="col-md-10">
+				<form action="${formAction}" class="form-horizontal" id="myform" name="myform"
+				method="post" onsubmit="return check()">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<table class="tblInfo" width="100%">
 								<tr>
 									<td>SNS사 담당자 정보</td>
 									<td colspan="10" align="right">
-										<button type="button" id="btnRegister" name="btnRegister"
+										<button type="submit" id="btnRegister" name="btnRegister"
 											class="btn btn-secondary">등록</button>
-										<button type="button" id="btnRemove" name="btnRemove"
+										<button type="submit" id="btnModify" name="btnModify"
 											class="btn btn-secondary">수정</button>
+											<button type="button" id="btnRemove" name="btnRemove" onclick="DeleteSns()"
+											class="btn btn-secondary">삭제</button>
 									</td>
 								</tr>
 							</table>
 						</div>
 						<div class="panel-body">
+						<input type="hidden"  id="inDT2" name="inDT2" value="${dto.getS_START_DT()}">
+						<input type="hidden"  id="sKind2" name="sKind2" value="${dto.getM_ID()}">
 							<table class="tblInfo" width="100%">
 								<tbody>
 									<tr>
@@ -159,11 +240,11 @@ thead {
 										<td width="1%"></td>
 										<td width="10%" font-size="1.3rem"><select
 											class="custom-select" id="sKind" name="sKind">
-												<option selected="true">${dto.getM_ID()}</option>
-												<option>Naver</option>
-												<option>Facebook</option>
-												<option>Google</option>
-												<option>Kakaotalk</option>
+												<option selected="true" value="${dto.getM_ID()}">${dto.getM_ID()}</option>
+												<option value="Naver">Naver</option>
+												<option value="Facebook">Facebook</option>
+												<option value="Google">Google</option>
+												<option value="Kakaotalk">Kakaotalk</option>
 										</select>
 										<td align="right" width="10%">전화번호</td>
 										<td width="1%"></td>
@@ -274,7 +355,7 @@ thead {
 								</div>
 							</td>
 							<td width="8%" align="right">
-								<button type="button" onclick="SearchSnsQLog()" class="btn btn-secondary">검색</button>
+								<button id="btnSearch" name="btnSearch" type="button" onclick="SearchSnsQLog()" class="btn btn-secondary">검색</button>
 							</td>
 						</tr>
 						<tr>

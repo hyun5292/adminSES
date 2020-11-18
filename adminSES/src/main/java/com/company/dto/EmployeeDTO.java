@@ -14,11 +14,12 @@ public class EmployeeDTO {
 	private String E_ENTER_DT = "";
 	private String E_RESIGN_DT = "";
 	private String E_RANK = "";
+	private String E_AUTH = "";
 	
 	public EmployeeDTO() {}
 	
 	public EmployeeDTO(String e_ID, String e_PW, String e_NAME, String e_EMAIL1, String e_EMAIL2, int e_TEL1,
-			int e_TEL2, int e_TEL3, String e_ENTER_DT, String e_RESIGN_DT, String e_RANK) {
+			int e_TEL2, int e_TEL3, String e_ENTER_DT, String e_RESIGN_DT, String e_RANK, String e_AUTH) {
 		super();
 		M_ID = e_ID;
 		M_PW = e_PW;
@@ -31,6 +32,7 @@ public class EmployeeDTO {
 		E_ENTER_DT = e_ENTER_DT;
 		E_RESIGN_DT = e_RESIGN_DT;
 		E_RANK = e_RANK;
+		E_AUTH = e_AUTH;
 	}
 
 	public int getNUM() {
@@ -117,6 +119,15 @@ public class EmployeeDTO {
 	public void setE_RANK(String e_RANK) {
 		E_RANK = e_RANK;
 	}
+
+	public String getE_AUTH() {
+		return E_AUTH;
+	}
+
+	public void setE_AUTH(String e_AUTH) {
+		E_AUTH = e_AUTH;
+	}
+	
 }
 
 /*
@@ -132,6 +143,7 @@ CREATE TABLE `employee` (
 	`E_ENTER_DT` TIMESTAMP NOT NULL DEFAULT dayofmonth(0 - 0 - 0) ON UPDATE current_timestamp(),
 	`E_RESIGN_DT` TIMESTAMP NOT NULL DEFAULT dayofmonth(0 - 0 - 0) ON UPDATE current_timestamp(),
 	`E_RANK` VARCHAR(20) NOT NULL DEFAULT '' COLLATE 'utf8_general_ci',
+	`E_AUTH` VARCHAR(20) NOT NULL DEFAULT 'N' COLLATE 'utf8_general_ci',
 	PRIMARY KEY (`M_ID`) USING BTREE
 )
 COLLATE='latin1_swedish_ci'

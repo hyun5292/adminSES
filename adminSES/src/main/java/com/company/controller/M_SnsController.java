@@ -1,16 +1,23 @@
 package com.company.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.company.dto.PageDTO;
 import com.company.dto.QnaDTO;
@@ -38,8 +45,10 @@ public class M_SnsController {
 		PageDTO pgDTO = new PageDTO();
 		String pgNum = request.getParameter("pgnum");
 		String mId = request.getParameter("mId");
+		String mKind = request.getParameter("mKind");
 		String StartDT = request.getParameter("StartDT");
 		String EndDT = request.getParameter("EndDT").split(";")[0];
+		String formAction = "";
 		float gcnt = Ser_M.PageCnt();
 		float serviceUsercnt = 0;
 		float userAvg = 0;
@@ -60,17 +69,24 @@ public class M_SnsController {
 
 		userAvg = (float) (Math.round((serviceUsercnt / gcnt) * 100) / 100.0);
 
-		// 직원 정보 가져오기
-		SnsDTO dto = Ser_S.GetSInfo(mId);
+		map.put("mId", mId);
+		map.put("sStartDT", "%" + mKind + "%");
+
+		// SNS사 담당자 정보 가져오기
+		SnsDTO dto = Ser_S.GetSInfo(map);
+
+		map = new HashMap<String, Object>();
 
 		if (dto == null) {
 			dto = new SnsDTO();
+			formAction = "newSns";
 		} else {
 			dto.setS_START_DT(dto.getS_START_DT().split(" ")[0]);
 			dto.setS_END_DT(dto.getS_END_DT().split(" ")[0]);
+			formAction = "modifySns";
 		}
 
-		String mId2 = "%" + dto.getM_ID() + "-" + dto.getM_NAME() + "%";
+		String mId2 = "%" + dto.getM_ID() + "-" + dto.getS_START_DT() + "%";
 		map.put("mId", mId2);
 		map.put("StartDT", StartDT);
 		map.put("EndDT", EndDT);
@@ -134,7 +150,8 @@ public class M_SnsController {
 			j++;
 		}
 
-		model.addAttribute("snsLink", "m_sns?mId=" + mId+"&StartDT="+StartDT+"&EndDT="+EndDT);
+		model.addAttribute("snsLink", "m_sns?mId=" + mId + "&StartDT=" + StartDT + "&EndDT=" + EndDT);
+		model.addAttribute("formAction", formAction);
 		model.addAttribute("dto", dto);
 		model.addAttribute("gcnt", (int) gcnt);
 		model.addAttribute("svUsercnt", (int) serviceUsercnt);
@@ -151,5 +168,117 @@ public class M_SnsController {
 			model.addAttribute("last", pgDTO.getTotalCnt() / pgDTO.getContentNum());
 
 		return "/member/m_sns";
+	}
+
+	// 새로운 SNS 담당자 등록
+	@RequestMapping(value = "/newSns", method = RequestMethod.POST)
+	public String NewSnsMember(HttpServletResponse response, HttpServletRequest request, Model model)
+			throws IOException {
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean result = false;
+		SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd");
+				
+		Calendar time = Calendar.getInstance();
+		       
+		String now = format1.format(time.getTime());
+
+		map.put("exitDT", now);
+		map.put("sKind", request.getParameter("sKind"));
+		
+		// 기존 담당자 마감일 설정
+		result = Ser_S.ChgNowSns(map);
+		
+		map = new HashMap<String, Object>();
+
+		if (!result) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('현재 담당 중인 담당자의 마감일을 먼저 설정해주세요!!'); history.go(-1);</script>");
+			out.flush();
+		}
+
+		map.put("sName", request.getParameter("sName"));
+		map.put("sKind", request.getParameter("sKind"));
+		map.put("sTel1", request.getParameter("sTel1"));
+		map.put("sTel2", request.getParameter("sTel2"));
+		map.put("sTel3", request.getParameter("sTel3"));
+		map.put("sDept", request.getParameter("sDept"));
+		map.put("inDT", request.getParameter("inDT"));
+		if (request.getParameter("inDT").equals(request.getParameter("exitDT"))) {
+			map.put("exitDT", "0000-00-00 00:00:00");
+		} else {
+			map.put("exitDT", request.getParameter("exitDT"));
+		}
+
+		result = Ser_S.NewSnsMember(map);
+
+		if (!result) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
+		return "redirect:/" + "m_search";
+	}
+
+	// SNS 담당자 정보 수정
+	@RequestMapping(value = "/modifySns", method = RequestMethod.POST)
+	public String ModifySnsMember(HttpServletResponse response, HttpServletRequest request, Model model)
+			throws IOException {
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean result = false;
+
+		map.put("sName", request.getParameter("sName"));
+		map.put("sKind", request.getParameter("sKind2"));
+		map.put("sTel1", request.getParameter("sTel1"));
+		map.put("sTel2", request.getParameter("sTel2"));
+		map.put("sTel3", request.getParameter("sTel3"));
+		map.put("sDept", request.getParameter("sDept"));
+		map.put("inDT", request.getParameter("inDT2"));
+		if (request.getParameter("inDT2").equals(request.getParameter("exitDT"))) {
+			map.put("exitDT", "0000-00-00 00:00:00");
+		} else {
+			map.put("exitDT", request.getParameter("exitDT"));
+		}
+		map.put("sStartDT", "%"+request.getParameter("inDT2")+"%");
+
+		result = Ser_S.ModifySnsMember(map);
+
+		if (!result) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
+		return "redirect:/" + "m_search";
+	}
+
+	// SNS사 담당자 삭제
+	@RequestMapping("/delete_sns")
+	public String DeleteSns(HttpServletResponse response, HttpServletRequest request, Model model)
+			throws IOException {
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> map = new HashMap<String, Object>();
+		String sKind = request.getParameter("sKind");
+		String inDT = request.getParameter("inDT");
+		boolean result = false;
+
+		map.put("sKind", sKind);
+		map.put("inDT", "%"+inDT+"%");
+		
+		result = Ser_S.DeleteSNS(map);
+		
+		if (!result) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
+		return "redirect:/" + "m_search";
 	}
 }

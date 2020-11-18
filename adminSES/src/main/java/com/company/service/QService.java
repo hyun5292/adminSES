@@ -22,7 +22,7 @@ public interface QService {
 	public List<QnaDTO> GetSnsQList(Map<String, Object> map);
 
 	// 검색된 SNS사 담당자의 문의 내역 개수 가져오기
-	public int GetSnsQListCnt(String mId);
+	public int GetSnsQListCnt(Map<String, Object> map);
 
 	// 날짜별로 검색된 SNS사 담당자의 문의 내역 가져오기
 	public List<QnaDTO> GetSchSnsQList(Map<String, Object> map);

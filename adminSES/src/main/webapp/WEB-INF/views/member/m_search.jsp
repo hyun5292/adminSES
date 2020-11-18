@@ -66,18 +66,7 @@ table {
 	}
 	
 	function NewMember() {
-		var mKind = $('#mKind').val();
-		var result = "";
-		
-		if(mKind == "직원") {
-			result = "m_admin";
-		} else if(mKind == "SNS사") {
-			result = "m_sns";
-		} else {
-			result = "m_search";
-		}
-		
-		location.href = result;
+		location.href = "m_sns";
 	}
 </script>
 </head>
@@ -185,7 +174,7 @@ table {
 								</tr>
 							</c:forEach>
 						</tbody>
-						<tfoot>
+						<tfoot id="tf" name="tf">
 							<tr>
 								<td colspan="5"></td>
 							</tr>

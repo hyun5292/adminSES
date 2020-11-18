@@ -4,14 +4,48 @@
 <mapper namespace="snsMap">
 	<select id="GetSchSList" parameterType="hashmap"
 		resultType="com.company.dto.SnsDTO">
-		SELECT * FROM sns WHERE M_ID LIKE #{mId} AND M_NAME LIKE #{mName} ORDER BY M_NAME DESC limit #{startNum}, #{ContentNum};
+		SELECT * FROM sns WHERE M_ID LIKE #{mId} AND M_NAME LIKE
+		#{mName} ORDER BY M_ID DESC limit #{startNum}, #{ContentNum};
 	</select>
-	
-	<select id="GetSchPageCnt" parameterType="hashmap" resultType="int">
-		SELECT count(*) FROM sns WHERE M_ID LIKE #{mId} AND M_NAME LIKE #{mName};
+
+	<select id="GetSchPageCnt" parameterType="hashmap"
+		resultType="int">
+		SELECT count(*) FROM sns WHERE M_ID LIKE #{mId} AND M_NAME
+		LIKE #{mName};
 	</select>
-	
-	<select id="GetSInfo" parameterType="String" resultType="com.company.dto.SnsDTO">
-		SELECT * FROM sns WHERE M_ID LIKE #{mId} AND S_END_DT LIKE '0000-00-00 00:00:00';
+
+	<select id="GetSInfo" parameterType="hashmap"
+		resultType="com.company.dto.SnsDTO">
+		SELECT * FROM sns WHERE M_ID LIKE #{mId} AND S_START_DT
+		LIKE #{sStartDT};
 	</select>
+
+	<insert id="NewSnsMember" parameterType="hashmap">
+		INSERT INTO sns
+		VALUES
+		(#{sKind}, #{sName}, #{sTel1}, #{sTel2}, #{sTel3}, #{sDept}, #{inDT},
+		#{exitDT})
+	</insert>
+
+	<update id="ModifySnsMember" parameterType="hashmap">
+		UPDATE
+		sns SET
+		M_ID =
+		#{sKind}, M_NAME = #{sName}, M_TEL1 = #{sTel1}, M_TEL2 =
+		#{sTel2},
+		M_TEL3 = #{sTel3}, S_DEPT = #{sDept}, S_START_DT = #{inDT},
+		S_END_DT =
+		#{exitDT} WHERE M_ID = #{sKind} AND S_START_DT LIKE #{sStartDT};
+	</update>
+
+	<delete id="DeleteSNS" parameterType="hashmap">
+		DELETE FROM sns WHERE M_ID
+		= #{sKind} AND S_START_DT LIKE #{inDT};
+	</delete>
+
+	<update id="ChgNowSns" parameterType="hashmap">
+		UPDATE
+		sns SET
+		S_END_DT = #{exitDT} WHERE M_ID = #{sKind} AND S_END_DT LIKE '%0000-00-00 00:00:00%';
+	</update>
 </mapper>

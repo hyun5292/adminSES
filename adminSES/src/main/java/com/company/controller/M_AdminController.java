@@ -1,10 +1,13 @@
 package com.company.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -116,7 +119,7 @@ public class M_AdminController {
 		}
 
 		// 값 넘겨주기
-		model.addAttribute("elLink", "el_sch?mId="+mId+"&StartDT="+StartDT+"&EndDT="+EndDT);
+		model.addAttribute("elLink", "el_sch?mId=" + mId + "&StartDT=" + StartDT + "&EndDT=" + EndDT);
 		model.addAttribute("StartDT", StartDT);
 		model.addAttribute("EndDT", EndDT);
 		model.addAttribute("dto", dto);
@@ -132,5 +135,49 @@ public class M_AdminController {
 			model.addAttribute("last", pgDTO.getTotalCnt() / pgDTO.getContentNum());
 
 		return "/member/m_admin";
+	}
+
+	// 직원 관리자 권한 부여
+	@RequestMapping("/doAuth")
+	public String DoAuth(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException {
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> map = new HashMap<String, Object>();
+		String mId = request.getParameter("mId");
+		boolean result;
+		String reVal = "m_search";
+		
+		map.put("mId", mId);
+		result = Ser_E.MakeDoAuth(map);
+		
+		if(!result) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
+		return "/member/m_search";
+	}
+
+	// 직원 관리자 권한 해지
+	@RequestMapping("/dontAuth")
+	public String DontAuth(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException {
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> map = new HashMap<String, Object>();
+		String mId = request.getParameter("mId");
+		boolean result;
+		String reVal = "m_search";
+		
+		map.put("mId", mId);
+		result = Ser_E.MakeDontAuth(map);
+		
+		if(!result) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
+		return "/member/m_search";
 	}
 }

@@ -363,6 +363,7 @@ public class PageController {
 		PageDTO pgDTO = new PageDTO();
 		String mId = request.getParameter("mId");
 		String pgNum = request.getParameter("pgnum");
+		String elLink = "";
 		if (pgNum == null) // null이면 맨 처음
 			pgNum = "1";
 		// int형으로
@@ -371,7 +372,7 @@ public class PageController {
 		// 직원 정보 가져오기
 		EmployeeDTO dto = Ser_E.GetEInfo(mId);
 
-		if (dto == null) {
+		if (mId == null) {
 			dto = new EmployeeDTO();
 		} else {
 			dto.setE_ENTER_DT(dto.getE_ENTER_DT().split(" ")[0]);
@@ -440,7 +441,8 @@ public class PageController {
 		}
 
 		// 값 넘겨주기
-		model.addAttribute("elLink", "m_admin?mId=" + mId);
+		elLink = "m_admin?mId=" + mId;
+		model.addAttribute("elLink", elLink);
 		model.addAttribute("dto", dto);
 		model.addAttribute("dtos", dtos);
 		model.addAttribute("before", pgDTO.getStartPage() - 1);
@@ -464,39 +466,52 @@ public class PageController {
 		PageDTO pgDTO = new PageDTO();
 		String pgNum = request.getParameter("pgnum");
 		String mId = request.getParameter("mId");
+		String mKind = request.getParameter("mKind");
+		String snsLink = "";
 		float gcnt = Ser_M.PageCnt();
 		float serviceUsercnt = 0;
 		float userAvg = 0;
+		String mId2 = "", formAction = "";
 		if (pgNum == null) // null이면 맨 처음
 			pgNum = "1";
 		// int형으로
 		int pgnum = Integer.parseInt(pgNum);
-
-		if (mId.equals("Naver")) {
-			serviceUsercnt = Ser_M.GetM_NCHK();
-		} else if (mId.equals("Facebook")) {
-			serviceUsercnt = Ser_M.GetM_FBCHK();
-		} else if (mId.equals("Google")) {
-			serviceUsercnt = Ser_M.GetM_GCHK();
-		} else if (mId.equals("Kakaotalk")) {
-			serviceUsercnt = Ser_M.GetM_KTCHK();
+		if (mId != null) {
+			if (mId.equals("Naver")) {
+				serviceUsercnt = Ser_M.GetM_NCHK();
+			} else if (mId.equals("Facebook")) {
+				serviceUsercnt = Ser_M.GetM_FBCHK();
+			} else if (mId.equals("Google")) {
+				serviceUsercnt = Ser_M.GetM_GCHK();
+			} else if (mId.equals("Kakaotalk")) {
+				serviceUsercnt = Ser_M.GetM_KTCHK();
+			}
 		}
 
 		userAvg = (float) (Math.round((serviceUsercnt / gcnt) * 100) / 100.0);
 
+		map.put("mId", mId);
+		map.put("sStartDT", "%"+mKind+"%");
+		
 		// SNS사 담당자 정보 가져오기
-		SnsDTO dto = Ser_S.GetSInfo(mId);
+		SnsDTO dto = Ser_S.GetSInfo(map);
 
+		map = new HashMap<String, Object>();
+		
 		if (dto == null) {
 			dto = new SnsDTO();
+			formAction = "newSns";
 		} else {
 			dto.setS_START_DT(dto.getS_START_DT().split(" ")[0]);
 			dto.setS_END_DT(dto.getS_END_DT().split(" ")[0]);
+			mId2 = "%" + dto.getM_ID() + "-" + dto.getS_START_DT() + "%";
+			map.put("mId", mId2);
+			map.put("mKind", "%" + mKind + "%");
+			formAction = "modifySns";
 		}
 
-		String mId2 = "%" + dto.getM_ID() + "-" + dto.getM_NAME() + "%";
 		// 전체 게시글 개수 설정
-		pgDTO.setTotalCnt(Ser_Q.GetSnsQListCnt(mId2));
+		pgDTO.setTotalCnt(Ser_Q.GetSnsQListCnt(map));
 		// 현재 페이지 번호 설정
 		pgDTO.setPageNum(pgnum);
 		// 보여줄 게시물 수 설정
@@ -518,7 +533,7 @@ public class PageController {
 
 		// 직원 활동 목록 불러오기
 		List<QnaDTO> dtos = Ser_Q.GetSnsQList(map);
-		
+
 		int first = (pgnum - 1) * pgDTO.getContentNum() + 1;
 		int last = first + pgDTO.getContentNum();
 		int j = 0;
@@ -556,8 +571,10 @@ public class PageController {
 			j++;
 		}
 
-		String snsLink = "m_sns?mId="+mId;
+		// 값 넘겨주기
+		snsLink = "m_sns?mId=" + mId+"&mKind="+dto.getS_START_DT();
 		model.addAttribute("snsLink", snsLink);
+		model.addAttribute("formAction", formAction);
 		model.addAttribute("dto", dto);
 		model.addAttribute("gcnt", (int) gcnt);
 		model.addAttribute("svUsercnt", (int) serviceUsercnt);
@@ -572,7 +589,7 @@ public class PageController {
 			model.addAttribute("last", pgDTO.getTotalCnt() / pgDTO.getContentNum() + 1);
 		else
 			model.addAttribute("last", pgDTO.getTotalCnt() / pgDTO.getContentNum());
-		
+
 		return "/member/m_sns";
 	}
 

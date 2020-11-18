@@ -47,8 +47,8 @@ public class QnaService implements QService {
 
 	// 검색된 SNS사 담당자의 문의 내역 개수 가져오기
 	@Override
-	public int GetSnsQListCnt(String mId) {
-		return qDAO.GetSnsQListCnt(mId);
+	public int GetSnsQListCnt(Map<String, Object> map) {
+		return qDAO.GetSnsQListCnt(map);
 	}
 
 	// 날짜별로 검색된 SNS사 담당자의 문의 내역 가져오기

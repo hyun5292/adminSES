@@ -32,4 +32,24 @@ public class EmployeeDAO {
 	public EmployeeDTO GetEInfo(String mId) {
 		return temp.selectOne("eMap.GetEInfo", mId);
 	}
+
+	// 직원 관리자 권한 부여
+	public boolean MakeDoAuth(Map<String, Object> map) {
+		int rs = temp.update("eMap.MakeDoAuth", map);
+		System.out.println(rs);
+		if (rs == 1)
+			return true;
+		else
+			return false;
+	}
+
+	// 직원 관리자 권한 해지
+	public boolean MakeDontAuth(Map<String, Object> map) {
+		int rs = temp.update("eMap.MakeDontAuth", map);
+		System.out.println(rs);
+		if (rs == 1)
+			return true;
+		else
+			return false;
+	}
 }

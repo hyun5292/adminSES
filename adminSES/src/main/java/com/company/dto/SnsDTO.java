@@ -56,7 +56,7 @@ public class SnsDTO {
 	}
 
 	public void setM_KIND(String m_KIND) {
-		M_KIND = "SNS»ç";
+		M_KIND = m_KIND;
 	}
 
 	public int getM_TEL1() {

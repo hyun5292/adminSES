@@ -281,7 +281,7 @@ public class M_SearchController {
 		List<SnsDTO> dtos = Ser_S.GetSchSList(map);
 
 		for (int i = 0; i < dtos.size(); i++) {
-			dtos.get(i).setM_KIND("SNS사");
+			dtos.get(i).setM_KIND(dtos.get(i).getS_START_DT().split(" ")[0]);
 		}
 
 		int first = (pgnum - 1) * pgDTO.getContentNum() + 1;
@@ -351,12 +351,12 @@ public class M_SearchController {
 			result = "m_general";
 		} else if (mKind.equals("직원")) {
 			result = "m_admin";
-		} else if (mKind.equals("SNS사")) {
+		} else {
 			result = "m_sns";
 		}
 
 		model.addAttribute("mId", mId);
-
+		model.addAttribute("mKind", mKind);
 		return "redirect:/" + result;
 	}
 }

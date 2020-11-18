@@ -46,47 +46,36 @@ thead {
 	$('.input-daterange input').each(function() {
 		$(this).datepicker('clearDates');
 	});
-	
+
 	function SearchEmpLog() {
 		var mId = $('#eId').val();
 		var StartDT = $('#StartDT').val();
 		var EndDT = $('#EndDT').val();
-		location.href = "el_sch?mId="+mId+"&StartDT="+StartDT+"&EndDT="+EndDT+";";
+		location.href = "el_sch?mId=" + mId + "&StartDT=" + StartDT + "&EndDT="
+				+ EndDT + ";";
 	}
 	
-	//url 에서 parameter 추출
-	function getParam(sname) {
-		var params = location.search.substr(location.search.indexOf("?") + 1);
-		var sval = "";
-		params = params.split("&");
-		for (var i = 0; i < params.length; i++) {
-			temp = params[i].split("=");
-			if ([ temp[0] ] == sname) {
-				sval = temp[1];
-			}
-		}
-		return sval;
+	function DobtnYesAuth() {
+		var mId = $('#eId').val();
+		location.href = "doAuth?mId=" + mId + ";";
 	}
 	
-	function isRegister(){
-		var mId = getParam("mId");
-		if(mId == null || mId == ""){
-			$("#btnRegister").show();
-		} else {
-			$("#btnRegister").hide();
-			$("#eId").attr("readonly", "true");
-			$("#eTel1").attr("disabled", "true");
-			$("#eTel2").attr("readonly", "true");
-			$("#eTel3").attr("readonly", "true");
-			$("#eRank").attr("readonly", "true");
-			$("#eName").attr("readonly", "true");
-			$("#eEmail1").attr("readonly", "true");
-			$("#eEmail2").attr("disabled", "true");
-			$("#inDT").attr("disabled", "true");
-			$("#exitDT").attr("disabled", "true");
+	function DobtnNoAuth() {
+		var mId = $('#eId').val();
+		location.href = "dontAuth?mId=" + mId + ";";
+	}
+	
+	function isAuth() {
+		var eAuth = $('#eAuth').val();
+		if (eAuth == 'Y') {
+			$("#btnDontAuth").show();
+			$("#btnDoAuth").hide();
+		} else if (eAuth == 'N') {
+			$("#btnDontAuth").hide();
+			$("#btnDoAuth").show();
 		}
 	}
- window.onload=isRegister;
+	window.onload = isAuth;
 </script>
 </head>
 <body>
@@ -129,12 +118,14 @@ thead {
 				<div class="col-md-10">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<table border="0" class="tblInfo" width="100%">
+							<table class="tblInfo" width="100%">
 								<tr>
-									<td width="90%">직원정보</td>
-									<td width="10%" align="right">
-										<button type="button" id="btnRegister" name="btnRegister"
-											class="btn btn-secondary">등록</button>
+									<td>직원 정보</td>
+									<td colspan="10" align="right">
+										<button type="button" id="btnDoAuth" name="btnDoAuth"
+											class="btn btn-secondary" onclick="DobtnYesAuth()">관리자 권한 부여</button>
+										<button type="button" id="btnDontAuth" name="btnDontAuth"
+											class="btn btn-secondary"onclick="DobtnNoAuth()">관리자 권한 해제</button>
 									</td>
 								</tr>
 							</table>
@@ -148,38 +139,17 @@ thead {
 										<td width="20%">
 											<table width="60%">
 												<tr>
-													<td><input type="text" class="form-control" id="eId"
-														name="eId" placeholder="아이디" value="${dto.getM_ID()}"></td>
+													<td>${dto.getM_ID()}</td>
 												</tr>
 											</table>
 										</td>
 										<td align="right" width="10%">전화번호</td>
 										<td width="1%"></td>
 										<td width="45%">
-											<table border="0" width="77%">
-												<tr>
-													<td width="20%"><select class="custom-select"
-														id="eTel1" name="eTel1">
-															<option selected="true">0${dto.getM_TEL1()}</option>
-															<option>010</option>
-															<option>011</option>
-															<option>012</option>
-													</select></td>
-													<td align="center">-</td>
-													<td width="40%"><input type="text"
-														class="form-control" id="eTel2" name="eTel2"
-														value="${dto.getM_TEL2()}"></td>
-													<td align="center">-</td>
-													<td width="40%"><input type="text"
-														class="form-control" id="eTel3" name="eTel3"
-														value="${dto.getM_TEL3()}"></td>
-												</tr>
-											</table>
-										</td>
+											0${dto.getM_TEL1()}-${dto.getM_TEL2()}-${dto.getM_TEL3()}</td>
 										<td align="right" width="5%">직급</td>
 										<td width="1%"></td>
-										<td width="10%"><input type="text" class="form-control"
-											id="eRank" name="eRank" value="${dto.getE_RANK()}"></td>
+										<td width="10%">${dto.getE_RANK()}</td>
 									</tr>
 									<tr>
 										<td colspan="9" height="10px"></td>
@@ -190,52 +160,29 @@ thead {
 										<td width="20%">
 											<table width="60%">
 												<tr>
-													<td><input type="text" class="form-control" id="eName"
-														name="eName" placeholder="성명" value="${dto.getM_NAME()}"></td>
+													<td>${dto.getM_NAME()}</td>
 												</tr>
 											</table>
 										</td>
 										<td align="right">이메일</td>
 										<td width="1%"></td>
-										<td colspan="4"><table>
-												<tr>
-													<td><input type="text" class="form-control"
-														id="eEmail1" name="eEmail1" placeholder="이메일"
-														width="100px" value="${dto.getE_EMAIL1()}"></td>
-													<td>@</td>
-													<td><select class="custom-select" id="eEmail2"
-														name="eEmail2">
-															<option selected="true">${dto.getE_EMAIL2()}</option>
-															<option>naver.com</option>
-															<option>daum.net</option>
-													</select></td>
-												</tr>
-											</table></td>
+										<td colspan="4">${dto.getE_EMAIL1()}@${dto.getE_EMAIL2()}</td>
 									</tr>
 									<tr>
 										<td colspan="9" height="10px"></td>
 									</tr>
 									<tr>
-										<td align="right" colspan="4">입사 및 퇴사일</td>
+										<td>관리 권한</td>
+										<td>${dto.getE_AUTH()}</td>
+										<td align="right" colspan="2">입사 및 퇴사일</td>
 										<td width="1%"></td>
-										<td colspan="4"><table width="70%">
-												<tr>
-													<td>
-														<div class="input-group input-daterange" id="joinDT" name="joinDT">
-															<div class="input-group input-daterange">
-																<input type="text" class="form-control" id="inDT" name="inDT"
-																	data-date-format="yyyy-mm-dd" maxlength="15" value="${dto.getE_ENTER_DT()}">
-																<div class="input-group-addon">to</div>
-																<input type="text" class="form-control" id="exitDT" name="exitDT"
-																	data-date-format="yyyy-mm-dd" maxlength="15" value="${dto.getE_RESIGN_DT()}">
-															</div>
-														</div>
-													</td>
-												</tr>
-											</table></td>
+										<td colspan="4">${dto.getE_ENTER_DT()}&nbsp;&nbsp;to&nbsp;&nbsp;
+											${dto.getE_RESIGN_DT()}</td>
 									</tr>
 								</tbody>
 							</table>
+							<input type="hidden" id="eId" name="eId" value="${dto.getM_ID()}">
+							<input type="hidden" id="eAuth" name="eAuth" value="${dto.getE_AUTH()}">
 						</div>
 					</div>
 				</div>
@@ -248,16 +195,19 @@ thead {
 							<td width="40%" align="right">
 								<div class="input-group input-daterange" id="searchDT">
 									<div class="input-group input-daterange">
-										<input type="text" class="form-control" id="StartDT" name="StartDT"
-											data-date-format="yyyy-mm-dd" maxlength="15" value="${StartDT}">
+										<input type="text" class="form-control" id="StartDT"
+											name="StartDT" data-date-format="yyyy-mm-dd" maxlength="15"
+											value="${StartDT}">
 										<div class="input-group-addon">to</div>
-										<input type="text" class="form-control" id="EndDT" name="EndDT"
-											data-date-format="yyyy-mm-dd" maxlength="15" value="${EndDT}">
+										<input type="text" class="form-control" id="EndDT"
+											name="EndDT" data-date-format="yyyy-mm-dd" maxlength="15"
+											value="${EndDT}">
 									</div>
 								</div>
 							</td>
 							<td width="8%" align="right">
-								<button type="button" onclick="SearchEmpLog()" class="btn btn-secondary">검색</button>
+								<button type="button" onclick="SearchEmpLog()"
+									class="btn btn-secondary">검색</button>
 							</td>
 						</tr>
 						<tr>
@@ -286,14 +236,14 @@ thead {
 								<td colspan="4"></td>
 							</tr>
 							<tr align="center">
-								<td colspan="4"><a
-									href="${elLink}&pgnum=1" style="text-decoration: none">${prev}${prev}</a>
-									<a href="${elLink}&pgnum=${before}"
-									style="text-decoration: none">${prev}</a> <c:forEach
-										items="${pg}" var="p">
+								<td colspan="4"><a href="${elLink}&pgnum=1"
+									style="text-decoration: none">${prev}${prev}</a> <a
+									href="${elLink}&pgnum=${before}" style="text-decoration: none">${prev}</a>
+									<c:forEach items="${pg}" var="p">
 										<a href="${elLink}&pgnum=${p}" style="text-decoration: none">${p}</a>
-									</c:forEach> <a href="${elLink}&pgnum=${after}" style="text-decoration: none">${next}</a>
-									<a href="${elLink}&pgnum=${last}" style="text-decoration: none">${next}${next}</a></td>
+									</c:forEach> <a href="${elLink}&pgnum=${after}"
+									style="text-decoration: none">${next}</a> <a
+									href="${elLink}&pgnum=${last}" style="text-decoration: none">${next}${next}</a></td>
 							</tr>
 						</tfoot>
 					</table>
