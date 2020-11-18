@@ -7,17 +7,14 @@ public class QnaDTO {
 	private String M_ID = "";
 	private int Q_PWD = 0;
 	private String Q_CONTENT = "";
-	private int Q_YEAR = 0;
-	private int Q_MONTH = 0;
-	private int Q_DAY = 0;
+	private String Q_DATE = "";
 	private String Q_REPLY = "";
 	private String Q_chkREPLY = "";
 
 	public QnaDTO() {
 	}
 
-	public QnaDTO(int nUM, int q_NUM, String q_TITLE, String m_ID, int q_PWD, String q_CONTENT, int q_YEAR, int q_MONTH,
-			int q_DAY, String q_REPLY) {
+	public QnaDTO(int nUM, int q_NUM, String q_TITLE, String m_ID, int q_PWD, String q_CONTENT, String q_DATE, String q_REPLY) {
 		super();
 		NUM = nUM;
 		Q_NUM = q_NUM;
@@ -25,23 +22,8 @@ public class QnaDTO {
 		M_ID = m_ID;
 		Q_PWD = q_PWD;
 		Q_CONTENT = q_CONTENT;
-		Q_YEAR = q_YEAR;
-		Q_MONTH = q_MONTH;
-		Q_DAY = q_DAY;
+		Q_DATE = q_DATE;
 		Q_REPLY = q_REPLY;
-	}
-
-	public QnaDTO(String q_TITLE, String m_ID, int q_PWD, String q_CONTENT, int q_YEAR, int q_MONTH, int q_DAY,
-			String q_REPLY) {
-		super();
-		this.Q_TITLE = q_TITLE;
-		this.M_ID = m_ID;
-		this.Q_PWD = q_PWD;
-		this.Q_CONTENT = q_CONTENT;
-		this.Q_YEAR = q_YEAR;
-		this.Q_MONTH = q_MONTH;
-		this.Q_DAY = q_DAY;
-		this.Q_REPLY = q_REPLY;
 	}
 
 	public int getNUM() {
@@ -92,28 +74,12 @@ public class QnaDTO {
 		Q_CONTENT = q_CONTENT;
 	}
 
-	public int getQ_YEAR() {
-		return Q_YEAR;
+	public String getQ_DATE() {
+		return Q_DATE;
 	}
 
-	public void setQ_YEAR(int q_YEAR) {
-		Q_YEAR = q_YEAR;
-	}
-
-	public int getQ_MONTH() {
-		return Q_MONTH;
-	}
-
-	public void setQ_MONTH(int q_MONTH) {
-		Q_MONTH = q_MONTH;
-	}
-
-	public int getQ_DAY() {
-		return Q_DAY;
-	}
-
-	public void setQ_DAY(int q_DAY) {
-		Q_DAY = q_DAY;
+	public void setQ_DATE(String q_DATE) {
+		Q_DATE = q_DATE;
 	}
 
 	public String getQ_REPLY() {
@@ -141,14 +107,13 @@ CREATE TABLE `qna` (
 	`M_ID` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
 	`Q_PWD` INT(5) NOT NULL,
 	`Q_CONTENT` MEDIUMTEXT NOT NULL COLLATE 'utf8_general_ci',
-	`Q_YEAR` INT(11) NOT NULL,
-	`Q_MONTH` INT(11) NOT NULL,
-	`Q_DAY` INT(11) NOT NULL,
+	`Q_DATE` TIMESTAMP NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 	`Q_REPLY` MEDIUMTEXT NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	PRIMARY KEY (`Q_NUM`) USING BTREE
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
-AUTO_INCREMENT=50
+AUTO_INCREMENT=62
 ;
+
  */

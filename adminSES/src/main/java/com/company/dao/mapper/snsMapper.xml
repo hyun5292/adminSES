@@ -12,6 +12,6 @@
 	</select>
 	
 	<select id="GetSInfo" parameterType="String" resultType="com.company.dto.SnsDTO">
-		SELECT * FROM sns WHERE M_ID LIKE #{mId} AND S_END_DT1 LIKE 0;
+		SELECT * FROM sns WHERE M_ID LIKE #{mId} AND S_END_DT LIKE '0000-00-00 00:00:00';
 	</select>
 </mapper>

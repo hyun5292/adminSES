@@ -207,7 +207,7 @@ thead {
 										<tr>
 											<td>${qdto.getNUM()}</td>
 											<td>${qdto.getQ_TITLE()}</td>
-											<td>${qdto.getQ_YEAR()}-${qdto.getQ_MONTH()}-${qdto.getQ_DAY()}</td>
+											<td>${qdto.getQ_DATE()}</td>
 											<td>${qdto.getQ_chkREPLY()}</td>
 										</tr>
 									</c:forEach>
@@ -278,7 +278,7 @@ thead {
 											<td>${pdto.getNUM()}</td>
 											<td>${pdto.getPL_TITLE()}</td>
 											<td>${pdto.getPL_PRICE()}원</td>
-											<td>${pdto.getPL_DATE1()}-${pdto.getPL_DATE2()}-${pdto.getPL_DATE3()}</td>
+											<td>${pdto.getPL_DATE()}</td>
 										</tr>
 									</c:forEach>
 								</tbody>

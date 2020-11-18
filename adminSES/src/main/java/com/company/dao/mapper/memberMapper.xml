@@ -32,11 +32,23 @@
 		* FROM member WHERE M_ID = #{mId};
 	</select>
 	
-	<select id="GeneralCnt" resultType="int">
-		SELECT count(*) FROM member WHERE M_KIND = '일반';
+	<select id="GeneralNotUseCnt" resultType="int">
+		SELECT count(*) FROM member WHERE M_STATE = "N";
 	</select>
 	
-	<select id="GeneralNotUseCnt" resultType="int">
-		SELECT count(*) FROM member WHERE M_KIND = '일반' AND M_STATE = "N";
+	<select id="GetM_NCHK" resultType="int">
+		SELECT count(*) FROM member WHERE M_NCHK = 'Y';
+	</select>
+	
+	<select id="GetM_FBCHK" resultType="int">
+		SELECT count(*) FROM member WHERE M_FBCHK = 'Y';
+	</select>
+	
+	<select id="GetM_GCHK" resultType="int">
+		SELECT count(*) FROM member WHERE M_GCHK = 'Y';
+	</select>
+	
+	<select id="GetM_KTCHK" resultType="int">
+		SELECT count(*) FROM member WHERE M_KTCHK = 'Y';
 	</select>
 </mapper>

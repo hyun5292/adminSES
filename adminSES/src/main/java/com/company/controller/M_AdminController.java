@@ -44,14 +44,11 @@ public class M_AdminController {
 		// 직원 정보 가져오기
 		EmployeeDTO dto = Ser_E.GetEInfo(mId);
 
-		if (dto != null) {
-			if (dto.getE_RESIGN_DT1() == 0) {
-				dto.setE_RESIGN_DT1(dto.getE_ENTER_DT1());
-				dto.setE_RESIGN_DT2(dto.getE_ENTER_DT2());
-				dto.setE_RESIGN_DT3(dto.getE_ENTER_DT3());
-			}
-		} else {
+		if (dto == null) {
 			dto = new EmployeeDTO();
+		} else {
+			dto.setE_ENTER_DT(dto.getE_ENTER_DT().split(" ")[0]);
+			dto.setE_RESIGN_DT(dto.getE_RESIGN_DT().split(" ")[0]);
 		}
 
 		map.put("mId", mId);

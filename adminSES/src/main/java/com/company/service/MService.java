@@ -22,9 +22,18 @@ public interface MService {
 	// 회원 정보 가져오기
 	public MemberDTO GetMInfo(String mId);
 
-	// 일반 회원 수 구하기
-	public int GeneralCnt();
-
 	// 탈퇴한 일반 회원 수 구하기
 	public int GeneralNotUseCnt();
+
+	// 네이버 이용 중인 회원 수 구하기
+	public int GetM_NCHK();
+
+	// 페이스북 이용 중인 회원 수 구하기
+	public int GetM_FBCHK();
+
+	// 구글 이용 중인 회원 수 구하기
+	public int GetM_GCHK();
+
+	// 카톡 이용 중인 회원 수 구하기
+	public int GetM_KTCHK();
 }

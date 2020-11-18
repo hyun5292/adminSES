@@ -51,13 +51,28 @@ public class MemberDAO {
 		return temp.selectOne("mMap.GetMInfo", mId);
 	}
 
-	// 일반 회원 수 구하기
-	public int GeneralCnt() {
-		return temp.selectOne("mMap.GeneralCnt");
-	}
-
 	// 탈퇴한 일반 회원 수 구하기
 	public int GeneralNotUseCnt() {
 		return temp.selectOne("mMap.GeneralNotUseCnt");
+	}
+
+	// 해당 서비스 이용 중인 회원 수 구하기
+	public int GetM_NCHK() {
+		return temp.selectOne("mMap.GetM_NCHK");
+	}
+
+	// 페이스북 이용 중인 회원 수 구하기
+	public int GetM_FBCHK() {
+		return temp.selectOne("mMap.GetM_FBCHK");
+	}
+
+	// 구글 이용 중인 회원 수 구하기
+	public int GetM_GCHK() {
+		return temp.selectOne("mMap.GetM_GCHK");
+	}
+
+	// 카톡 이용 중인 회원 수 구하기
+	public int GetM_KTCHK() {
+		return temp.selectOne("mMap.GetM_KTCHK");
 	}
 }

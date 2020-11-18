@@ -34,10 +34,8 @@ public class M_GeneralController {
 	@RequestMapping("/emp_qna_search")
 	public String EQnaSearchedList(HttpServletRequest request, Model model) {
 		String mId = request.getParameter("mId");
-		String qStartDT1 = request.getParameter("qStartDT");
-		String qEndDT1 = request.getParameter("qEndDT").split(";")[0];
-		String[] qStartDT = qStartDT1.split("/");
-		String[] qEndDT = qEndDT1.split("/");
+		String qStartDT = request.getParameter("qStartDT");
+		String qEndDT = request.getParameter("qEndDT").split(";")[0];
 		Map<String, Object> Qmap = new HashMap<String, Object>();
 		Map<String, Object> Pmap = new HashMap<String, Object>();
 		MemberDTO mdto = new MemberDTO();
@@ -85,10 +83,8 @@ public class M_GeneralController {
 		}
 
 		Qmap.put("mId", mId);
-		Qmap.put("qSYear", qStartDT[0].toString());
-		Qmap.put("qSMonth", qStartDT[1].toString());
-		Qmap.put("qEYear", qEndDT[0].toString());
-		Qmap.put("qEMonth", qEndDT[1].toString());
+		Qmap.put("qSDate", qStartDT);
+		Qmap.put("qEDate", qEndDT);
 
 		// 전체 게시글 개수 설정
 		QpgDTO.setTotalCnt(Ser_Q.getSearchedMemberQListCnt(Qmap));
@@ -200,10 +196,10 @@ public class M_GeneralController {
 				qdtos.get(i).setQ_chkREPLY("O");
 			}
 		}
-		model.addAttribute("qStartDT", qStartDT[0] + "/" + qStartDT[1] + "/" + qStartDT[2]);
-		model.addAttribute("qEndDT", qEndDT[0] + "/" + qEndDT[1] + "/" + qEndDT[2]);
+		model.addAttribute("qStartDT", qStartDT);
+		model.addAttribute("qEndDT", qEndDT);
 
-		model.addAttribute("mgQLink", "emp_qna_search?mId="+mId+"&qStartDT="+qStartDT1+"&qEndDT="+qEndDT1);
+		model.addAttribute("mgQLink", "emp_qna_search?mId="+mId+"&qStartDT="+qStartDT+"&qEndDT="+qEndDT);
 		model.addAttribute("mdto", mdto);
 		model.addAttribute("FB", FB);
 		model.addAttribute("KT", KT);
@@ -239,10 +235,8 @@ public class M_GeneralController {
 	@RequestMapping("/emp_paylog_search")
 	public String EPayLogSearchedList(HttpServletRequest request, Model model) {
 		String mId = request.getParameter("mId");
-		String pStartDT1 = request.getParameter("pStartDT");
-		String pEndDT1 = request.getParameter("pEndDT").split(";")[0];
-		String[] pStartDT = pStartDT1.split("/");
-		String[] pEndDT = pEndDT1.split("/");
+		String pStartDT = request.getParameter("pStartDT");
+		String pEndDT = request.getParameter("pEndDT").split(";")[0];
 		Map<String, Object> Qmap = new HashMap<String, Object>();
 		Map<String, Object> Pmap = new HashMap<String, Object>();
 		MemberDTO mdto = new MemberDTO();
@@ -290,10 +284,8 @@ public class M_GeneralController {
 		}
 
 		Pmap.put("mId", mId);
-		Pmap.put("pSYear", pStartDT[0].toString());
-		Pmap.put("pSMonth", pStartDT[1].toString());
-		Pmap.put("pEYear", pEndDT[0].toString());
-		Pmap.put("pEMonth", pEndDT[1].toString());
+		Pmap.put("pSDate", pStartDT);
+		Pmap.put("pEYear", pEndDT);
 
 		// 전체 게시글 개수 설정
 		QpgDTO.setTotalCnt(Ser_Q.getMemberQListCnt(mId));
@@ -405,8 +397,8 @@ public class M_GeneralController {
 				qdtos.get(i).setQ_chkREPLY("O");
 			}
 		}
-		model.addAttribute("pStartDT", pStartDT[0] + "/" + pStartDT[1] + "/" + pStartDT[2]);
-		model.addAttribute("pEndDT", pEndDT[0] + "/" + pEndDT[1] + "/" + pEndDT[2]);
+		model.addAttribute("pStartDT", pStartDT);
+		model.addAttribute("pEndDT", pEndDT);
 
 		model.addAttribute("mgQLink", "m_general?mId="+mId);
 		model.addAttribute("mdto", mdto);
@@ -425,7 +417,7 @@ public class M_GeneralController {
 		else
 			model.addAttribute("qlast", QpgDTO.getTotalCnt() / QpgDTO.getContentNum());
 
-		model.addAttribute("mgPLLink", "emp_paylog_search?mId="+mId+"&pStartDT="+pStartDT1+"&pEndDT="+pEndDT1);
+		model.addAttribute("mgPLLink", "emp_paylog_search?mId="+mId+"&pStartDT="+pStartDT+"&pEndDT="+pEndDT);
 		model.addAttribute("pdtos", pdtos);
 		model.addAttribute("pbefore", PpgDTO.getStartPage() - 1);
 		model.addAttribute("pafter", PpgDTO.getEndPage() + 1);

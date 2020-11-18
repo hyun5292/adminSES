@@ -54,7 +54,7 @@ thead {
 	$('.input-daterange input').each(function() {
 		$(this).datepicker('clearDates');
 	});
-	
+
 	//url 에서 parameter 추출
 	function getParam(sname) {
 		var params = location.search.substr(location.search.indexOf("?") + 1);
@@ -69,9 +69,16 @@ thead {
 		return sval;
 	}
 	
-	function isRegister(){
+	function SearchSnsQLog() {
 		var mId = getParam("mId");
-		if(mId == null || mId == ""){
+		var StartDT = $('#StartDT').val();
+		var EndDT = $('#EndDT').val();
+		location.href = "sns_qsch?mId="+mId+"&StartDT="+StartDT+"&EndDT="+EndDT+";";
+	}
+
+	function isRegister() {
+		var mId = getParam("mId");
+		if (mId == null || mId == "") {
 			$("#btnRegister").show();
 			$("#btnRemove").hide();
 		} else {
@@ -79,7 +86,7 @@ thead {
 			$("#btnRemove").show();
 		}
 	}
- window.onload=isRegister;
+	window.onload = isRegister;
 </script>
 </head>
 <body>
@@ -126,8 +133,10 @@ thead {
 								<tr>
 									<td>SNS사 담당자 정보</td>
 									<td colspan="10" align="right">
-										<button type="button" id="btnRegister" name="btnRegister" class="btn btn-secondary">등록</button>
-										<button type="button" id="btnRemove" name="btnRemove" class="btn btn-secondary">수정</button>
+										<button type="button" id="btnRegister" name="btnRegister"
+											class="btn btn-secondary">등록</button>
+										<button type="button" id="btnRemove" name="btnRemove"
+											class="btn btn-secondary">수정</button>
 									</td>
 								</tr>
 							</table>
@@ -141,14 +150,15 @@ thead {
 										<td width="20%">
 											<table width="90%">
 												<tr>
-													<td><input type="text" class="form-control"
-														id="sName" name="sName" placeholder="성명" value="${dto.getM_NAME()}"></td>
+													<td><input type="text" class="form-control" id="sName"
+														name="sName" placeholder="성명" value="${dto.getM_NAME()}"></td>
 												</tr>
 											</table>
 										</td>
 										<td align="right" width="10%">SNS사</td>
 										<td width="1%"></td>
-										<td width="10%" font-size="1.3rem"><select class="custom-select" id="sKind" name="sKind">
+										<td width="10%" font-size="1.3rem"><select
+											class="custom-select" id="sKind" name="sKind">
 												<option selected="true">${dto.getM_ID()}</option>
 												<option>Naver</option>
 												<option>Facebook</option>
@@ -160,7 +170,8 @@ thead {
 										<td width="40%">
 											<table border="0" width="77%">
 												<tr>
-													<td width="30%"><select class="custom-select" id="sTel1" name="sTel1">
+													<td width="30%"><select class="custom-select"
+														id="sTel1" name="sTel1">
 															<option selected="true">0${dto.getM_TEL1()}</option>
 															<option>010</option>
 															<option>011</option>
@@ -168,10 +179,12 @@ thead {
 													</select></td>
 													<td align="center">-</td>
 													<td width="35%"><input type="text"
-														class="form-control" id="sTel2" name="sTel2" value="${dto.getM_TEL2()}"></td>
+														class="form-control" id="sTel2" name="sTel2"
+														value="${dto.getM_TEL2()}"></td>
 													<td align="center">-</td>
 													<td width="35%"><input type="text"
-														class="form-control" id="sTel3" name="sTel3" value="${dto.getM_TEL3()}"></td>
+														class="form-control" id="sTel3" name="sTel3"
+														value="${dto.getM_TEL3()}"></td>
 												</tr>
 											</table>
 										</td>
@@ -185,8 +198,8 @@ thead {
 										<td width="20%">
 											<table width="90%">
 												<tr>
-													<td><input type="text" class="form-control"
-														id="sDept" name="sDept" placeholder="부서" value="${dto.getS_DEPT()}"></td>
+													<td><input type="text" class="form-control" id="sDept"
+														name="sDept" placeholder="부서" value="${dto.getS_DEPT()}"></td>
 												</tr>
 											</table>
 										</td>
@@ -197,11 +210,15 @@ thead {
 													<td>
 														<div class="input-group input-daterange" id="joinDT">
 															<div class="input-group input-daterange">
-																<input type="text" class="form-control" id="inDT" name="inDT"
-																	data-date-format="yyyy-mm-dd" maxlength="15" value="${dto.getS_START_DT1()}-${dto.getS_START_DT2()}-${dto.getS_START_DT3()}">
+																<input type="text" class="form-control" id="inDT"
+																	name="inDT" data-date-format="yyyy-mm-dd"
+																	maxlength="15"
+																	value="${dto.getS_START_DT()}">
 																<div class="input-group-addon">to</div>
-																<input type="text" class="form-control" id="exitDT" name="exitDT"
-																	data-date-format="yyyy-mm-dd" maxlength="15" value="${dto.getS_END_DT1()}-${dto.getS_END_DT2()}-${dto.getS_END_DT3()}">
+																<input type="text" class="form-control" id="exitDT"
+																	name="exitDT" data-date-format="yyyy-mm-dd"
+																	maxlength="15"
+																	value="${dto.getS_END_DT()}">
 															</div>
 														</div>
 													</td>
@@ -223,17 +240,17 @@ thead {
 								<tr align="center">
 									<td>이용자</td>
 									<td width="5px"></td>
-									<td>000,000 명</td>
+									<td>${svUsercnt}명</td>
 									<td width="5px"></td>
 									<td>/</td>
 									<td width="5px"></td>
 									<td>총 회원</td>
 									<td width="5px"></td>
-									<td>000,000 명</td>
+									<td>${gcnt}명</td>
 									<td width="5px"></td>
 									<td>=></td>
 									<td width="5px"></td>
-									<td>00 %</td>
+									<td>${userAvg}%</td>
 								</tr>
 							</table>
 						</div>
@@ -248,16 +265,16 @@ thead {
 							<td width="40%" align="right">
 								<div class="input-group input-daterange" id="searchDT">
 									<div class="input-group input-daterange">
-										<input type="text" class="form-control"
-											data-date-format="yyyy-mm-dd" maxlength="15">
+										<input type="text" class="form-control" id="StartDT" name="StartDT"
+											data-date-format="yyyy-mm-dd" maxlength="15" value="${StartDT}">
 										<div class="input-group-addon">to</div>
-										<input type="text" class="form-control"
-											data-date-format="yyyy-mm-dd" maxlength="15">
+										<input type="text" class="form-control" id="EndDT" name="EndDT"
+											data-date-format="yyyy-mm-dd" maxlength="15" value="${EndDT}">
 									</div>
 								</div>
 							</td>
 							<td width="8%" align="right">
-								<button type="button" class="btn btn-secondary">검색</button>
+								<button type="button" onclick="SearchSnsQLog()" class="btn btn-secondary">검색</button>
 							</td>
 						</tr>
 						<tr>
@@ -273,63 +290,31 @@ thead {
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>00</td>
-								<td>제목이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>제목이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>제목이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>제목이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>제목이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>제목이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>제목이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>제목이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>제목이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
-							<tr>
-								<td>00</td>
-								<td>제목이다아아아아</td>
-								<td>0000-00-00</td>
-							</tr>
+							<c:forEach items="${dtos}" var="dto">
+								<tr>
+									<td>${dto.getNUM()}</td>
+									<td><a href="#">${dto.getQ_TITLE()}</a></td>
+									<td>${dto.getQ_DATE()}</td>
+								</tr>
+							</c:forEach>
 						</tbody>
 						<tfoot>
 							<tr>
-								<td colspan="4"></td>
+								<td colspan="5"></td>
 							</tr>
 							<tr align="center">
-								<td colspan="4"><< < 1 2 3 4 5 6 7 8 9 10 > >></td>
+								<td colspan="5"><a
+									href="${snsLink}&pgnum=1"
+									style="text-decoration: none">${prev}${prev}</a> <a
+									href="${snsLink}&pgnum=${before}"
+									style="text-decoration: none">${prev}</a> <c:forEach
+										items="${pg}" var="p">
+										<a href="${snsLink}&pgnum=${p}"
+											style="text-decoration: none">${p}</a>
+									</c:forEach> <a href="${snsLink}&pgnum=${after}"
+									style="text-decoration: none">${next}</a> <a
+									href="${snsLink}&pgnum=${last}"
+									style="text-decoration: none">${next}${next}</a></td>
 							</tr>
 						</tfoot>
 					</table>

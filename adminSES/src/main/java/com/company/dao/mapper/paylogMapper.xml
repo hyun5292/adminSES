@@ -5,7 +5,7 @@
 	<select id="getMemberPLList" parameterType="hashmap"
 		resultType="com.company.dto.PayLogDTO">
 		SELECT * FROM pay_log WHERE M_ID LIKE #{mId} ORDER BY
-		PL_DATE1 DESC, PL_DATE2 DESC, PL_DATE3 DESC limit
+		PL_DATE DESC limit
 		#{startNum},
 		#{ContentNum};
 	</select>
@@ -18,19 +18,16 @@
 	<select id="getSearchedMemberPLListCnt" parameterType="hashmap"
 		resultType="int">
 		SELECT count(*) FROM pay_log WHERE M_ID LIKE #{mId} AND
-		PL_DATE1
-		BETWEEN #{pSYear} AND #{pEYear} AND PL_DATE2 BETWEEN
-		#{pSMonth} AND
-		#{pEMonth};
+		PL_DATE
+		BETWEEN #{pSDate} AND #{pEDate};
 	</select>
 
 	<select id="getSearchedMemberPLList" parameterType="hashmap"
 		resultType="com.company.dto.PayLogDTO">
-		SELECT * FROM pay_log WHERE M_ID LIKE #{mId} AND PL_DATE1
-		BETWEEN #{pSYear} AND #{pEYear} AND PL_DATE2 BETWEEN #{pSMonth} AND
-		#{pEMonth} ORDER BY PL_DATE1
-		DESC, PL_DATE2
-		DESC, PL_DATE3 DESC limit
+		SELECT * FROM pay_log WHERE M_ID LIKE #{mId} AND
+		PL_DATE
+		BETWEEN #{pSDate} AND #{pEDate} ORDER BY PL_DATE
+		DESC limit
 		#{startNum},
 		#{ContentNum};
 	</select>

@@ -224,10 +224,10 @@ thead {
 														<div class="input-group input-daterange" id="joinDT" name="joinDT">
 															<div class="input-group input-daterange">
 																<input type="text" class="form-control" id="inDT" name="inDT"
-																	data-date-format="yyyy-mm-dd" maxlength="15" value="${dto.getE_ENTER_DT1()}-${dto.getE_ENTER_DT2()}-${dto.getE_ENTER_DT3()}">
+																	data-date-format="yyyy-mm-dd" maxlength="15" value="${dto.getE_ENTER_DT()}">
 																<div class="input-group-addon">to</div>
 																<input type="text" class="form-control" id="exitDT" name="exitDT"
-																	data-date-format="yyyy-mm-dd" maxlength="15" value="${dto.getE_RESIGN_DT1()}-${dto.getE_RESIGN_DT2()}-${dto.getE_RESIGN_DT3()}">
+																	data-date-format="yyyy-mm-dd" maxlength="15" value="${dto.getE_RESIGN_DT()}">
 															</div>
 														</div>
 													</td>

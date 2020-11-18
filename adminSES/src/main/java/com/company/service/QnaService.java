@@ -38,4 +38,28 @@ public class QnaService implements QService {
 	public List<QnaDTO> getSearchedMemberQList(Map<String, Object> qmap) {
 		return qDAO.getSearchedMemberQList(qmap);
 	}
+
+	// 검색된 SNS사 담당자의 문의 내역 개수 가져오기
+	@Override
+	public List<QnaDTO> GetSnsQList(Map<String, Object> map) {
+		return qDAO.GetSnsQList(map);
+	}
+
+	// 검색된 SNS사 담당자의 문의 내역 개수 가져오기
+	@Override
+	public int GetSnsQListCnt(String mId) {
+		return qDAO.GetSnsQListCnt(mId);
+	}
+
+	// 날짜별로 검색된 SNS사 담당자의 문의 내역 가져오기
+	@Override
+	public List<QnaDTO> GetSchSnsQList(Map<String, Object> map) {
+		return qDAO.GetSchSnsQList(map);
+	}
+
+	// 날짜별로 검색된 SNS사 담당자의 문의 내역 개수 가져오기
+	@Override
+	public int GetSchSnsQListCnt(Map<String, Object> map) {
+		return qDAO.GetSchSnsQListCnt(map);
+	}
 }

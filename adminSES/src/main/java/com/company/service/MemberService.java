@@ -45,15 +45,33 @@ public class MemberService implements MService {
 		return mDAO.GetMInfo(mId);
 	}
 
-	// 일반 회원 수 구하기
-	@Override
-	public int GeneralCnt() {
-		return mDAO.GeneralCnt();
-	}
-
 	// 탈퇴한 일반 회원 수 구하기
 	@Override
 	public int GeneralNotUseCnt() {
 		return mDAO.GeneralNotUseCnt();
+	}
+
+	// 해당 서비스 이용 중인 회원 수 구하기
+	@Override
+	public int GetM_NCHK() {
+		return mDAO.GetM_NCHK();
+	}
+
+	// 페이스북 이용 중인 회원 수 구하기
+	@Override
+	public int GetM_FBCHK() {
+		return mDAO.GetM_FBCHK();
+	}
+
+	// 구글 이용 중인 회원 수 구하기
+	@Override
+	public int GetM_GCHK() {
+		return mDAO.GetM_GCHK();
+	}
+
+	// 카톡 이용 중인 회원 수 구하기
+	@Override
+	public int GetM_KTCHK() {
+		return mDAO.GetM_KTCHK();
 	}
 }

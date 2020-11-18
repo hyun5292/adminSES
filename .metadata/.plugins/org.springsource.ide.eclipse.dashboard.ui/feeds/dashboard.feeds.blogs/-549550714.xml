@@ -5,7 +5,361 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2020-11-13T12:50:42Z</updated>
+  <updated>2020-11-18T07:55:11Z</updated>
+  <entry>
+    <title>Spring Data 2020.0 - New and Noteworthy in Spring Data R2DBC 1.2</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/11/18/spring-data-2020-0-new-and-noteworthy-in-spring-data-r2dbc-1-2" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Mark Paluch</name>
+    </author>
+    <id>tag:spring.io,2020-11-05:4257</id>
+    <updated>2020-11-18T07:55:11Z</updated>
+    <content type="html">&lt;p&gt;This release is a major milestone in Spring&amp;rsquo;s R2DBC support. Spring support for R2DBC started as an experimental project two years ago to evaluate how a reactive SQL integration might look. With this release, Spring Data R2DBC underwent a major refactoring by moving several components into a dedicated &lt;code&gt;spring-r2dbc&lt;/code&gt; module and deprecating components that are provided by the Spring Framework. Besides that change, Spring Data R2DBC ships with the following most notable changes:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Add lifecycle callbacks through the &lt;code&gt;EntityCallback&lt;/code&gt; API&lt;/li&gt;
+  &lt;li&gt;Reactive auditing&lt;/li&gt;
+  &lt;li&gt;Pass-through of &lt;code&gt;enum&lt;/code&gt; values and Postgres Geo types&lt;/li&gt;
+&lt;/ul&gt;&lt;h2&gt;&lt;a href="#spring-r2dbc" class="anchor" name="spring-r2dbc"&gt;&lt;/a&gt;Spring R2DBC&lt;/h2&gt;
+&lt;p&gt;Spring Data R2DBC is now based on &lt;code&gt;spring-r2dbc&lt;/code&gt;, a new module in Spring Framework that ships with core R2DBC support, such as &lt;code&gt;DatabaseClient&lt;/code&gt;, &lt;code&gt;ConnectionFactoryInitializer&lt;/code&gt;, and &lt;code&gt;R2dbcTransactionManager&lt;/code&gt;. Those components were deprecated in favor of Spring R2DBC components and marked for removal with the next major Spring Data R2DBC release. See the &lt;a href="https://docs.spring.io/spring-data/r2dbc/docs/current/reference/html/#upgrading.1.1-1.2"&gt;migration guide&lt;/a&gt; to learn about deprecations and what replacement API to use.&lt;/p&gt;&lt;h2&gt;&lt;a href="#lifecycle-entitycallback-api" class="anchor" name="lifecycle-entitycallback-api"&gt;&lt;/a&gt;Lifecycle EntityCallback API&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://spring.io/blog/2019/10/08/what-s-new-in-spring-data-moore"&gt;Spring Data Moore introduced&lt;/a&gt; the &lt;a href="https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/mapping/callback/EntityCallbacks.html"&gt;&lt;code&gt;EntityCallback&lt;/code&gt; API&lt;/a&gt; to pre-process and post-process entities upon load, save, and delete operations. Entity callbacks are invoked during persistence operations and allow in-place modifications to entities and returning new object instances if an entity class is immutable.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;EntityCallback&lt;/code&gt; interfaces are reactive-enabled by returning &lt;code&gt;Publisher&amp;lt;T&amp;gt;&lt;/code&gt; where &lt;code&gt;T&lt;/code&gt; represents the entity type. Returning a publisher allows consuming the subscriber context (as is done for reactive auditing) or integrating with other reactive components that perform I/O before saving an entity or after loading one.&lt;/p&gt;
+&lt;p&gt;You can use &lt;code&gt;EntityCallback&lt;/code&gt; for all sorts of callback hooks. The following example defines a &lt;code&gt;BeforeConvertCallback&lt;/code&gt; to generate a primary key value from a H2 sequence for the &lt;code&gt;Customer&lt;/code&gt; type if its identifier is &lt;code&gt;null&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;@Bean  &#xD;
+BeforeConvertCallback&amp;lt;Customer&amp;gt; idGeneratingCallback(DatabaseClient databaseClient) {  &#xD;
+  &#xD;
+   return (customer, sqlIdentifier) -&amp;gt; {  &#xD;
+  &#xD;
+      if (customer.getId() == null) {  &#xD;
+  &#xD;
+         return databaseClient.sql(&amp;quot;SELECT primary_key.nextval&amp;quot;) //  &#xD;
+  .map(row -&amp;gt; row.get(0, Long.class)) //  &#xD;
+  .first() //  &#xD;
+  .map(customer::withId);  &#xD;
+      }  &#xD;
+  &#xD;
+      return Mono.just(customer);  &#xD;
+   };  &#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can read more about &lt;a href="https://docs.spring.io/spring-data/r2dbc/docs/current/reference/html/#r2dbc.entity-callbacks"&gt;R2DBC EntityCallbacks&lt;/a&gt; in the &lt;a href="https://docs.spring.io/spring-data/r2dbc/docs/current/reference/html/"&gt;R2DBC reference documentation&lt;/a&gt;.&lt;/p&gt;&lt;h2&gt;&lt;a href="#pass-thru-of-code-enum-code-values-and-postgres-geo-types" class="anchor" name="pass-thru-of-code-enum-code-values-and-postgres-geo-types"&gt;&lt;/a&gt;Pass-thru of &lt;code&gt;enum&lt;/code&gt; Values and Postgres Geo Types&lt;/h2&gt;
+&lt;p&gt;Postgres supports various data types, of which enumerations and Geometric types can be used directly from Spring Data R2DBC. By default, Spring Data converts &lt;code&gt;enum&lt;/code&gt; values to &lt;code&gt;String&lt;/code&gt; by using the enum&amp;rsquo;s &lt;code&gt;name()&lt;/code&gt; method to represent the enumeration value. R2DBC Postgres supports (since version 0.8.4) a specific codec that accepts Java &lt;code&gt;enum&lt;/code&gt; types and maps these onto the corresponding Postgres enum type. &lt;/p&gt;
+&lt;p&gt;Consider the following Java &lt;code&gt;enum&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;enum Color {&#xD;
+	Blue, Green, White&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Enumeration types in Postgres need to be created before using enum types:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint sql"&gt;CREATE TYPE color_enum as enum (&amp;#39;Blue&amp;#39;, &amp;#39;Green&amp;#39;, `White`);&#xD;
+&#xD;
+CREATE TABLE product (id SERIAL PRIMARY KEY, color color_enum);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Once the enum type is in place, you need to configure the driver to associate the Java enum with the corresponding Postgres enum type. This is done by using the R2DBC Postgres &lt;code&gt;EnumCodec&lt;/code&gt; builder . The resulting &lt;code&gt;CodecRegistrar&lt;/code&gt; must be registered with the connection configuration before creating a &lt;code&gt;ConnectionFactory&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;CodecRegistrar codecRegistrar = EnumCodec.builder().withEnum(&amp;quot;color_enum&amp;quot;, Color.class).build();&#xD;
+&#xD;
+PostgresqlConnectionConfiguration configuration = PostgresqlConnectionConfiguration.builder()&#xD;
+ &#xD;
+    .codecRegistrar(codecRegistrar)&#xD;
+ &#xD;
+    // additional configuration&#xD;
+    .build();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;See also the &lt;a href="https://github.com/pgjdbc/r2dbc-postgresql#postgres-enum-types"&gt;driver documentation on Postgres Enum Types&lt;/a&gt; for further reference.&lt;/p&gt;
+&lt;p&gt;Once the &lt;code&gt;ConnectionFactory&lt;/code&gt; is configured, you can configure specific &lt;code&gt;enum&lt;/code&gt; types in Spring Data to be passed-thru to the driver with their actual value instead of converting the enum value to &lt;code&gt;String&lt;/code&gt;. &lt;code&gt;R2dbcCustomConversions&lt;/code&gt; is the entry point to use when configuring simple types and their converters:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;R2dbcCustomConversions conversions = R2dbcCustomConversions.of(PostgresDialect.INSTANCE, new ColorConverter());
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now you can use the enumeration type in your domain class:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;class Product {&#xD;
+  @Id Integer id;&#xD;
+  Color color;&#xD;
+  // getter, setter, constructors omitted for brevity&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;See the reference documentation on &lt;a href="https://docs.spring.io/spring-data/r2dbc/docs/current/reference/html/#mapping.explicit.enum.converters"&gt;Overriding Enum Mapping with Explicit Converters&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In contrast to enums, using Postgres Geometric types requires no special setup since Geo types have fixed type identifiers and map to individual Geo types. Spring Data R2DBC supports the use of the following driver-specific types in your entities:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;io.r2dbc.postgresql.codec.Box&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;io.r2dbc.postgresql.codec.Circle&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;io.r2dbc.postgresql.codec.Line&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;io.r2dbc.postgresql.codec.Lseg&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;io.r2dbc.postgresql.codec.Point&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;io.r2dbc.postgresql.codec.Path&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;io.r2dbc.postgresql.codec.Polygon&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Alternatively, you can use Spring Data&amp;rsquo;s Geo Types in your domain model:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code&gt;org.springframework.data.geo.Box&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;org.springframework.data.geo.Circle&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;org.springframework.data.geo.Point&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code&gt;org.springframework.data.geo.Polygon&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To use Geometric types, create a table and a corresponding entity type:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint sql"&gt;CREATE TABLE venue (id SERIAL PRIMARY KEY, name VARCHAR(255), location POINT);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;class Venue {&#xD;
+  @Id Long id;&#xD;
+  String name;&#xD;
+  Point location;&#xD;
+  // getter, setter, constructors omitted for brevity&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Finally, you can use the entity in your application:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;R2dbcEntityTemplate template = ¡¦;&#xD;
+&#xD;
+template.insert(new Venue(null, &amp;quot;Seattle Space Needle&amp;quot;, Point.of(47.6204,-122.3491));
+&lt;/code&gt;&lt;/pre&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>This Week in Spring - November 17th, 2020</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/11/18/this-week-in-spring-november-17th-2020" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2020-11-18:4272</id>
+    <updated>2020-11-18T01:38:03Z</updated>
+    <content type="html">&lt;p&gt;Hi, Spring fans! Can you believe it&amp;rsquo;s already November 17th, 2020!? We&amp;rsquo;re &lt;em&gt;weeks&lt;/em&gt; away from Thanksgiving here in the US and then the end-of-year holidays. I, for one, can not believe it. You know what else is pretty wild? The first week of January will be ten years of writing &lt;em&gt;This Week in Spring&lt;/em&gt;! &lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;ve got a pretty busy appearance schedule between now and the end of the year though. I&amp;rsquo;d love to see you at any of these events. &lt;/p&gt;
+&lt;div&gt;&#xD;
+&lt;OL&gt;&#xD;
+&#xD;
+&lt;li&gt;&lt;em&gt;2020-11-17&lt;/em&gt; - &lt;a href="https://instil.co/2020/11/03/the-redeye-bash/"&gt;Ireland Bash Talk &lt;/a&gt;  - I'll be speaking _tonight_ (California, USA / PDT time) &lt;/li&gt;&#xD;
+&lt;li&gt;&lt;em&gt;2020-11-18&lt;/em&gt; - &lt;a href="https://jcconf.tw/2020/"&gt;JCConf keynote speaker - Rsocket Revolution&lt;/a&gt;&lt;/li&gt;&#xD;
+&lt;li&gt;&lt;em&gt;2020-11-18&lt;/em&gt; - &lt;a href="https://plus.qconferences.com/"&gt;QCon Plus&lt;/a&gt; - I'll be doing a presentation and doing live Q&amp;amp;A&lt;/li&gt;&#xD;
+&lt;li&gt;&lt;em&gt;2020-11-19&lt;/em&gt; - the &lt;a href="https://www.meetup.com/KansasCityJUG/events/274575027/"&gt;Kansas City JUG&lt;/a&gt;&lt;/li&gt;&#xD;
+&lt;li&gt;&lt;em&gt;2020-11-22&lt;/em&gt; - &lt;a href="https://gdg.community.dev/events/details/google-gdg-shanghai-presents-devfest-shanghai-2020/"&gt;GDG Devfest Shanghai&lt;/a&gt;&lt;/li&gt;&#xD;
+&lt;li&gt;&lt;em&gt;2020-11-23&lt;/em&gt; - &lt;a href="http://www.javahispano.org/portada/2020/11/11/reactive-spring-con-josh-long.html"&gt;JavaHispano JUG presentation&lt;/a&gt;&lt;/li&gt;&#xD;
+&lt;li&gt;&lt;em&gt;2020-12-03&lt;/em&gt; - &lt;a href="https://www.meetup.com/KnoxJava/events/nmfmbrybcpbwb/"&gt;Knoxville JUG&lt;/a&gt;&lt;/li&gt;&#xD;
+&lt;li&gt;&lt;em&gt;2020-12-04&lt;/em&gt; - &lt;a href="https://javaconf.love/"&gt;I'll be speaking at the jLove conference, participating in both a talk and a panel&lt;/a&gt;&lt;/li&gt;&#xD;
+&lt;li&gt;&lt;em&gt;2020-12-07&lt;/em&gt; - Join me, Spring Developer Advocate Josh Long for this 90 minute exploration of &lt;a href="https://tanzu.vmware.com/content/webinars/8-dec-springone-tour-apj"&gt;all things reactive and RSocket in Spring&lt;/a&gt;. This is ideally timed for &lt;a href="https://tanzu.vmware.com/content/webinars/8-dec-reactive-spring"&gt;folks in APJ&lt;/a&gt;, so sign up now!&lt;/li&gt;&#xD;
+&lt;li&gt;&lt;em&gt;2020-12-15&lt;/em&gt; - I'll be speaking at the Warsaw, Poland JUG - &lt;a href="https://warszawa.jug.pl/"&gt;&lt;em&gt;Warszawa JUG&lt;/em&gt;. Check the website for more details as they become available&lt;/a&gt;&lt;/li&gt;&#xD;
+&lt;li&gt;&lt;em&gt;2020-12-23&lt;/em&gt; - Join me on our &lt;a href="http://twitch.tv/vmwaretanzu"&gt;VMWare Tanzu &lt;/a&gt; channel - I'll be doing a &amp;quot;Code&amp;quot; stream at noon PDT &lt;/li&gt;&#xD;
+&#xD;
+&#xD;
+&lt;/OL&gt;&#xD;
+&lt;/div&gt;
+&lt;p&gt;And, with all that out of the way, we&amp;rsquo;ve got a &lt;em&gt;ton&lt;/em&gt; of stuff to get to this week so let&amp;rsquo;s dive right in! &lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/11/12/a-bootiful-podcast-spring-boot-2-4-and-living-legend-cto-and-friend-john-davies"&gt;A Bootiful Podcast: Spring Boot 2.4 and living legend, CTO, and friend John Davies&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://pinniped.dev/posts/a-seal-of-approval/"&gt;A Seal of Approval: Project Pinniped&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://www.infoq.com/news/2020/11/aws-amazon-mq-rabbitmq/?itm_campaign=rightbar_v2&amp;itm_source=infoq&amp;itm_medium=news_link&amp;itm_content=link_text"&gt;AWS Announces Amazon MQ Will Support RabbitMQ&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://inside.java/2020/11/16/biased-locking-obsoletion/"&gt;Biased locking Obsoletion&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://blogs.vmware.com/opensource/2020/11/17/buildkit-cli-for-kubectl/"&gt;BuildKit CLI for kubectl: A New Way to Build Container Images&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/11/16/case-study-elasticsearch-sink"&gt;Case Study: Elasticsearch sink&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://inside.java/2020/11/17/podcast-007/"&gt;Episode 7 ¡°The Vector API¡± with John Rose and Paul Sandoz&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://www.sothawo.com/2020/11/implement-a-rolling-index-strategy-with-spring-data-elasticsearch-4-1/"&gt;Implement a rolling index strategy with Spring Data Elasticsearch 4.1 | sothawo&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/mraible/status/1328791798089740290?s=12"&gt;Matt Raible looks at ways to secure your applications with Spring Security&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://inside.java/2020/11/13/new-lanai-ea-build/"&gt;New Project Lanai Early Access build&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://inside.java/2020/11/12/openjdk-projects-give-rise-to-innovation/"&gt;OpenJDK Projects Give Rise to Innovations in JDK 15 and Beyond&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://r2dbc.io/2020/11/10/r2dbc-joins-reactive-foundation"&gt;R2DBC joins Reactive Foundation&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/11/13/spring-boot-2-3-6-available-now"&gt;Spring Boot 2.3.6 available now&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/11/12/spring-boot-2-4-0-available-now"&gt;Spring Boot 2.4.0 available now&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://blog.codecentric.de/en/2020/11/spring-boot-kong/"&gt;Spring Boot and Kong - another great post by Jonas Hecht over on Codecentric&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/11/13/spring-data-2020-0-new-and-noteworthy-in-spring-data-mongodb-3-1"&gt;Spring Data 2020.0 - New and Noteworthy in Spring Data MongoDB 3.1&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2020/11/11/spring-data-2020-0-1-released"&gt;Spring Data 2020.0.1 released&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://blogs.vmware.com/opensource/2020/11/12/vmware-and-kubernetes-community-leaders/"&gt;VMware and Kubernetes Community Leaders&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/cloudfoundry/status/1326590899950931969"&gt; Cloud Foundry Is A Developer Experience For #Kubernetes &lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/java/status/1326994457313464321"&gt; Update on 64-bit ARM Support for Oracle OpenJDK and Oracle JDK &lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://twitter.com/java/status/1327301507457314816"&gt; Proposed to target JDK 16: JEP 389: Foreign Linker API (Incubator) &lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://www.haproxy.com/blog/vsphere-7-with-tanzu-integrates-with-haproxy-for-load-balancing-enterprise-grade-kubernetes/"&gt;vSphere 7 with Tanzu Integrates with HAProxy for Load Balancing Enterprise-grade Kubernetes - HAProxy Technologies&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Case Study: Elasticsearch sink</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/11/16/case-study-elasticsearch-sink" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Soby Chacko</name>
+    </author>
+    <id>tag:spring.io,2020-11-12:4268</id>
+    <updated>2020-11-16T19:02:17Z</updated>
+    <content type="html">&lt;div class="paragraph"&gt;
+&lt;p&gt;This article is part of a blog series that explores the newly redesigned Spring Cloud Stream applications based on Java Functions. In this post, we will look at the Elasticsearch sink that allows us to index records in Elasticsearch, and its corresponding Consumer function.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Here are all the previous parts of this blog series.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="ulist"&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://spring.io/blog/2020/07/13/introducing-java-functions-for-spring-cloud-stream-applications-part-0"&gt;Introducing Function Based Streaming Applications&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://spring.io/blog/2020/07/20/introducing-java-functions-for-spring-cloud-stream-applications-part-1"&gt;Function Composition with Streaming Applications&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://spring.io/blog/2020/07/27/creating-a-supplier-function-and-generating-spring-cloud-stream-source"&gt;How to Build a Supplier and Source Application&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://spring.io/blog/2020/08/03/creating-a-function-for-consuming-data-and-generating-spring-cloud-stream-sink-applications"&gt;How to Build a Consumer and Sink Application&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://spring.io/blog/2020/08/10/case-study-build-and-run-a-streaming-application-using-an-http-source-and-a-jdbc-sink"&gt;Build and Run a Simple Stream Application&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://spring.io/blog/2020/08/17/case-study-http-request-function-and-processor"&gt;Case Study: HTTP Request Function and Processor&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://spring.io/blog/2020/08/25/case-study-reading-from-a-file-and-writing-to-mongodb"&gt;Case Study: File Source and MongoDB Sink&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://spring.io/blog/2020/09/10/case-study-relational-database-source-and-file-sink"&gt;Case Study: Relational Database Source and File Sink&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://spring.io/blog/2020/09/29/case-study-remote-file-ingest-with-spring-cloud-data-flow"&gt;Case Study: Remote File Ingest with Spring Cloud Data Flow&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://spring.io/blog/2020/10/26/case-study-aggregator-function-and-processor"&gt;Case Study: Aggregator Function and Processor&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h2 id="elasticsearch-consumer"&gt;&lt;a class="anchor" href="#elasticsearch-consumer"&gt;&lt;/a&gt;Elasticsearch Consumer&lt;/h2&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Before we look at the Elasticsearch sink application, let us see the consumer function that powers the sink. As we have seen previously in other sink applications, the consumer is a standard &lt;code&gt;java.util.function.Consumer&lt;/code&gt; which accepts a &lt;code&gt;Message&amp;lt;?&amp;gt;&lt;/code&gt;. The consumer relies upon &lt;a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-elasticsearch"&gt;Spring Boot¡¯s support for Elasticsearch&lt;/a&gt; which auto configures a &lt;code&gt;RestHighLevelClient&lt;/code&gt; from Elasticsearch. The consumer supports messages with the following types of payload.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="ulist"&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;String&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;java.util.Map&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://github.com/elastic/elasticsearch/blob/master/libs/x-content/src/main/java/org/elasticsearch/common/xcontent/XContentBuilder.java"&gt;XContentBuilder&lt;/a&gt; from Elasticsearch.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;When using the consumer, the Elasticsearch index to use is given by the property &lt;code&gt;elasticsearch.consumer.index&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;You may set the Elasticsearch ID to use for each message by setting the &lt;code&gt;INDEX_ID&lt;/code&gt; message header.  Alternately,
+you can set the &lt;code&gt;elasticsearch.consumer.id&lt;/code&gt; property, which accepts a SpEL expression. If neither of these is set, Elasticsearch will auto-generate an ID.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;By setting the property &lt;code&gt;elasticsearch.consumer.async&lt;/code&gt; to &lt;code&gt;true&lt;/code&gt;, we can make the indexing operation asynchronous.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;We can inject the consumer function in the application and invoke its &lt;code&gt;accept&lt;/code&gt; method directly to index records to ElasticSearch.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;For e.g, let¡¯s say we inject the consumer bean in an application as below.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;@Autowired
+ElasticsearchConsumer elasticsearchConsumer&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Then we can use the following &lt;code&gt;java.util.Map&lt;/code&gt; to index a record.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;Map&amp;lt;String, Object&amp;gt; jsonMap = new HashMap&amp;lt;&amp;gt;();
+jsonMap.put("age", 100);
+jsonMap.put("dateOfBirth", 1471466076564L);
+jsonMap.put("fullName", "John Doe");
+final Message&amp;lt;Map&amp;lt;String, Object&amp;gt;&amp;gt; message = MessageBuilder.withPayload(jsonMap).build();
+
+elasticsearchConsumer.accept(message);&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;The same information on the map above can be provided as plain &lt;code&gt;JSON&lt;/code&gt; or using &lt;a href="https://github.com/elastic/elasticsearch/blob/master/libs/x-content/src/main/java/org/elasticsearch/common/xcontent/XContentBuilder.java"&gt;XContentBuilder&lt;/a&gt; from Elasticsearch.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect1"&gt;
+&lt;h2 id="elasticsearch-sink"&gt;&lt;a class="anchor" href="#elasticsearch-sink"&gt;&lt;/a&gt;Elasticsearch Sink&lt;/h2&gt;
+&lt;div class="sectionbody"&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;As we have seen in the previous blogs, the consumer function becomes more powerful when combining with Spring Cloud Stream to make it a sink application. It has inherent capabilities to communicate with a middleware technology in a seamless manner. The sink application consumes data from a middleware system such as Apache Kafka or RabbitMQ and sends to Elasticsearch. We already provide out of the box variants of Elasticsearch for Kafka and RabbitMQ.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Let us run through the steps for running the standalone Elasticsearch sink application for Apache Kafka.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;First, go ahead and download the sink application. Since the sink is not generally available yet, let us use the latest milestone release.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;wget https://repo.spring.io/milestone/org/springframework/cloud/stream/app/elasticsearch-sink-kafka/3.0.0-M4/elasticsearch-sink-kafka-3.0.0-M4.jar&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Before running the application, ensure that you have Easticsearch running. Here is a quick way to start a single-node Elasticsearch cluster in a docker container.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;docker run -d --name es762 -p 9200:9200 -e "discovery.type=single-node" elasticsearch:7.6.2&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;We will also need to make sure that Kafka is running.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Then run the application as below:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;java -jar elasticsearch-sink-kafka-3.0.0-M4.jar
+ --spring.cloud.stream.bindings.input.destination=data-in --elasticsearch.consumer.index=testing&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;By providing the input destination property, we are asking the sink to receive data from the Kafka topic &lt;code&gt;data-in&lt;/code&gt; and sends the data to the Elasticsearch index &lt;code&gt;testing&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Send some test data to the Kafka topic. For example, here is how you can send it using the Kafka console producer script if you have Kafka running locally on port &lt;code&gt;9092&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code&gt;kafka-console-producer.sh --broker-list localhost:9092 --topic data-in&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Then send the following &lt;code&gt;JSON&lt;/code&gt; data.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;&lt;code&gt;{"key1":"value1"}&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;We can verify that the data is indexed by invoking the following endpoint.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;&lt;code&gt;curl localhost:9200/testing/_search&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Similarly, we can also download the &lt;a href="https://repo.spring.io/milestone/org/springframework/cloud/stream/app/elasticsearch-sink-rabbit/3.0.0-M4/"&gt;RabbitMQ&lt;/a&gt; variant of the Elasticsearch sink application and run it against a RabbitMQ cluster.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="further-usage-of-the-sink"&gt;&lt;a class="anchor" href="#further-usage-of-the-sink"&gt;&lt;/a&gt;Further usage of the sink&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;As we have seen several times previously in this series, these Spring Cloud Stream applications become further powerful and resilient when it is run as part of a data pipeline on Spring Cloud Data Flow.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;The Elasticsearch that we saw above can be combined with a number of other applications. For instance, a TCP source app may be receiving data from a source and then dump the data to a middleware destination, from where the Elasticsearch sink consumes and indexes. This index may be then used by an analytics application to generate a dashboard. This is just one example and there are several such use cases. Spring Cloud Data Flow makes the orchestration of these pipelines seamless for the user. We encourage you to take a look at the steps we laid out in previous blogs on how we can deploy apps on Spring Cloud Data Flow. Using those same steps, the Elasticsearch sink application can also be deployed.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="sect2"&gt;
+&lt;h3 id="conclusion"&gt;&lt;a class="anchor" href="#conclusion"&gt;&lt;/a&gt;Conclusion&lt;/h3&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;In this blog, we saw how Elasticsearch consumer function and its corresponding Spring Cloud Stream sink work. The consumer function can be injected into custom applications for combining with other business logic. The sink application is provided out of the box for use with Kafka and RabbitMQ middleware variants.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;We still have a few more epsidoses coming up in this blog series. Please stay tuned.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
   <entry>
     <title>Spring Data 2020.0 - New and Noteworthy in Spring Data MongoDB 3.1</title>
     <link rel="alternate" href="https://spring.io/blog/2020/11/13/spring-data-2020-0-new-and-noteworthy-in-spring-data-mongodb-3-1" />
@@ -811,10 +1165,10 @@ dependencies {&#xD;
     <content type="html">&lt;p&gt;Spring Data 2020.0, based on &lt;a href="https://spring.io/blog/2020/10/27/spring-framework-5-3-goes-ga"&gt;Spring Framework 5.3&lt;/a&gt;, is out and with it, a ton of new features across the various stores, which are covered by the individual modules. While posting highlights along with the milestone announcements, we wanted to give you a more detailed description of the new features in a series of blog posts. These posts will cover, among other things:&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;Reactive Context Access features in Data Commons.&lt;/li&gt;
-  &lt;li&gt;Lifecycle callbacks in R2DBC.&lt;/li&gt;
+  &lt;li&gt;Lifecycle callbacks and baselining to Spring R2DBC in &lt;a href="https://spring.io/blog/2020/11/18/spring-data-2020-0-new-and-noteworthy-in-spring-data-r2dbc-1-2"&gt;R2DBC&lt;/a&gt;.&lt;/li&gt;
   &lt;li&gt;General Repository and store-specific Redis Cache Metrics.&lt;/li&gt;
   &lt;li&gt;Neo4J reactive repositories.&lt;/li&gt;
-  &lt;li&gt;Paging repository APIs for Spring Data for Apache Geode .&lt;/li&gt;
+  &lt;li&gt;Paging repository APIs for Spring Data for Apache Geode.&lt;/li&gt;
   &lt;li&gt;Geoshape, index, and reactive search improvements for Spring Data Elasticsearch.&lt;/li&gt;
   &lt;li&gt;Partial filter and aggregation hints in &lt;a href="https://spring.io/blog/2020/11/13/spring-data-2020-0-new-and-noteworthy-in-spring-data-mongodb-3-1"&gt;MongoDB&lt;/a&gt;.&lt;/li&gt;
   &lt;li&gt;&lt;code&gt;@Bean&lt;/code&gt; row mappers for the &lt;a href="https://spring.io/blog/2020/11/10/spring-data-2020-0-new-and-noteworthy-in-spring-data-jdbc-2-1"&gt;JDBC&lt;/a&gt; module.&lt;/li&gt;
@@ -1168,67 +1522,6 @@ Artem&lt;/p&gt;
 &lt;p&gt;For a complete list of changes and upgrade instructions, please see the &lt;a href="https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.4.0-RC1-Release-Notes"&gt;Spring Boot 2.4 Release Notes&lt;/a&gt; on the wiki and the &lt;a href="http://docs.spring.io/spring-boot/docs/2.4.0-RC1/reference/html/"&gt;updated reference documentation&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Barring any unforeseen circumstances, our current plan is to release 2.4.0 GA on November 12, so please give the RC a try if you can. To bootstrap a new project, you can head over to &lt;a href="https://start.spring.io"&gt;https://start.spring.io&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://projects.spring.io/spring-boot/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot"&gt;GitHub&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot/issues"&gt;Issues&lt;/a&gt; | &lt;a href="http://docs.spring.io/spring-boot/docs/2.4.0-RC1/reference/html"&gt;Documentation&lt;/a&gt; | &lt;a href="http://stackoverflow.com/questions/tagged/spring-boot"&gt;Stack Overflow&lt;/a&gt; | &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;Gitter&lt;/a&gt;&lt;/p&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>A Bootiful Podcast: Spring Test Framework lead and JUnit contributor Sam Brannen</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/10/29/a-bootiful-podcast-spring-test-framework-lead-and-junit-contributor-sam-brannen" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>Josh Long</name>
-    </author>
-    <id>tag:spring.io,2020-10-29:4250</id>
-    <updated>2020-10-29T23:46:08Z</updated>
-    <content type="html">&lt;p&gt;Hi Spring fans! This week, &lt;a href="http://twitter.com/starbuxman"&gt;Josh Long (@starbuxman)&lt;/a&gt; talks to legendary Spring Test Framework lead and JUnit contributor &lt;a href="http://twitter.com/sam_brannen"&gt;Sam Brannen (@sam_brannen)&lt;/a&gt;&lt;/p&gt;
-&lt;iframe title="Spring Test Framework lead Sam Brannen " height="122" width="100%" style="border: none;" scrolling="no" data-name="pb-iframe-player" src="https://www.podbean.com/media/player/6xux3-f0cac3?from=pb6admin&amp;download=1&amp;version=1&amp;auto=0&amp;share=1&amp;download=1&amp;rtl=0&amp;fonts=Helvetica&amp;skin=1&amp;pfauth=&amp;btn-skin=107"&gt;&lt;/iframe&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>Notice of Permissions Changes to repo.spring.io, Fall and Winter, 2020</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/10/29/notice-of-permissions-changes-to-repo-spring-io-fall-and-winter-2020" />
-    <category term="news" label="News and Events" />
-    <author>
-      <name>Trevor Marshall</name>
-    </author>
-    <id>tag:spring.io,2020-10-29:4249</id>
-    <updated>2020-10-29T23:35:00Z</updated>
-    <content type="html">&lt;p&gt;A critical piece of infrastructure, the Spring Artifactory instance &lt;a href="https://repo.spring.io"&gt;repo.spring.io&lt;/a&gt;, lies at the heart of the Spring portfolio development work. Since 2013, &lt;a href="https://jfrog.com"&gt;JFrog, Inc.&lt;/a&gt; has generously sponsored the instance for the Spring developer community.&lt;/p&gt;
-&lt;p&gt;The Artifactory repository streamlines our project development by acting as a single location where Spring engineers can point their builds and by providing the community with early access to our snapshots and milestones.&lt;/p&gt;
-&lt;p&gt;Today, we are providing notice of some upcoming changes to the repository.&lt;/p&gt;&lt;h2&gt;&lt;a href="#upcoming-changes" class="anchor" name="upcoming-changes"&gt;&lt;/a&gt;Upcoming Changes&lt;/h2&gt;
-&lt;p&gt;If you use &lt;a href="https://repo.spring.io"&gt;repo.spring.io&lt;/a&gt; as directed by &lt;a href="https://start.spring.io"&gt;start.spring.io&lt;/a&gt;, (for example, using only &lt;code&gt;/snapshot&lt;/code&gt; and &lt;code&gt;/milestone&lt;/code&gt;), these changes most likely will not affect you.&lt;/p&gt;
-&lt;p&gt;If you are resolving from any of the other repos, you might want to make note of the following dates:&lt;/p&gt;&lt;h3&gt;&lt;a href="#november-12-2020" class="anchor" name="november-12-2020"&gt;&lt;/a&gt;November 12, 2020&lt;/h3&gt;
-&lt;p&gt;Anonymous users will no longer be able to load &lt;em&gt;any&lt;/em&gt; 3rd party artifact into the repository caches.&lt;br/&gt;We will flush the caches and they will slowly refill only with artifacts used by our builds. &lt;/p&gt;&lt;h3&gt;&lt;a href="#january-6-2021" class="anchor" name="january-6-2021"&gt;&lt;/a&gt;January 6, 2021&lt;/h3&gt;
-&lt;p&gt;We will no longer support anonymous download of 3rd-party artifacts from &lt;a href="https://repo.spring.io"&gt;repo.spring.io&lt;/a&gt;. The &lt;code&gt;/libs-snapshot&lt;/code&gt;, &lt;code&gt;/libs-milestone&lt;/code&gt;, and &lt;code&gt;/libs-release&lt;/code&gt; repositories, which the Spring Team uses to build and release Spring projects, will require authentication.&lt;br/&gt;The &lt;code&gt;/snapshot&lt;/code&gt;, &lt;code&gt;/milestone&lt;/code&gt;, and &lt;code&gt;/release&lt;/code&gt; repositories will remain available, but please fetch our releases from a central repository.&lt;/p&gt;&lt;h2&gt;&lt;a href="#how-to-use-repo-spring-io" class="anchor" name="how-to-use-repo-spring-io"&gt;&lt;/a&gt;How to use repo.spring.io&lt;/h2&gt;
-&lt;p&gt;Spring Team members only need to make sure their builds are authenticated, and can carry on using &lt;code&gt;/libs-release&lt;/code&gt; etc.&lt;/p&gt;
-&lt;p&gt;Anonymous access using &lt;code&gt;/libs-snapshot&lt;/code&gt; or &lt;code&gt;/libs-milestone&lt;/code&gt; in the &lt;code&gt;pom.xml&lt;/code&gt;, or with these configured in a remote repository, should replace them with &lt;code&gt;/snapshot&lt;/code&gt; and &lt;code&gt;/milestone&lt;/code&gt;, respectively. These repositories will continue to provide pre-release access to fixes and features for the community.&lt;/p&gt;
-&lt;p&gt;Anonymous access using &lt;code&gt;/libs-release&lt;/code&gt; should stop.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Please avoid using &lt;code&gt;/release&lt;/code&gt;:&lt;/strong&gt; Our releases are all available from Maven Central. We do understand that there are a few exceptions in there. However, if it is still being abused after these changes, it could see restrictions as well.&lt;/p&gt;
-&lt;p&gt;The &lt;strong&gt;plugins&lt;/strong&gt; produced by the Spring Team will continue to resolve in their respective repositories:&lt;/p&gt;
-&lt;pre&gt;&lt;code class="prettyprint"&gt;/plugins-snapshot-local&#xD;
-/plugins-milestone-local&#xD;
-/plugins-release-local
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;You can keep references to &lt;code&gt;/plugins-release&lt;/code&gt; but do not attempt to resolve an upstream dependency from that repository, or it will fail. The local repositories will always work.&lt;/p&gt;
-&lt;p&gt;For everything else, please resolve elsewhere. Maven Central and JCenter are built and sponsored for that. &lt;a href="https://repo.spring.io"&gt;repo.spring.io&lt;/a&gt; is not.&lt;/p&gt;
-&lt;p&gt;As a final note, let me just say that we understand how these settings might have crept into projects over the years and that the last thing we want to do is break somebody&amp;rsquo;s project, degrade their productivity, or spoil their day. If any of these changes cause unforeseen problems, please reach out and we will do our best to help get things fixed ASAP. Raising an issue in a respective project should find its way to us, and you can tag me.&lt;/p&gt;
-&lt;p&gt;Repository administrators out there can also feel free to reach out to me if you are concerned about any downstream replication.&lt;/p&gt;
-&lt;p&gt;Take care,&lt;br/&gt;Trevor Marshall&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://github.com/spring-projects/spring-framework/wiki/Spring-Artifactory"&gt;Spring Artifactory Wiki&lt;/a&gt;&lt;/p&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>Spring Boot 2.3.5 available now</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/10/29/spring-boot-2-3-5-available-now" />
-    <category term="releases" label="Releases" />
-    <author>
-      <name>Scott Frederick</name>
-    </author>
-    <id>tag:spring.io,2020-10-29:4247</id>
-    <updated>2020-10-29T23:28:00Z</updated>
-    <content type="html">&lt;p&gt;On behalf of the team and everyone who has contributed, I&amp;rsquo;m happy to announce that Spring Boot 2.3.5 has been released and is now available from Maven Central.&lt;/p&gt;
-&lt;p&gt;This release includes &lt;a href="https://github.com/spring-projects/spring-boot/releases/tag/v2.3.5.RELEASE"&gt;92 bug fixes, documentation improvements, and dependency upgrades&lt;/a&gt;. Thanks to all those who have contributed with issue reports and pull requests.&lt;/p&gt;&lt;h3&gt;&lt;a href="#how-can-you-help" class="anchor" name="how-can-you-help"&gt;&lt;/a&gt;How can you help?&lt;/h3&gt;
-&lt;p&gt;If you&amp;rsquo;re interested in helping out, check out the &lt;a href="https://github.com/spring-projects/spring-boot/labels/status%3A%20ideal-for-contribution"&gt;&amp;ldquo;ideal for contribution&amp;rdquo; tag&lt;/a&gt; in the issue repository. If you have general questions, please ask on &lt;a href="http://stackoverflow.com"&gt;stackoverflow.com&lt;/a&gt; using the &lt;a href="http://stackoverflow.com/tags/spring-boot"&gt;&lt;code&gt;spring-boot&lt;/code&gt; tag&lt;/a&gt; or chat with the community on &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;Gitter&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://spring.io/projects/spring-boot/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot"&gt;GitHub&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot/issues"&gt;Issues&lt;/a&gt; | &lt;a href="http://docs.spring.io/spring-boot/docs/2.3.5.RELEASE/reference/html"&gt;Documentation&lt;/a&gt; | &lt;a href="http://stackoverflow.com/questions/tagged/spring-boot"&gt;Stack Overflow&lt;/a&gt; | &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;Gitter&lt;/a&gt;&lt;/p&gt;
 &lt;!-- rendered by Sagan Renderer Service --&gt;</content>
   </entry>
 </feed>

@@ -6,21 +6,17 @@ public class PayLogDTO {
 	private String M_ID = "";
 	private String PL_TITLE = "";
 	private int PL_PRICE = 0;
-	private int PL_DATE1 = 0;
-	private int PL_DATE2 = 0;
-	private int PL_DATE3 = 0;
+	private String PL_DATE = "";
 	
 	public PayLogDTO () {}
 	
-	public PayLogDTO(String pL_NUM, String m_ID, String pL_TITLE, int pL_PRICE, int pL_DATE1, int pL_DATE2, int pL_DATE3) {
+	public PayLogDTO(String pL_NUM, String m_ID, String pL_TITLE, int pL_PRICE, String pL_DATE) {
 		super();
 		PL_NUM = pL_NUM;
 		M_ID = m_ID;
 		PL_TITLE = pL_TITLE;
 		PL_PRICE = pL_PRICE;
-		PL_DATE1 = pL_DATE1;
-		PL_DATE2 = pL_DATE2;
-		PL_DATE3 = pL_DATE3;
+		PL_DATE = pL_DATE;
 	}
 
 	
@@ -64,33 +60,13 @@ public class PayLogDTO {
 		PL_PRICE = pL_PRICE;
 	}
 
-	public int getPL_DATE1() {
-		return PL_DATE1;
+	public String getPL_DATE() {
+		return PL_DATE;
 	}
 
-	public void setPL_DATE1(int pL_DATE1) {
-		PL_DATE1 = pL_DATE1;
+	public void setPL_DATE(String pL_DATE) {
+		PL_DATE = pL_DATE;
 	}
-
-	public int getPL_DATE2() {
-		return PL_DATE2;
-	}
-
-	public void setPL_DATE2(int pL_DATE2) {
-		PL_DATE2 = pL_DATE2;
-	}
-
-	public int getPL_DATE3() {
-		return PL_DATE3;
-	}
-
-	public void setPL_DATE3(int pL_DATE3) {
-		PL_DATE3 = pL_DATE3;
-	}
-
-	
-	
-	
 }
 
 /*
@@ -99,13 +75,12 @@ CREATE TABLE `pay_log` (
 	`M_ID` VARCHAR(20) NOT NULL COLLATE 'utf8_general_ci',
 	`PL_TITLE` VARCHAR(100) NOT NULL COLLATE 'utf8_general_ci',
 	`PL_PRICE` INT(11) NOT NULL,
-	`PL_DATE1` INT(11) NOT NULL DEFAULT '0',
-	`PL_DATE2` INT(11) NOT NULL DEFAULT '0',
-	`PL_DATE3` INT(11) NOT NULL DEFAULT '0',
+	`PL_DATE` TIMESTAMP NOT NULL DEFAULT dayofmonth(0 - 0 - 0) ON UPDATE current_timestamp(),
 	PRIMARY KEY (`PL_NUM`) USING BTREE
 )
 COLLATE='latin1_swedish_ci'
 ENGINE=InnoDB
+AUTO_INCREMENT=28
 ;
 
 */
