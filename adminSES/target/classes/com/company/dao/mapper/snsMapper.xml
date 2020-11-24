@@ -48,4 +48,9 @@
 		sns SET
 		S_END_DT = #{exitDT} WHERE M_ID = #{sKind} AND S_END_DT LIKE '%0000-00-00 00:00:00%';
 	</update>
+	
+	<select id="ChkTodaySNS" parameterType="hashmap"
+		resultType="com.company.dto.SnsDTO">
+		SELECT * FROM sns WHERE M_ID LIKE #{mId} AND S_START_DT LIKE #{sStartDT};
+	</select>
 </mapper>

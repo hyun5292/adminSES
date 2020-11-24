@@ -57,6 +57,14 @@ panel-heading {
 	$('.input-daterange input').each(function() {
 		$(this).datepicker('clearDates');
 	});
+	
+	function DoEnable() {
+        if(document.getElementById('joinChk_s')[0].checked == true) {
+        	document.getElementById('payChk_s').attr("disabled", false);
+        } else if(document.getElementById('joinChk_s')[1].checked == true) {
+        	document.getElementById('payChk_s').attr("disabled", true);
+        }
+	}
 </script>
 </head>
 <body>
@@ -111,7 +119,7 @@ panel-heading {
 											<tr>
 												<td align="right" width="48%">총 이용자 수</td>
 												<td width="4%"></td>
-												<td width="48%">000 명</td>
+												<td width="48%">${Usercnt} 명</td>
 											</tr>
 											<tr>
 												<td align="right" width="48%">이번 달 예정 금액</td>
@@ -136,26 +144,17 @@ panel-heading {
 												<td align="right" width="30%">가입여부</td>
 												<td width="5px"></td>
 												<td>
-													<div class="radio1">
-														<label> <input type="radio" name="survey"
-															id="Radios1" value="Yes" checked="true"> 가입
-														</label> <label> <input type="radio" name="survey"
-															id="Radios2" value="No"> 비가입
-														</label>
-													</div>
+													<input type="radio" name="joinChk_s" id="jRd_join" value="Yes" onclick="DoEnable();" checked> 가입
+													<input type="radio" name="joinChk_s" id="jRd_nojoin" value="No" onclick="DoEnable();"> 비가입
+
 												</td>
 											</tr>
 											<tr>
 												<td align="right" width="30%">납부</td>
 												<td width="5px"></td>
 												<td>
-													<div class="radio2">
-														<label> <input type="radio" name="survey"
-															id="Radios1" value="Yes" checked="true"> 납부
-														</label> <label> <input type="radio" name="survey"
-															id="Radios2" value="No"> 미납
-														</label>
-													</div>
+													<input type="radio" name="payChk_s" id="pRd_pay" value="Yes" checked> 납부
+													<input type="radio" name="payChk_s" id="pRd_nopay" value="No"> 미납
 												</td>
 											</tr>
 											<tr>

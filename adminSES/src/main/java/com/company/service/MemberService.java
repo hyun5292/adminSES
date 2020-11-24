@@ -74,4 +74,34 @@ public class MemberService implements MService {
 	public int GetM_KTCHK() {
 		return mDAO.GetM_KTCHK();
 	}
+
+	// 유료서비스 이용자 수 구하기
+	@Override
+	public int GetServiceUserCnt() {
+		return mDAO.GetServiceUserCnt();
+	}
+
+	// 이메일용 회원 목록 불러오기
+	@Override
+	public List<MemberDTO> GetMEmailList(Map<String, Object> map) {
+		return mDAO.GetMEmailList(map);
+	}
+
+	// 이메일용 회원 수 구하기
+	@Override
+	public int GetMEmailCnt() {
+		return mDAO.GetMEmailCnt();
+	}
+
+	// 이메일 일반 회원 목록 가져오기
+	@Override
+	public List<MemberDTO> GetsSchEmGeneral(Map<String, Object> map) {
+		return mDAO.GetsSchEmGeneral(map);
+	}
+
+	// 이메일 검색된 일반 회원 수 구하기
+	@Override
+	public int GetsSchEmGCnt(Map<String, Object> map) {
+		return mDAO.GetsSchEmGCnt(map);
+	}
 }

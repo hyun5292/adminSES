@@ -140,14 +140,10 @@ public class M_AdminController {
 	// 직원 관리자 권한 부여
 	@RequestMapping("/doAuth")
 	public String DoAuth(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException {
-		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
-		Map<String, Object> map = new HashMap<String, Object>();
 		String mId = request.getParameter("mId");
 		boolean result;
-		String reVal = "m_search";
 		
-		map.put("mId", mId);
-		result = Ser_E.MakeDoAuth(map);
+		result = Ser_E.MakeDoAuth(mId);
 		
 		if(!result) {
 			response.setContentType("text/html; charset=UTF-8");
@@ -162,14 +158,10 @@ public class M_AdminController {
 	// 직원 관리자 권한 해지
 	@RequestMapping("/dontAuth")
 	public String DontAuth(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException {
-		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
-		Map<String, Object> map = new HashMap<String, Object>();
 		String mId = request.getParameter("mId");
 		boolean result;
-		String reVal = "m_search";
-		
-		map.put("mId", mId);
-		result = Ser_E.MakeDontAuth(map);
+
+		result = Ser_E.MakeDontAuth(mId);
 		
 		if(!result) {
 			response.setContentType("text/html; charset=UTF-8");

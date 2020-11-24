@@ -28,4 +28,7 @@ public interface SService {
 	// 기존 담당자 마감일 설정
 	boolean ChgNowSns(Map<String, Object> map);
 
+	// 오늘 등록된 다른 SNS 담당자가 있는지 확인
+	SnsDTO ChkTodaySNS(Map<String, Object> map);
+
 }

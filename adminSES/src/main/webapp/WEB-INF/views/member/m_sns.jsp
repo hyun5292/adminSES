@@ -114,7 +114,7 @@ thead {
 		var sKind = $('#sKind').val();
 		var inDT = $('#inDT').val();
 		
-		location.href = "delete_sns?sKind="+sKind+"&inDT="+inDT+";";
+		location.href = "delete_sns?sKind="+sKind+"&inDT="+inDT;
 	}
 
 	//url 에서 parameter 추출
@@ -136,7 +136,7 @@ thead {
 		var mKind = getParam("inDT");
 		var StartDT = $('#StartDT').val();
 		var EndDT = $('#EndDT').val();
-		location.href = "sns_qsch?mId="+mId+"&mKind="+mKind+"&StartDT="+StartDT+"&EndDT="+EndDT+";";
+		location.href = "sns_qsch?mId="+mId+"&mKind="+mKind+"&StartDT="+StartDT+"&EndDT="+EndDT;
 	}
 
 	function isRegister() {

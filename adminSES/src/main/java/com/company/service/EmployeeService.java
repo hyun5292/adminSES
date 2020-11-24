@@ -36,14 +36,14 @@ public class EmployeeService implements EService{
 
 	// 직원 관리자 권한 부여
 	@Override
-	public boolean MakeDoAuth(Map<String, Object> map) {
-		return eDAO.MakeDoAuth(map);
+	public boolean MakeDoAuth(String mId) {
+		return eDAO.MakeDoAuth(mId);
 	}
 
 	// 직원 관리자 권한 해지
 	@Override
-	public boolean MakeDontAuth(Map<String, Object> map) {
-		return eDAO.MakeDontAuth(map);
+	public boolean MakeDontAuth(String mId) {
+		return eDAO.MakeDontAuth(mId);
 	}
 	
 }

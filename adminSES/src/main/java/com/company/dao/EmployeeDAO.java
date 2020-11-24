@@ -34,9 +34,8 @@ public class EmployeeDAO {
 	}
 
 	// 직원 관리자 권한 부여
-	public boolean MakeDoAuth(Map<String, Object> map) {
-		int rs = temp.update("eMap.MakeDoAuth", map);
-		System.out.println(rs);
+	public boolean MakeDoAuth(String mId) {
+		int rs = temp.update("eMap.MakeDoAuth", mId);
 		if (rs == 1)
 			return true;
 		else
@@ -44,9 +43,8 @@ public class EmployeeDAO {
 	}
 
 	// 직원 관리자 권한 해지
-	public boolean MakeDontAuth(Map<String, Object> map) {
-		int rs = temp.update("eMap.MakeDontAuth", map);
-		System.out.println(rs);
+	public boolean MakeDontAuth(String mId) {
+		int rs = temp.update("eMap.MakeDontAuth", mId);
 		if (rs == 1)
 			return true;
 		else

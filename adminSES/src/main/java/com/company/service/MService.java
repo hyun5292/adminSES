@@ -36,4 +36,19 @@ public interface MService {
 
 	// 카톡 이용 중인 회원 수 구하기
 	public int GetM_KTCHK();
+
+	// 유료서비스 이용자 수 구하기
+	public int GetServiceUserCnt();
+	
+	// 이메일용 회원 목록 불러오기
+	public List<MemberDTO> GetMEmailList(Map<String, Object> map);
+
+	// 이메일용 회원 수 구하기
+	public int GetMEmailCnt();
+
+	// 이메일 일반 회원 목록 가져오기
+	List<MemberDTO> GetsSchEmGeneral(Map<String, Object> map);
+
+	// 이메일 검색된 일반 회원 수 구하기
+	int GetsSchEmGCnt(Map<String, Object> map);
 }

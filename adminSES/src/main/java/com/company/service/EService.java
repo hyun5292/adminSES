@@ -19,9 +19,9 @@ public interface EService {
 	EmployeeDTO GetEInfo(String mId);
 
 	// 직원 관리자 권한 부여
-	boolean MakeDoAuth(Map<String, Object> map);
+	boolean MakeDoAuth(String mId);
 
 	// 직원 관리자 권한 해지
-	boolean MakeDontAuth(Map<String, Object> map);
+	boolean MakeDontAuth(String mId);
 	
 }

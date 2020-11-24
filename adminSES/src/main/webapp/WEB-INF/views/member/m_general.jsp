@@ -121,7 +121,7 @@ thead {
 										<td align="right">전화번호</td>
 										<td width="10px"></td>
 										<td>0${mdto.getM_TEL1()}-${mdto.getM_TEL2()}-${mdto.getM_TEL3()}</td>
-										<td align="right"><a href="pay_service">유료서비스</a> 가입 여부</td>
+										<td align="right"><a href="pay_service?mId=${mdto.getM_ID()}">유료서비스</a> 가입 여부</td>
 										<td width="10px"></td>
 										<td>${mdto.getM_SERVICE_CHK()}</td>
 									</tr>

@@ -47,6 +47,25 @@ panel-heading {
 	$('.input-daterange input').each(function() {
 		$(this).datepicker('clearDates');
 	});
+	
+	function SearchMember() {
+		var mKind = $('#mKind').val();
+		var mId = $('#mId').val();
+		var mName = $('#mName').val();
+		var result = "m_search";
+		
+		if(mKind == null || mKind == "") {
+			mKind = "일반";
+		}
+		
+		if(mKind == "직원") {
+			result = "#";
+		} else {
+			result = "sch_emailG";
+		}
+		
+		location.href = result + "?mKind=" + mKind + "&mId=" + mId + "&mName="+ mName;
+	}
 </script>
 </head>
 <body>
@@ -56,8 +75,7 @@ panel-heading {
 			<div class="sidebar-content">
 				<div class="logo-wrapper waves-light" align="center"
 					style="padding: 10px 0px 0px 0px">
-					<a href="main">
-					<img width="90%"
+					<a href="main"> <img width="90%"
 						src="${pageContext.request.contextPath}/resources/images/mainmark.png"
 						class="img-fluid flex-center"></a>
 				</div>
@@ -96,31 +114,20 @@ panel-heading {
 								<td>
 									<table class="tblSearch" width="100%" height="100%">
 										<tr>
-											<td align="right">전송대상</td>
+											<td align="right">회원분류</td>
 											<td width="5px"></td>
-											<td>
-												<div class="radio">
-													<label> <input type="radio" name="survey"
-														id="Radios1" value="Yes" checked="true"> 전체 일반 회원
-													</label>
-												</div>
-												<div class="radio">
-													<label> <input type="radio" name="survey"
-														id="Radios2" value="No"> 유료서비스 회원
-													</label>
-												</div>
-												<div class="radio">
-													<label> <input type="radio" name="survey"
-														id="Radios3" value="Notsure"> 관리자
-													</label>
-												</div>
-											</td>
+											<td><select class="custom-select" id="mKind"
+												name="mKind">
+													<option value="${mKind}" selected="true">${mKind}</option>
+													<option value="일반">일반</option>
+													<option value="직원">직원</option>
+											</select></td>
 										</tr>
 										<tr>
 											<td align="right">아이디</td>
 											<td width="5px"></td>
-											<td><input type="text" class="form-control" id="inputID"
-												width="90%" placeholder="아이디"></td>
+											<td><input type="text" class="form-control" id="mId"
+												name="mId" width="90%" placeholder="아이디" value="${mId}"></td>
 										</tr>
 										<tr>
 											<td height="5px"></td>
@@ -128,8 +135,8 @@ panel-heading {
 										<tr>
 											<td align="right">성명</td>
 											<td width="5px"></td>
-											<td><input type="text" class="form-control"
-												id="inputName" width="90%" placeholder="성명"></td>
+											<td><input type="text" class="form-control" name="mName"
+												id="mName" width="90%" placeholder="성명" value="${mName}"></td>
 										</tr>
 										<tr>
 											<td height="5px"></td>
@@ -137,12 +144,34 @@ panel-heading {
 									</table>
 								</td>
 							</tr>
-							<tr><td height="5px"></td></tr>
+							<tr>
+								<td height="5px"></td>
+							</tr>
 							<tr>
 								<td align="right"><button type="button"
-													class="btn btn-secondary">조회</button></td>
+										class="btn btn-secondary" onclick="SearchMember()">조회</button></td>
 							</tr>
-							<tr><td height="5px"></td></tr>
+							<tr>
+								<td height="5px"></td>
+							</tr>
+							<tr>
+								<td>
+									<hr/>
+									<table border="0" width="100%">
+										<tr>
+											<td><input type="checkbox" name="survey" id="Radios1"
+												value="Yes"> 전체 일반 회원</td>
+												<td width="5px"></td>
+											<td><input type="checkbox" name="survey" id="Radios2"
+												value="No"> 유료서비스 회원</td>
+												<td width="5px"></td>
+											<td><input type="checkbox" name="survey" id="Radios3"
+												value="Notsure"> 관리자</td>
+										</tr>
+									</table>
+									<hr/>
+								</td>
+							</tr>
 							<tr>
 								<td>
 									<table class="table table-list-search"
@@ -156,58 +185,30 @@ panel-heading {
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td><label class="checkbox-bootstrap"> <input
-														type="checkbox"> <span
-														class="checkbox-placeholder"></span>
-												</label></td>
-												<td>00</td>
-												<td>아이디</td>
-												<td>가입</td>
-											</tr>
-											<tr>
-												<td><label class="checkbox-bootstrap"> <input
-														type="checkbox"> <span
-														class="checkbox-placeholder"></span>
-												</label></td>
-												<td>00</td>
-												<td>아이디</td>
-												<td>가입</td>
-											</tr>
-											<tr>
-												<td><label class="checkbox-bootstrap"> <input
-														type="checkbox"> <span
-														class="checkbox-placeholder"></span>
-												</label></td>
-												<td>00</td>
-												<td>아이디</td>
-												<td>가입</td>
-											</tr>
-											<tr>
-												<td><label class="checkbox-bootstrap"> <input
-														type="checkbox"> <span
-														class="checkbox-placeholder"></span>
-												</label></td>
-												<td>00</td>
-												<td>아이디</td>
-												<td>가입</td>
-											</tr>
-											<tr>
-												<td><label class="checkbox-bootstrap"> <input
-														type="checkbox"> <span
-														class="checkbox-placeholder"></span>
-												</label></td>
-												<td>00</td>
-												<td>아이디</td>
-												<td>가입</td>
-											</tr>
+											<c:forEach items="${dtos}" var="dto">
+												<tr>
+													<td><label class="checkbox-bootstrap"> <input
+															type="checkbox"> <span
+															class="checkbox-placeholder"></td>
+													<td>${dto.getM_KIND()}</td>
+													<td>${dto.getM_ID()}</td>
+													<td>${dto.getM_SERVICE_CHK()}</td>
+												</tr>
+											</c:forEach>
 										</tbody>
 										<tfoot>
 											<tr>
 												<td colspan="4"></td>
 											</tr>
 											<tr align="center">
-												<td colspan="4"><< < 1 2 3 4 5 6 7 8 9 10 > >></td>
+												<td colspan="4"><a href="${mlink}?pgnum=1${mlink2}"
+													style="text-decoration: none">${prev}${prev}</a> <a
+													href="${mlink}?pgnum=${before}${mlink2}" style="text-decoration: none">${prev}</a>
+													<c:forEach items="${pg}" var="p">
+														<a href="${mlink}?pgnum=${p}${mlink2}" style="text-decoration: none">${p}</a>
+													</c:forEach> <a href="${mlink}?pgnum=${after}${mlink2}"
+													style="text-decoration: none">${next}</a> <a
+													href="${mlink}?pgnum=${last}${mlink2}" style="text-decoration: none">${next}${next}</a></td>
 											</tr>
 											<tr>
 												<td colspan="4" align="right">

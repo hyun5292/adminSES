@@ -51,18 +51,17 @@ thead {
 		var mId = $('#eId').val();
 		var StartDT = $('#StartDT').val();
 		var EndDT = $('#EndDT').val();
-		location.href = "el_sch?mId=" + mId + "&StartDT=" + StartDT + "&EndDT="
-				+ EndDT + ";";
+		location.href = "el_sch?mId=" + mId + "&StartDT=" + StartDT + "&EndDT=" + EndDT;
 	}
 	
 	function DobtnYesAuth() {
 		var mId = $('#eId').val();
-		location.href = "doAuth?mId=" + mId + ";";
+		location.href = "doAuth?mId=" + mId;
 	}
 	
 	function DobtnNoAuth() {
 		var mId = $('#eId').val();
-		location.href = "dontAuth?mId=" + mId + ";";
+		location.href = "dontAuth?mId=" + mId;
 	}
 	
 	function isAuth() {

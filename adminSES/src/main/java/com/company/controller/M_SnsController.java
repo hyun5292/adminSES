@@ -177,48 +177,23 @@ public class M_SnsController {
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean result = false;
-		SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd");
-				
+		SimpleDateFormat format1 = new SimpleDateFormat ("yyyy-MM-dd");
 		Calendar time = Calendar.getInstance();
-		       
 		String now = format1.format(time.getTime());
-
-		map.put("exitDT", now);
+		SnsDTO dto = null;
+		
+		map.put("sStartDT", now);
 		map.put("sKind", request.getParameter("sKind"));
 		
-		// 기존 담당자 마감일 설정
-		result = Ser_S.ChgNowSns(map);
+		// 오늘 등록된 다른 SNS 담당자가 있는지 확인
+		dto = Ser_S.ChkTodaySNS(map);
 		
-		map = new HashMap<String, Object>();
-
-		if (!result) {
-			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.println("<script>alert('현재 담당 중인 담당자의 마감일을 먼저 설정해주세요!!'); history.go(-1);</script>");
-			out.flush();
-		}
-
-		map.put("sName", request.getParameter("sName"));
-		map.put("sKind", request.getParameter("sKind"));
-		map.put("sTel1", request.getParameter("sTel1"));
-		map.put("sTel2", request.getParameter("sTel2"));
-		map.put("sTel3", request.getParameter("sTel3"));
-		map.put("sDept", request.getParameter("sDept"));
-		map.put("inDT", request.getParameter("inDT"));
-		if (request.getParameter("inDT").equals(request.getParameter("exitDT"))) {
-			map.put("exitDT", "0000-00-00 00:00:00");
+		if(dto != null) {
+			System.out.println("O");
 		} else {
-			map.put("exitDT", request.getParameter("exitDT"));
+			System.out.println("X");
 		}
-
-		result = Ser_S.NewSnsMember(map);
-
-		if (!result) {
-			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
-			out.flush();
-		}
+		
 
 		return "redirect:/" + "m_search";
 	}
