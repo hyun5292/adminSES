@@ -57,13 +57,21 @@ panel-heading {
 	$('.input-daterange input').each(function() {
 		$(this).datepicker('clearDates');
 	});
-	
+
 	function DoEnable() {
-        if(document.getElementById('joinChk_s')[0].checked == true) {
-        	document.getElementById('payChk_s').attr("disabled", false);
-        } else if(document.getElementById('joinChk_s')[1].checked == true) {
-        	document.getElementById('payChk_s').attr("disabled", true);
-        }
+		if (document.getElementById('joinChk_s')[0].checked == true) {
+			document.getElementById('payChk_s').attr("disabled", false);
+		} else if (document.getElementById('joinChk_s')[1].checked == true) {
+			document.getElementById('payChk_s').attr("disabled", true);
+		}
+	}
+
+	function SearchPayLog() {
+		var mId = $('#mId').val();
+		var pStartDT = $('#pStartDT').val();
+		var pEndDT = $('#pEndDT').val();
+		location.href = "service_Schpaylog?mId=" + mId + "&pStartDT="
+				+ pStartDT + "&pEndDT=" + pEndDT;
 	}
 </script>
 </head>
@@ -74,8 +82,7 @@ panel-heading {
 			<div class="sidebar-content">
 				<div class="logo-wrapper waves-light" align="center"
 					style="padding: 10px 0px 0px 0px">
-					<a href="main">
-					<img width="90%"
+					<a href="main"> <img width="90%"
 						src="${pageContext.request.contextPath}/resources/images/mainmark.png"
 						class="img-fluid flex-center"></a>
 				</div>
@@ -105,7 +112,7 @@ panel-heading {
 		<main class="page-content">
 		<div class="container-fluid">
 			<div class="row-fluid" style="width: 110%">
-				<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+				<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 rowspan='2'">
 					<div class="panel panel-default">
 						<div class="panel-heading">유료서비스 정보 및 검색</div>
 						<div class="panel-body" align="center">
@@ -119,7 +126,7 @@ panel-heading {
 											<tr>
 												<td align="right" width="48%">총 이용자 수</td>
 												<td width="4%"></td>
-												<td width="48%">${Usercnt} 명</td>
+												<td width="48%">${Usercnt}명</td>
 											</tr>
 											<tr>
 												<td align="right" width="48%">이번 달 예정 금액</td>
@@ -143,19 +150,17 @@ panel-heading {
 											<tr>
 												<td align="right" width="30%">가입여부</td>
 												<td width="5px"></td>
-												<td>
-													<input type="radio" name="joinChk_s" id="jRd_join" value="Yes" onclick="DoEnable();" checked> 가입
-													<input type="radio" name="joinChk_s" id="jRd_nojoin" value="No" onclick="DoEnable();"> 비가입
-
-												</td>
+												<td><input type="radio" name="joinChk_s" id="jRd_join"
+													value="Yes" onclick="DoEnable();" checked> 가입 <input
+													type="radio" name="joinChk_s" id="jRd_nojoin" value="No"
+													onclick="DoEnable();"> 비가입</td>
 											</tr>
 											<tr>
 												<td align="right" width="30%">납부</td>
 												<td width="5px"></td>
-												<td>
-													<input type="radio" name="payChk_s" id="pRd_pay" value="Yes" checked> 납부
-													<input type="radio" name="payChk_s" id="pRd_nopay" value="No"> 미납
-												</td>
+												<td><input type="radio" name="payChk_s" id="pRd_pay"
+													value="Yes" checked> 납부 <input type="radio"
+													name="payChk_s" id="pRd_nopay" value="No"> 미납</td>
 											</tr>
 											<tr>
 												<td align="right" width="30%">아이디</td>
@@ -231,6 +236,36 @@ panel-heading {
 													<td>가입</td>
 													<td>미납</td>
 												</tr>
+												<tr>
+													<td>00</td>
+													<td>아이디</td>
+													<td>가입</td>
+													<td>미납</td>
+												</tr>
+												<tr>
+													<td>00</td>
+													<td>아이디</td>
+													<td>가입</td>
+													<td>미납</td>
+												</tr>
+												<tr>
+													<td>00</td>
+													<td>아이디</td>
+													<td>가입</td>
+													<td>미납</td>
+												</tr>
+												<tr>
+													<td>00</td>
+													<td>아이디</td>
+													<td>가입</td>
+													<td>미납</td>
+												</tr>
+												<tr>
+													<td>00</td>
+													<td>아이디</td>
+													<td>가입</td>
+													<td>미납</td>
+												</tr>
 											</tbody>
 											<tfoot>
 												<tr>
@@ -251,58 +286,169 @@ panel-heading {
 					<div class="panel panel-default">
 						<div class="panel-heading">선택된 회원 유료서비스 정보</div>
 						<div class="panel-body" align="center">
-							<table class="payUserInfo" border="1" width="100%" height="550px">
-								<tr height="15%">
-									<td align="right">아이디</td>
-									<td width="10px"></td>
-									<td>Honggildong</td>
-								</tr>
-								<tr height="15%">
-									<td align="right">성명</td>
-									<td width="10px"></td>
-									<td>홍길동</td>
-								</tr>
-								<tr height="15%">
-									<td align="right">유료서비스</td>
-									<td width="10px"></td>
-									<td>가입</td>
-								</tr>
-								<tr height="15%">
-									<td align="right">유료서비스 가입일</td>
-									<td width="10px"></td>
-									<td>0000-00-00</td>
-								</tr>
-								<tr height="15%">
-									<td align="right">이번 달 납부 여부</td>
-									<td width="10px"></td>
-									<td>납부</td>
-								</tr>
-								<tr height="15%">
-									<td align="right">총 납부 금액</td>
-									<td width="10px"></td>
-									<td>000,000,000 원</td>
-								</tr>
-								<tr>
-									<td height="10%" colspan="3">
-										<table>
-											<tr>
-												<td><button type="button" class="btn btn-secondary">서비스 가입</button></td>
-												<td><button type="button" class="btn btn-secondary">서비스 해지</button></td>
-												<td><button type="button" class="btn btn-secondary">납부 처리</button></td>
-												<td><button type="button" class="btn btn-secondary">미납 처리</button></td>
-											</tr>
-										</table>
-									</td>
-								</tr>
+							<input type="hidden" id="mId" name="mId"
+								value="${mdto.getM_ID()}">
+							<table class="payUserInfo" border="1" width="100%" height="200px"font-size: 3.0rem;>
+								<tbody>
+									<tr height="15%">
+										<td align="right" width="48%">아이디</td>
+										<td width="10px" width="4%"></td>
+										<td width="48%">${mdto.getM_ID()}</td>
+									</tr>
+									<tr height="15%">
+										<td align="right">성명</td>
+										<td width="10px"></td>
+										<td>${mdto.getM_NAME()}</td>
+									</tr>
+									<tr height="15%">
+										<td align="right">유료서비스</td>
+										<td width="10px"></td>
+										<td>${mdto.getM_SERVICE_CHK()}</td>
+									</tr>
+									<tr height="15%">
+										<td align="right">유료서비스 가입일</td>
+										<td width="10px"></td>
+										<td>${mdto.getM_SERVICE_DATE1()}년
+											${mdto.getM_SERVICE_DATE2()}월 ${mdto.getM_SERVICE_DATE3()}일</td>
+									</tr>
+									<tr height="15%">
+										<td align="right">이번 달 납부 여부</td>
+										<td width="10px"></td>
+										<td>납부</td>
+									</tr>
+									<tr height="10%">
+										<td height="10%" colspan="3">
+											<table>
+												<tr>
+													<td><button type="button" class="btn btn-secondary">서비스
+															가입</button></td>
+													<td><button type="button" class="btn btn-secondary">서비스
+															해지</button></td>
+													<td><button type="button" class="btn btn-secondary">납부
+															처리</button></td>
+													<td><button type="button" class="btn btn-secondary">미납
+															처리</button></td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</tbody>
 							</table>
+						</div>
+					</div>
+				</div>
+				<div class="row-fluid" style="width: 100%">
+					<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+						<table width="100%">
+							<tr>
+								<td width="60%" align="right">
+									<div class="input-group input-daterange" id="payDT"
+										name="payDT">
+										<div class="input-group input-daterange">
+											<input type="text" class="form-control" id="pStartDT"
+												name="pStartDT" data-date-format="yyyy-mm-dd" maxlength="15"
+												value="${pStartDT}">
+											<div class="input-group-addon">to</div>
+											<input type="text" class="form-control" id="pEndDT"
+												name="pEndDT" data-date-format="yyyy-mm-dd" maxlength="15"
+												value="${pEndDT}">
+										</div>
+									</div>
+								</td>
+								<td width="50%" align="right">
+									<button type="button" onclick="SearchPayLog()"
+										class="btn btn-secondary">검색</button>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2" height="10px"></td>
+							</tr>
+						</table>
+						<div class="panel panel-default">
+							<div class="panel-heading">결제내역</div>
+							<div class="panel-body">
+								<table class="table table-list-search"
+									style="text-align: center;">
+									<thead style="text-align: center;">
+										<tr>
+											<th width="15%"><center>번호</center></th>
+											<th width="30%"><center>항목</center></th>
+											<th width="25%"><center>금액</center></th>
+											<th width="30%"><center>날짜</center></th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${pdtos}" var="pdto">
+											<tr>
+												<td>${pdto.getNUM()}</td>
+												<td>${pdto.getPL_TITLE()}</td>
+												<td>${pdto.getPL_PRICE()}원</td>
+												<td>${pdto.getPL_DATE()}</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+									<tfoot>
+										<tr>
+											<td colspan="4"></td>
+										</tr>
+										<tr>
+											<td colspan="4" align="center"><a
+												href="${mgPLLink}&ppgnum=1" style="text-decoration: none">${pprev}${pprev}</a>
+												<a href="${mgPLLink}&ppgnum=${pbefore}"
+												style="text-decoration: none">${pprev}</a> <c:forEach
+													items="${plpg}" var="pp">
+													<a href="${mgPLLink}&ppgnum=${pp}"
+														style="text-decoration: none">${pp}</a>
+												</c:forEach> <a href="${mgPLLink}&ppgnum=${pafter}"
+												style="text-decoration: none">${pnext}</a> <a
+												href="${mgPLLink}&ppgnum=${plast}"
+												style="text-decoration: none">${pnext}${pnext}</a></td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		</main>
+		<!-- contents -->
 	</div>
-	</main>
-	<!-- contents -->
-	</div>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		$("#payDT").datepicker({
+			weekStart : 1,
+			daysOfWeekHighlighted : "6,0",
+			autoclose : true,
+			todayHighlight : true,
+			format : "yyyy/mm/dd",
+			endDate : "today"
+		});
+		$("#payDT").datepicker("setDate", new Date());
+		$("#payDT").each(function() {
+			var $inputs = $(this).find('input');
+			$inputs.datepicker();
+			if ($inputs.length >= 2) {
+				var $from = $inputs.eq(0);
+				var $to = $inputs.eq(1);
+				$from.on('changeDate', function(e) {
+					var d = new Date(e.date.valueOf());
+					$to.datepicker('setStartDate', d); // 종료일은 시작일보다 빠를 수 없다.
+				});
+				$to.on('changeDate', function(e) {
+					var d = new Date(e.date.valueOf());
+					$from.datepicker('setEndDate', d); // 시작일은 종료일보다 늦을 수 없다.
+				});
+			}
+		})
+	</script>
 </body>
 </html>

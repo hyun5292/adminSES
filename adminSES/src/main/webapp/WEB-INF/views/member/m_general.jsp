@@ -94,7 +94,7 @@ thead {
 								<li><a href="m_search">회원</a></li>
 								<li><a href="m_mail">메일전송</a></li>
 							</ul></li>
-						<li class="sidebar"><a href="pay_service"> <i
+						<li class="sidebar"><a href="pay_service?mId=${mdto.getM_ID()}"> <i
 								class="far fa-credit-card"></i> <span>유료서비스</span>
 						</a></li>
 					</ul>
@@ -231,75 +231,6 @@ thead {
 											style="text-decoration: none">${qnext}</a> <a
 											href="${mgQLink}&qpgnum=${qlast}"
 											style="text-decoration: none">${qnext}${qnext}</a></td>
-									</tr>
-								</tfoot>
-							</table>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-					<table width="100%">
-						<tr>
-							<td width="60%" align="right">
-								<div class="input-group input-daterange" id="payDT" name="payDT">
-									<div class="input-group input-daterange">
-										<input type="text" class="form-control" id="pStartDT" name="pStartDT"
-											data-date-format="yyyy-mm-dd" maxlength="15" value="${pStartDT}">
-										<div class="input-group-addon">to</div>
-										<input type="text" class="form-control" id="pEndDT" name="pEndDT"
-											data-date-format="yyyy-mm-dd" maxlength="15" value="${pEndDT}">
-									</div>
-								</div>
-							</td>
-							<td width="50%" align="right">
-								<button type="button" onclick="SearchPayLog()" class="btn btn-secondary">검색</button>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2" height="10px"></td>
-						</tr>
-					</table>
-					<div class="panel panel-default">
-						<div class="panel-heading">결제내역</div>
-						<div class="panel-body">
-							<table class="table table-list-search"
-								style="text-align: center;">
-								<thead style="text-align: center;">
-									<tr>
-										<th width="15%"><center>번호</center></th>
-										<th width="30%"><center>항목</center></th>
-										<th width="25%"><center>금액</center></th>
-										<th width="30%"><center>날짜</center></th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach items="${pdtos}" var="pdto">
-										<tr>
-											<td>${pdto.getNUM()}</td>
-											<td>${pdto.getPL_TITLE()}</td>
-											<td>${pdto.getPL_PRICE()}원</td>
-											<td>${pdto.getPL_DATE()}</td>
-										</tr>
-									</c:forEach>
-								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan="4"></td>
-									</tr>
-									<tr>
-										<td colspan="4" align="center"><a
-											href="${mgPLLink}&ppgnum=1"
-											style="text-decoration: none">${pprev}${pprev}</a> <a
-											href="${mgPLLink}&ppgnum=${pbefore}"
-											style="text-decoration: none">${pprev}</a> <c:forEach
-												items="${plpg}" var="pp">
-												<a href="${mgPLLink}&ppgnum=${pp}"
-													style="text-decoration: none">${pp}</a>
-											</c:forEach> <a
-											href="${mgPLLink}&ppgnum=${pafter}"
-											style="text-decoration: none">${pnext}</a> <a
-											href="emp_paylog_search?mId=${mdto.getM_ID()}&pStartDT=${pStartDT}&pEndDT=${pEndDT}&qpgnum=1&ppgnum=${plast}"
-											style="text-decoration: none">${pnext}${pnext}</a></td>
 									</tr>
 								</tfoot>
 							</table>

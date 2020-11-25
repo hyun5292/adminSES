@@ -47,24 +47,77 @@ panel-heading {
 	$('.input-daterange input').each(function() {
 		$(this).datepicker('clearDates');
 	});
-	
+
 	function SearchMember() {
 		var mKind = $('#mKind').val();
 		var mId = $('#mId').val();
 		var mName = $('#mName').val();
 		var result = "m_search";
-		
-		if(mKind == null || mKind == "") {
+
+		if (mKind == null || mKind == "") {
 			mKind = "일반";
 		}
-		
-		if(mKind == "직원") {
+
+		if (mKind == "직원") {
 			result = "#";
 		} else {
 			result = "sch_emailG";
 		}
+
+		location.href = result + "?mKind=" + mKind + "&mId=" + mId + "&mName="
+				+ mName;
+	}
+	
+	//url 에서 parameter 추출
+	function getParam(sname) {
+		var params = location.search.substr(location.search.indexOf("?") + 1);
+		var sval = "";
+		params = params.split("&");
+		for (var i = 0; i < params.length; i++) {
+			temp = params[i].split("=");
+			if ([ temp[0] ] == sname) {
+				sval = temp[1];
+			}
+		}
+		return sval;
+	}
+
+	function SelectMembers() {
+		var result = "";
+        if(document.getElementById('chkGeneral').checked == true) {
+        	result += "전체 일반 회원";
+        }
+		if(document.getElementById('chkServiceUser').checked == true) {
+	        if(result != "") {
+	    		result += ",";
+	    	}
+        	result += "유료서비스 회원";
+        }
+		if(document.getElementById('chkAdmin').checked == true) {
+			if(result != "") {
+	    		result += ",";
+	    	}
+        	result += "관리자";
+        }
 		
-		location.href = result + "?mKind=" + mKind + "&mId=" + mId + "&mName="+ mName;
+		result += "\n";
+
+		$('#getMembers').text(result);
+	}
+	
+	function AddMember(mId) {
+		var result = $('#getMembers').val();
+		if($('#getMembers').val() != "") {
+			result += ",";
+			result += mId;
+    	} else {
+			result += mId;
+    	}
+		$('#getMembers').text(result);
+	}
+	
+	function RemoveMembers() {
+		$('#getMembers').text("");
 	}
 </script>
 </head>
@@ -111,6 +164,13 @@ panel-heading {
 					<div class="panel-body" align="center">
 						<table width="100%" height="100%">
 							<tr>
+								<td align="right"><button type="button"
+										class="btn btn-secondary" onclick="SearchMember()">조회</button></td>
+							</tr>
+							<tr>
+								<td height="5px"></td>
+							</tr>
+							<tr>
 								<td>
 									<table class="tblSearch" width="100%" height="100%">
 										<tr>
@@ -138,38 +198,45 @@ panel-heading {
 											<td><input type="text" class="form-control" name="mName"
 												id="mName" width="90%" placeholder="성명" value="${mName}"></td>
 										</tr>
-										<tr>
-											<td height="5px"></td>
-										</tr>
 									</table>
 								</td>
 							</tr>
 							<tr>
-								<td height="5px"></td>
+								<td height="3px">
+								</td>
 							</tr>
 							<tr>
-								<td align="right"><button type="button"
-										class="btn btn-secondary" onclick="SearchMember()">조회</button></td>
+								<td colspan="4" align="right">
+									<hr/>
+									<button type="button" class="btn btn-secondary"
+										onClick="SelectMembers()">선택</button>
+									<button type="button" class="btn btn-secondary"
+										onClick="RemoveMembers()">초기화</button>
+								</td>
 							</tr>
 							<tr>
-								<td height="5px"></td>
+								<td height="10px">
+								</td>
 							</tr>
 							<tr>
 								<td>
-									<hr/>
 									<table border="0" width="100%">
 										<tr>
-											<td><input type="checkbox" name="survey" id="Radios1"
-												value="Yes"> 전체 일반 회원</td>
-												<td width="5px"></td>
-											<td><input type="checkbox" name="survey" id="Radios2"
-												value="No"> 유료서비스 회원</td>
-												<td width="5px"></td>
-											<td><input type="checkbox" name="survey" id="Radios3"
-												value="Notsure"> 관리자</td>
+											<td><input type="checkbox" name="survey" id="chkGeneral"
+												${chkGVal}> 전체 일반 회원</td>
+											<td width="5px"></td>
+											<td><input type="checkbox" name="survey"
+												id="chkServiceUser" ${chkSVal}> 유료서비스 회원</td>
+											<td width="5px"></td>
+											<td><input type="checkbox" name="survey" id="chkAdmin"
+												${chkAdVal}> 관리자</td>
 										</tr>
 									</table>
 									<hr/>
+								</td>
+							</tr>
+							<tr>
+								<td height="5px">
 								</td>
 							</tr>
 							<tr>
@@ -178,20 +245,20 @@ panel-heading {
 										style="text-align: center;">
 										<thead style="text-align: center;">
 											<tr>
-												<th width="15%"><center></center></th>
-												<th width="15%"><center>분류</center></th>
+												<th width="30%"><center>분류</center></th>
 												<th width="30%"><center>아이디</center></th>
 												<th width="40%"><center>유료서비스</center></th>
 											</tr>
 										</thead>
 										<tbody>
+											<%@ taglib uri="http://java.sun.com/jsp/jstl/functions"
+												prefix="fn"%>
+											<input type="hidden" name="dtos_size" id="dtos_size"
+												value="<fmt:formatNumber value="${fn:length(dtos)}" />">
 											<c:forEach items="${dtos}" var="dto">
 												<tr>
-													<td><label class="checkbox-bootstrap"> <input
-															type="checkbox"> <span
-															class="checkbox-placeholder"></td>
 													<td>${dto.getM_KIND()}</td>
-													<td>${dto.getM_ID()}</td>
+													<td><a href="" onclick="AddMember('${dto.getM_ID()}')">${dto.getM_ID()}</a></td>
 													<td>${dto.getM_SERVICE_CHK()}</td>
 												</tr>
 											</c:forEach>
@@ -203,18 +270,15 @@ panel-heading {
 											<tr align="center">
 												<td colspan="4"><a href="${mlink}?pgnum=1${mlink2}"
 													style="text-decoration: none">${prev}${prev}</a> <a
-													href="${mlink}?pgnum=${before}${mlink2}" style="text-decoration: none">${prev}</a>
-													<c:forEach items="${pg}" var="p">
-														<a href="${mlink}?pgnum=${p}${mlink2}" style="text-decoration: none">${p}</a>
+													href="${mlink}?pgnum=${before}${mlink2}"
+													style="text-decoration: none">${prev}</a> <c:forEach
+														items="${pg}" var="p">
+														<a href="${mlink}?pgnum=${p}${mlink2}"
+															style="text-decoration: none">${p}</a>
 													</c:forEach> <a href="${mlink}?pgnum=${after}${mlink2}"
 													style="text-decoration: none">${next}</a> <a
-													href="${mlink}?pgnum=${last}${mlink2}" style="text-decoration: none">${next}${next}</a></td>
-											</tr>
-											<tr>
-												<td colspan="4" align="right">
-													<button type="button" class="btn btn-secondary">선택</button>
-													<button type="button" class="btn btn-secondary">초기화</button>
-												</td>
+													href="${mlink}?pgnum=${last}${mlink2}"
+													style="text-decoration: none">${next}${next}</a></td>
 											</tr>
 										</tfoot>
 									</table>
@@ -235,7 +299,8 @@ panel-heading {
 							<tr>
 								<td width="17%" align="right">받는사람</td>
 								<td width="3%"></td>
-								<td width="80%"></td>
+								<td width="80%"><textarea class="form-control"
+										id="getMembers" name="getMembers" rows="2" disabled="true"></textarea></td>
 							</tr>
 							<tr>
 								<td colspan="3" height="10px"></td>

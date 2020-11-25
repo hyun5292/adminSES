@@ -169,7 +169,7 @@ table {
 									</thead>
 									<tbody>
 										<tr>
-											<td>00명</td>
+											<td>${SUsercnt}명</td>
 											<td>00명</td>
 										</tr>
 									</tbody>
