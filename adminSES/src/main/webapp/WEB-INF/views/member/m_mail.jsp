@@ -59,7 +59,7 @@ panel-heading {
 		}
 
 		if (mKind == "직원") {
-			result = "#";
+			result = "sch_emailA";
 		} else {
 			result = "sch_emailG";
 		}
@@ -67,7 +67,7 @@ panel-heading {
 		location.href = result + "?mKind=" + mKind + "&mId=" + mId + "&mName="
 				+ mName;
 	}
-	
+
 	//url 에서 parameter 추출
 	function getParam(sname) {
 		var params = location.search.substr(location.search.indexOf("?") + 1);
@@ -84,40 +84,61 @@ panel-heading {
 
 	function SelectMembers() {
 		var result = "";
-        if(document.getElementById('chkGeneral').checked == true) {
-        	result += "전체 일반 회원";
-        }
-		if(document.getElementById('chkServiceUser').checked == true) {
-	        if(result != "") {
-	    		result += ",";
-	    	}
-        	result += "유료서비스 회원";
-        }
-		if(document.getElementById('chkAdmin').checked == true) {
-			if(result != "") {
-	    		result += ",";
-	    	}
-        	result += "관리자";
-        }
-		
+		if (document.getElementById('chkGeneral').checked == true) {
+			result += "전체 일반 회원";
+		}
+		if (document.getElementById('chkServiceUser').checked == true) {
+			if (result != "") {
+				result += ",";
+			}
+			result += "유료서비스 회원";
+		}
+		if (document.getElementById('chkAdmin').checked == true) {
+			if (result != "") {
+				result += ",";
+			}
+			result += "관리자";
+		}
+
 		result += "\n";
 
 		$('#getMembers').text(result);
 	}
-	
+
 	function AddMember(mId) {
 		var result = $('#getMembers').val();
-		if($('#getMembers').val() != "") {
+		if ($('#getMembers').val() != "") {
 			result += ",";
 			result += mId;
-    	} else {
+		} else {
 			result += mId;
-    	}
+		}
 		$('#getMembers').text(result);
 	}
-	
+
 	function RemoveMembers() {
 		$('#getMembers').text("");
+	}
+	
+	function check() {
+		var members = $('#getMembers').val();
+		var title = $('#inputTitle').val();
+		var message = $('#message').val();
+		
+		if(members == "") {
+			alert("받을사람을 선택하세요!!");
+			document.mailform.getMembers.focus();
+			return false;
+		} else if(title == "") {
+			alert("제목을 입력하세요!!");
+			document.mailform.inputTitle.focus();
+			return false;
+		} else if(message == "") {
+			alert("내용을 선택하세요!!");
+			document.mailform.message.focus();
+			return false;
+		}
+		
 	}
 </script>
 </head>
@@ -202,12 +223,11 @@ panel-heading {
 								</td>
 							</tr>
 							<tr>
-								<td height="3px">
-								</td>
+								<td height="3px"></td>
 							</tr>
 							<tr>
 								<td colspan="4" align="right">
-									<hr/>
+									<hr />
 									<button type="button" class="btn btn-secondary"
 										onClick="SelectMembers()">선택</button>
 									<button type="button" class="btn btn-secondary"
@@ -215,8 +235,7 @@ panel-heading {
 								</td>
 							</tr>
 							<tr>
-								<td height="10px">
-								</td>
+								<td height="10px"></td>
 							</tr>
 							<tr>
 								<td>
@@ -232,12 +251,11 @@ panel-heading {
 												${chkAdVal}> 관리자</td>
 										</tr>
 									</table>
-									<hr/>
+									<hr />
 								</td>
 							</tr>
 							<tr>
-								<td height="5px">
-								</td>
+								<td height="5px"></td>
 							</tr>
 							<tr>
 								<td>
@@ -245,21 +263,36 @@ panel-heading {
 										style="text-align: center;">
 										<thead style="text-align: center;">
 											<tr>
-												<th width="30%"><center>분류</center></th>
+												<th width="15%"><center></center></th>
+												<th width="15%"><center>분류</center></th>
 												<th width="30%"><center>아이디</center></th>
-												<th width="40%"><center>유료서비스</center></th>
+												<c:set var="mKind" value="${mKind}" />
+												<c:choose>
+													<c:when test="${mKind eq '직원'}">
+														<th width="40%"><center>성명</center></th>
+													</c:when>
+													<c:otherwise>
+														<th width="40%"><center>유료서비스</center></th>
+													</c:otherwise>
+												</c:choose>
 											</tr>
 										</thead>
 										<tbody>
-											<%@ taglib uri="http://java.sun.com/jsp/jstl/functions"
-												prefix="fn"%>
-											<input type="hidden" name="dtos_size" id="dtos_size"
-												value="<fmt:formatNumber value="${fn:length(dtos)}" />">
 											<c:forEach items="${dtos}" var="dto">
 												<tr>
+													<td><button type="button" class="btn btn-secondary"
+															onClick="AddMember('${dto.getM_ID()}')">선택</button></td>
 													<td>${dto.getM_KIND()}</td>
-													<td><a href="" onclick="AddMember('${dto.getM_ID()}')">${dto.getM_ID()}</a></td>
-													<td>${dto.getM_SERVICE_CHK()}</td>
+													<td>${dto.getM_ID()}</td>
+													<c:set var="mKind" value="${mKind}" />
+													<c:choose>
+														<c:when test="${mKind eq '직원'}">
+															<td>${dto.getM_NAME()}</td>
+														</c:when>
+														<c:otherwise>
+															<td>${dto.getM_SERVICE_CHK()}</td>
+														</c:otherwise>
+													</c:choose>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -292,45 +325,48 @@ panel-heading {
 				</div>
 			</div>
 			<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-				<div class="panel panel-default">
-					<div class="panel-heading">메일 작성</div>
-					<div class="panel-body" align="center">
-						<table width="100%" height="100%">
-							<tr>
-								<td width="17%" align="right">받는사람</td>
-								<td width="3%"></td>
-								<td width="80%"><textarea class="form-control"
-										id="getMembers" name="getMembers" rows="2" disabled="true"></textarea></td>
-							</tr>
-							<tr>
-								<td colspan="3" height="10px"></td>
-							</tr>
-							<tr>
-								<td width="17%" align="right">제목</td>
-								<td width="3%"></td>
-								<td width="80%"><input type="text" class="form-control"
-									id="inputTitle" placeholder="제목"></td>
-							</tr>
-							<tr>
-								<td colspan="3" height="10px"></td>
-							</tr>
-							<tr>
-								<td width="17%" align="right">내용</td>
-								<td width="3%"></td>
-								<td width="80%"><textarea class="form-control" id="message"
-										name="message" rows="23"></textarea></td>
-							</tr>
-							<tr>
-								<td colspan="3" height="10px"></td>
-							</tr>
-							<tr>
-								<td colspan="3" align="center">
-									<button type="button" class="btn btn-secondary">전송</button>
-								</td>
-							</tr>
-						</table>
+				<form action="doSend" class="form-horizontal" name="mailform"
+					method="post" onsubmit="return check()">
+					<div class="panel panel-default">
+						<div class="panel-heading">메일 작성</div>
+						<div class="panel-body" align="center">
+							<table width="100%" height="100%">
+								<tr>
+									<td width="17%" align="right">받는사람</td>
+									<td width="3%"></td>
+									<td width="80%"><textarea class="form-control"
+											id="getMembers" name="getMembers" rows="2" disabled="true"></textarea></td>
+								</tr>
+								<tr>
+									<td colspan="3" height="10px"></td>
+								</tr>
+								<tr>
+									<td width="17%" align="right">제목</td>
+									<td width="3%"></td>
+									<td width="80%"><input type="text" class="form-control"
+										id="inputTitle" placeholder="제목"></td>
+								</tr>
+								<tr>
+									<td colspan="3" height="10px"></td>
+								</tr>
+								<tr>
+									<td width="17%" align="right">내용</td>
+									<td width="3%"></td>
+									<td width="80%"><textarea class="form-control"
+											id="message" name="message" rows="23"></textarea></td>
+								</tr>
+								<tr>
+									<td colspan="3" height="10px"></td>
+								</tr>
+								<tr>
+									<td colspan="3" align="center">
+										<button type="submit" id="sendbtn" name="sendbtn" class="btn btn-secondary">전송</button>
+									</td>
+								</tr>
+							</table>
+						</div>
 					</div>
-				</div>
+				</form>
 			</div>
 		</div>
 		</main>

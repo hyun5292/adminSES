@@ -109,7 +109,9 @@ table {
 				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 					<div class="short-div">
 						<div class="panel panel-default">
-							<div class="panel-heading">받은 문의</div>
+							<div class="panel-heading">
+								<a href="qna">받은 문의</a>
+							</div>
 							<div class="panel-body">
 								<table class="table table-list-search">
 									<thead>
@@ -119,22 +121,18 @@ table {
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td><span class="badge badge-pill badge-warning">New</span>제목1</td>
-											<td><center>아이디1</center></td>
-										</tr>
-										<tr>
-											<td><span class="badge badge-pill badge-warning">New</span>제목2</td>
-											<td><center>아이디2</center></td>
-										</tr>
-										<tr>
-											<td><span class="badge badge-pill badge-warning">New</span>제목3</td>
-											<td><center>아이디3</center></td>
-										</tr>
-										<tr>
-											<td><span class="badge badge-pill badge-warning">New</span>제목4</td>
-											<td><center>아이디4</center></td>
-										</tr>
+										<c:forEach items="${dtos}" var="dto">
+											<tr>
+												<td>&nbsp;<c:if test="${dto.getQ_REPLY() eq ''}">
+														<span class="badge badge-pill badge-warning">New</span>
+													</c:if> 
+													<c:if test="${dto.getQ_REPLY() ne ''}">
+														&nbsp;&nbsp;&nbsp;
+													</c:if> 
+													<a href="#">${dto.getQ_TITLE()}</a></td>
+												<td><center>${dto.getM_ID()}</center></td>
+											</tr>
+										</c:forEach>
 									</tbody>
 								</table>
 							</div>
@@ -164,13 +162,13 @@ table {
 									<thead style="text-align: center;">
 										<tr>
 											<th width="50%"><center>유료서비스 이용자 수</center></th>
-											<th width="50%"><center>유료서비스 미납자 수</center></th>
+											<th width="50%"><center>유료서비스 이용률</center></th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
 											<td>${SUsercnt}명</td>
-											<td>00명</td>
+											<td>${SUserpct}명</td>
 										</tr>
 									</tbody>
 								</table>

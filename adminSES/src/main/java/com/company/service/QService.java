@@ -29,4 +29,7 @@ public interface QService {
 
 	// 날짜별로 검색된 SNS사 담당자의 문의 내역 개수 가져오기
 	public int GetSchSnsQListCnt(Map<String, Object> map);
+
+	// 메인화면용 최신 문의 내역 가져오기
+	public List<QnaDTO> GetQRecentList();
 }

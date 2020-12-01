@@ -54,10 +54,10 @@ thead {
 	$('.input-daterange input').each(function() {
 		$(this).datepicker('clearDates');
 	});
-	
+
 	function check() {
 		var regNumber = /^[0-9]*$/;
-		
+
 		if ($('#sName').val() == "") {
 			alert("성명을 입력하세요!!");
 			$('#sName').focus();
@@ -73,12 +73,12 @@ thead {
 			alert("전화번호를 입력하세요!!");
 			$('#sTel2').focus();
 			return false;
-		} else if(!regNumber.test($('#sTel2').val())) {
+		} else if (!regNumber.test($('#sTel2').val())) {
 			alert("숫자만 입력하세요");
 			$('#sTel2').focus();
 			$('#sTel2').select();
 			return false;
-		} else if ($('#sTel2').val().length<4 || $('#sTel2').val().length>4) {
+		} else if ($('#sTel2').val().length < 4 || $('#sTel2').val().length > 4) {
 			alert("전화번호는 4자리입니다!!")
 			$('#sTel2').focus();
 			$('#sTel2').select();
@@ -87,12 +87,12 @@ thead {
 			alert("전화번호를 입력하세요!!");
 			$('#sTel3').focus();
 			return false;
-		} else if(!regNumber.test($('#sTel3').val())) {
+		} else if (!regNumber.test($('#sTel3').val())) {
 			alert("숫자만 입력하세요");
 			$('#sTel3').focus();
 			$('#sTel3').select();
 			return false;
-		} else if ($('#sTel3').val().length<4 || $('#sTel3').val().length>4) {
+		} else if ($('#sTel3').val().length < 4 || $('#sTel3').val().length > 4) {
 			alert("전화번호는 4자리입니다!!")
 			$('#sTel3').focus();
 			$('#sTel3').select();
@@ -109,12 +109,18 @@ thead {
 			return true;
 		}
 	}
-	
+
 	function DeleteSns() {
 		var sKind = $('#sKind').val();
 		var inDT = $('#inDT').val();
-		
-		location.href = "delete_sns?sKind="+sKind+"&inDT="+inDT;
+		var confirm_test = confirm("삭제하시겠습니까?");
+		 
+	    if ( confirm_test == true ) {
+			location.href = "delete_sns?sKind=" + sKind + "&inDT=" + inDT;
+	    } else if ( confirm_test == false ) {
+			alert("삭제가 취소되었습니다!!");
+			return false;
+	    }
 	}
 
 	//url 에서 parameter 추출
@@ -130,13 +136,14 @@ thead {
 		}
 		return sval;
 	}
-	
+
 	function SearchSnsQLog() {
 		var mId = getParam("mId");
 		var mKind = getParam("inDT");
 		var StartDT = $('#StartDT').val();
 		var EndDT = $('#EndDT').val();
-		location.href = "sns_qsch?mId="+mId+"&mKind="+mKind+"&StartDT="+StartDT+"&EndDT="+EndDT;
+		location.href = "sns_qsch?mId=" + mId + "&mKind=" + mKind + "&StartDT="
+				+ StartDT + "&EndDT=" + EndDT;
 	}
 
 	function isRegister() {
@@ -150,8 +157,11 @@ thead {
 			$("#btnSearch").attr("disabled", "true");
 			$("#StartDT").attr("disabled", "true");
 			$("#EndDT").attr("disabled", "true");
-			$("#sTel1")[0].value="010";
-			$("#inDT").attr("value", date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate());
+			$("#sTel1")[0].value = "010";
+			$("#inDT").attr(
+					"value",
+					date.getFullYear() + "-" + (date.getMonth() + 1) + "-"
+							+ date.getDate());
 			$("#exitDT").attr("value", "0000-00-00");
 		} else {
 			$("#btnRegister").hide();
@@ -202,114 +212,115 @@ thead {
 		<div class="container-fluid">
 			<div class="row-fluid" style="width: 110%">
 				<div class="col-md-10">
-				<form action="${formAction}" class="form-horizontal" id="myform" name="myform"
-				method="post" onsubmit="return check()">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<table class="tblInfo" width="100%">
-								<tr>
-									<td>SNS사 담당자 정보</td>
-									<td colspan="10" align="right">
-										<button type="submit" id="btnRegister" name="btnRegister"
-											class="btn btn-secondary">등록</button>
-										<button type="submit" id="btnModify" name="btnModify"
-											class="btn btn-secondary">수정</button>
-											<button type="button" id="btnRemove" name="btnRemove" onclick="DeleteSns()"
-											class="btn btn-secondary">삭제</button>
-									</td>
-								</tr>
-							</table>
-						</div>
-						<div class="panel-body">
-						<input type="hidden"  id="inDT2" name="inDT2" value="${dto.getS_START_DT()}">
-						<input type="hidden"  id="sKind2" name="sKind2" value="${dto.getM_ID()}">
-							<table class="tblInfo" width="100%">
-								<tbody>
+					<form action="${formAction}" class="form-horizontal" id="myform"
+						name="myform" method="post" onsubmit="return check()">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<table class="tblInfo" width="100%">
 									<tr>
-										<td align="right" width="10%">성명</td>
-										<td width="1%"></td>
-										<td width="20%">
-											<table width="90%">
-												<tr>
-													<td><input type="text" class="form-control" id="sName"
-														name="sName" placeholder="성명" value="${dto.getM_NAME()}"></td>
-												</tr>
-											</table>
-										</td>
-										<td align="right" width="10%">SNS사</td>
-										<td width="1%"></td>
-										<td width="10%" font-size="1.3rem"><select
-											class="custom-select" id="sKind" name="sKind">
-												<option selected="true" value="${dto.getM_ID()}">${dto.getM_ID()}</option>
-												<option value="Naver">Naver</option>
-												<option value="Facebook">Facebook</option>
-												<option value="Google">Google</option>
-												<option value="Kakaotalk">Kakaotalk</option>
-										</select>
-										<td align="right" width="10%">전화번호</td>
-										<td width="1%"></td>
-										<td width="40%">
-											<table border="0" width="77%">
-												<tr>
-													<td width="30%"><select class="custom-select"
-														id="sTel1" name="sTel1">
-															<option selected="true">0${dto.getM_TEL1()}</option>
-															<option>010</option>
-															<option>011</option>
-															<option>012</option>
-													</select></td>
-													<td align="center">-</td>
-													<td width="35%"><input type="text"
-														class="form-control" id="sTel2" name="sTel2"
-														value="${dto.getM_TEL2()}"></td>
-													<td align="center">-</td>
-													<td width="35%"><input type="text"
-														class="form-control" id="sTel3" name="sTel3"
-														value="${dto.getM_TEL3()}"></td>
-												</tr>
-											</table>
+										<td>SNS사 담당자 정보</td>
+										<td colspan="10" align="right">
+											<button type="submit" id="btnRegister" name="btnRegister"
+												class="btn btn-secondary">등록</button>
+											<button type="submit" id="btnModify" name="btnModify"
+												class="btn btn-secondary">수정</button>
+											<button type="button" id="btnRemove" name="btnRemove"
+												onclick="DeleteSns()" class="btn btn-secondary">삭제</button>
 										</td>
 									</tr>
-									<tr>
-										<td colspan="9" height="10px"></td>
-									</tr>
-									<tr>
-										<td align="right" width="10%">부서</td>
-										<td width="1%"></td>
-										<td width="20%">
-											<table width="90%">
-												<tr>
-													<td><input type="text" class="form-control" id="sDept"
-														name="sDept" placeholder="부서" value="${dto.getS_DEPT()}"></td>
-												</tr>
-											</table>
-										</td>
-										<td align="right" colspan="3">입사 및 퇴사일</td>
-										<td colspan="6"><table width="100%">
-												<tr>
-													<td width="10px"></td>
-													<td>
-														<div class="input-group input-daterange" id="joinDT">
-															<div class="input-group input-daterange">
-																<input type="text" class="form-control" id="inDT"
-																	name="inDT" data-date-format="yyyy-mm-dd"
-																	maxlength="15"
-																	value="${dto.getS_START_DT()}">
-																<div class="input-group-addon">to</div>
-																<input type="text" class="form-control" id="exitDT"
-																	name="exitDT" data-date-format="yyyy-mm-dd"
-																	maxlength="15"
-																	value="${dto.getS_END_DT()}">
+								</table>
+							</div>
+							<div class="panel-body">
+								<input type="hidden" id="inDT2" name="inDT2"
+									value="${dto.getS_START_DT()}"> <input type="hidden"
+									id="sKind2" name="sKind2" value="${dto.getM_ID()}">
+								<table class="tblInfo" width="100%">
+									<tbody>
+										<tr>
+											<td align="right" width="10%">성명</td>
+											<td width="1%"></td>
+											<td width="20%">
+												<table width="90%">
+													<tr>
+														<td><input type="text" class="form-control"
+															id="sName" name="sName" placeholder="성명"
+															value="${dto.getM_NAME()}"></td>
+													</tr>
+												</table>
+											</td>
+											<td align="right" width="10%">SNS사</td>
+											<td width="1%"></td>
+											<td width="10%" font-size="1.3rem"><select
+												class="custom-select" id="sKind" name="sKind">
+													<option selected="true" value="${dto.getM_ID()}">${dto.getM_ID()}</option>
+													<option value="Naver">Naver</option>
+													<option value="Facebook">Facebook</option>
+													<option value="Google">Google</option>
+													<option value="Kakaotalk">Kakaotalk</option>
+											</select>
+											<td align="right" width="10%">전화번호</td>
+											<td width="1%"></td>
+											<td width="40%">
+												<table border="0" width="77%">
+													<tr>
+														<td width="30%"><select class="custom-select"
+															id="sTel1" name="sTel1">
+																<option selected="true">0${dto.getM_TEL1()}</option>
+																<option>010</option>
+																<option>011</option>
+																<option>012</option>
+														</select></td>
+														<td align="center">-</td>
+														<td width="35%"><input type="text"
+															class="form-control" id="sTel2" name="sTel2"
+															value="${dto.getM_TEL2()}"></td>
+														<td align="center">-</td>
+														<td width="35%"><input type="text"
+															class="form-control" id="sTel3" name="sTel3"
+															value="${dto.getM_TEL3()}"></td>
+													</tr>
+												</table>
+											</td>
+										</tr>
+										<tr>
+											<td colspan="9" height="10px"></td>
+										</tr>
+										<tr>
+											<td align="right" width="10%">부서</td>
+											<td width="1%"></td>
+											<td width="20%">
+												<table width="90%">
+													<tr>
+														<td><input type="text" class="form-control"
+															id="sDept" name="sDept" placeholder="부서"
+															value="${dto.getS_DEPT()}"></td>
+													</tr>
+												</table>
+											</td>
+											<td align="right" colspan="3">입사 및 퇴사일</td>
+											<td colspan="6"><table width="100%">
+													<tr>
+														<td width="10px"></td>
+														<td>
+															<div class="input-group input-daterange" id="joinDT">
+																<div class="input-group input-daterange">
+																	<input type="text" class="form-control" id="inDT"
+																		name="inDT" data-date-format="yyyy-mm-dd"
+																		maxlength="15" value="${dto.getS_START_DT()}">
+																	<div class="input-group-addon">to</div>
+																	<input type="text" class="form-control" id="exitDT"
+																		name="exitDT" data-date-format="yyyy-mm-dd"
+																		maxlength="15" value="${dto.getS_END_DT()}">
+																</div>
 															</div>
-														</div>
-													</td>
-												</tr>
-											</table></td>
-									</tr>
-								</tbody>
-							</table>
+														</td>
+													</tr>
+												</table></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>
-					</div>
 				</div>
 			</div>
 			<div class="row-fluid" style="width: 110%">
@@ -346,16 +357,19 @@ thead {
 							<td width="40%" align="right">
 								<div class="input-group input-daterange" id="searchDT">
 									<div class="input-group input-daterange">
-										<input type="text" class="form-control" id="StartDT" name="StartDT"
-											data-date-format="yyyy-mm-dd" maxlength="15" value="${StartDT}">
+										<input type="text" class="form-control" id="StartDT"
+											name="StartDT" data-date-format="yyyy-mm-dd" maxlength="15"
+											value="${StartDT}">
 										<div class="input-group-addon">to</div>
-										<input type="text" class="form-control" id="EndDT" name="EndDT"
-											data-date-format="yyyy-mm-dd" maxlength="15" value="${EndDT}">
+										<input type="text" class="form-control" id="EndDT"
+											name="EndDT" data-date-format="yyyy-mm-dd" maxlength="15"
+											value="${EndDT}">
 									</div>
 								</div>
 							</td>
 							<td width="8%" align="right">
-								<button id="btnSearch" name="btnSearch" type="button" onclick="SearchSnsQLog()" class="btn btn-secondary">검색</button>
+								<button id="btnSearch" name="btnSearch" type="button"
+									onclick="SearchSnsQLog()" class="btn btn-secondary">검색</button>
 							</td>
 						</tr>
 						<tr>
@@ -384,18 +398,14 @@ thead {
 								<td colspan="5"></td>
 							</tr>
 							<tr align="center">
-								<td colspan="5"><a
-									href="${snsLink}&pgnum=1"
+								<td colspan="5"><a href="${snsLink}&pgnum=1"
 									style="text-decoration: none">${prev}${prev}</a> <a
-									href="${snsLink}&pgnum=${before}"
-									style="text-decoration: none">${prev}</a> <c:forEach
-										items="${pg}" var="p">
-										<a href="${snsLink}&pgnum=${p}"
-											style="text-decoration: none">${p}</a>
+									href="${snsLink}&pgnum=${before}" style="text-decoration: none">${prev}</a>
+									<c:forEach items="${pg}" var="p">
+										<a href="${snsLink}&pgnum=${p}" style="text-decoration: none">${p}</a>
 									</c:forEach> <a href="${snsLink}&pgnum=${after}"
 									style="text-decoration: none">${next}</a> <a
-									href="${snsLink}&pgnum=${last}"
-									style="text-decoration: none">${next}${next}</a></td>
+									href="${snsLink}&pgnum=${last}" style="text-decoration: none">${next}${next}</a></td>
 							</tr>
 						</tfoot>
 					</table>

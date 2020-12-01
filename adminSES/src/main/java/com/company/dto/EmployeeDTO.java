@@ -18,12 +18,13 @@ public class EmployeeDTO {
 	
 	public EmployeeDTO() {}
 	
-	public EmployeeDTO(String e_ID, String e_PW, String e_NAME, String e_EMAIL1, String e_EMAIL2, int e_TEL1,
+	public EmployeeDTO(String e_ID, String e_PW, String e_NAME, String e_KIND, String e_EMAIL1, String e_EMAIL2, int e_TEL1,
 			int e_TEL2, int e_TEL3, String e_ENTER_DT, String e_RESIGN_DT, String e_RANK, String e_AUTH) {
 		super();
 		M_ID = e_ID;
 		M_PW = e_PW;
 		M_NAME = e_NAME;
+		M_KIND = e_KIND;
 		E_EMAIL1 = e_EMAIL1;
 		E_EMAIL2 = e_EMAIL2;
 		M_TEL1 = e_TEL1;

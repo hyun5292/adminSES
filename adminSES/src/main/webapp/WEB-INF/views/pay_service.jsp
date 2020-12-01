@@ -131,12 +131,7 @@ panel-heading {
 											<tr>
 												<td align="right" width="48%">이번 달 예정 금액</td>
 												<td width="4%"></td>
-												<td width="48%">000,000,000 원</td>
-											</tr>
-											<tr>
-												<td align="right" width="48%">현재 금액</td>
-												<td width="4%"></td>
-												<td width="48%">000,000,000 원</td>
+												<td width="48%"><fmt:formatNumber value="${ThisMoney}" pattern="#,###"/> 원</td>
 											</tr>
 										</table>
 									<td>
@@ -382,7 +377,7 @@ panel-heading {
 											<tr>
 												<td>${pdto.getNUM()}</td>
 												<td>${pdto.getPL_TITLE()}</td>
-												<td>${pdto.getPL_PRICE()}원</td>
+												<td><fmt:formatNumber value="${pdto.getPL_PRICE()}" pattern="#,###"/> 원</td>
 												<td>${pdto.getPL_DATE()}</td>
 											</tr>
 										</c:forEach>

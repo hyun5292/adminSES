@@ -23,5 +23,11 @@ public interface EService {
 
 	// 직원 관리자 권한 해지
 	boolean MakeDontAuth(String mId);
+
+	// 이메일 검색된 직원 수 구하기
+	int GetsSchEmACnt(Map<String, Object> map);
+
+	// 이메일 검색된 직원 목록 구하기
+	List<EmployeeDTO> GetsSchEmAdmin(Map<String, Object> map);
 	
 }

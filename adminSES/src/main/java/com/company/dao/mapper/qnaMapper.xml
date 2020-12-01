@@ -50,4 +50,8 @@
 		resultType="int">
 		SELECT count(*) FROM qna WHERE M_ID LIKE #{mId} AND Q_DATE BETWEEN #{StartDT} AND #{EndDT};
 	</select>
+	
+	<select id="GetQRecentList" resultType="com.company.dto.QnaDTO">
+		SELECT * FROM qna ORDER BY Q_DATE DESC limit 0,4;
+	</select>
 </mapper>

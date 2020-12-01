@@ -45,5 +45,17 @@ public class EmployeeService implements EService{
 	public boolean MakeDontAuth(String mId) {
 		return eDAO.MakeDontAuth(mId);
 	}
+
+	// 이메일 검색된 직원 수 구하기
+	@Override
+	public int GetsSchEmACnt(Map<String, Object> map) {
+		return eDAO.GetsSchEmACnt(map);
+	}
+
+	// 이메일 검색된 직원 목록 구하기
+	@Override
+	public List<EmployeeDTO> GetsSchEmAdmin(Map<String, Object> map) {
+		return eDAO.GetsSchEmAdmin(map);
+	}
 	
 }

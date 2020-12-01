@@ -13,4 +13,5 @@
 	<bean id="pDAO" class="com.company.dao.PayLogDAO" />
 	<bean id="qDAO" class="com.company.dao.QnaDAO" />
 	<bean id="sDAO" class="com.company.dao.SnsDAO" />
+	<bean id="lDAO" class="com.company.dao.LogDAO" />
 </beans>

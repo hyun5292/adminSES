@@ -68,6 +68,8 @@ public class M_SnsController {
 		}
 
 		userAvg = (float) (Math.round((serviceUsercnt / gcnt) * 100) / 100.0);
+		userAvg *= 100;
+		userAvg = Math.round(userAvg);
 
 		map.put("mId", mId);
 		map.put("sStartDT", "%" + mKind + "%");
@@ -176,24 +178,49 @@ public class M_SnsController {
 			throws IOException {
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
-		boolean result = false;
 		SimpleDateFormat format1 = new SimpleDateFormat ("yyyy-MM-dd");
 		Calendar time = Calendar.getInstance();
 		String now = format1.format(time.getTime());
-		SnsDTO dto = null;
 		
-		map.put("sStartDT", now);
+		map.put("sStartDT", "%"+now+"%");
 		map.put("sKind", request.getParameter("sKind"));
 		
-		// 오늘 등록된 다른 SNS 담당자가 있는지 확인
-		dto = Ser_S.ChkTodaySNS(map);
+		//1. 오늘 등록된 사람이 있는가
+		int chkToday = Ser_S.ChkTodaySNS(map);
 		
-		if(dto != null) {
-			System.out.println("O");
-		} else {
-			System.out.println("X");
+		if (chkToday > 0) {	// 있으면
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오늘 등록한 사람이 있습니다. 먼저 삭제해주세요!!'); history.go(-1);</script>");
+			out.flush();
+		} else {  // 없으면 이전 등록되어 있는 사람 조회
+			map = new HashMap<String, Object>();
+			map.put("exitDT", now);
+			map.put("sKind", request.getParameter("sKind"));
+			
+			// 기존 담당자 마감일 설정
+			boolean rs_End =  Ser_S.ChgNowSns(map);
+			
+			// 새 담당자 등록
+			map = new HashMap<String, Object>();
+			map.put("sKind", request.getParameter("sKind"));
+			map.put("sName", request.getParameter("sName"));
+			map.put("sTel1", request.getParameter("sTel1"));
+			map.put("sTel2", request.getParameter("sTel2"));
+			map.put("sTel3", request.getParameter("sTel3"));
+			map.put("sDept", request.getParameter("sDept"));
+			map.put("inDT", request.getParameter("inDT"));
+			map.put("exitDT", request.getParameter("exitDT"));
+			
+			boolean rs_New = Ser_S.NewSnsMember(map);
+			
+			if(!rs_New) {
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+				out.flush();
+			}
 		}
-		
 
 		return "redirect:/" + "m_search";
 	}

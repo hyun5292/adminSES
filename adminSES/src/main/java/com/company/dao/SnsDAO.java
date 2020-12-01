@@ -68,7 +68,7 @@ public class SnsDAO {
 	}
 
 	// 오늘 등록된 다른 SNS 담당자가 있는지 확인
-	public SnsDTO ChkTodaySNS(Map<String, Object> map) {
+	public int ChkTodaySNS(Map<String, Object> map) {
 		return temp.selectOne("snsMap.ChkTodaySNS", map);
 	}
 	

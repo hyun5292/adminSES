@@ -62,4 +62,10 @@ public class QnaService implements QService {
 	public int GetSchSnsQListCnt(Map<String, Object> map) {
 		return qDAO.GetSchSnsQListCnt(map);
 	}
+
+	// 메인화면용 최신 문의 내역 가져오기
+	@Override
+	public List<QnaDTO> GetQRecentList() {
+		return qDAO.GetQRecentList();
+	}
 }

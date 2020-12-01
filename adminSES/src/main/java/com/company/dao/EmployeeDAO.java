@@ -50,4 +50,14 @@ public class EmployeeDAO {
 		else
 			return false;
 	}
+
+	// 이메일 검색된 직원 수 구하기
+	public int GetsSchEmACnt(Map<String, Object> map) {
+		return temp.selectOne("eMap.GetsSchEmACnt", map);
+	}
+
+	// 이메일 검색된 직원 목록 구하기
+	public List<EmployeeDTO> GetsSchEmAdmin(Map<String, Object> map) {
+		return temp.selectList("eMap.GetsSchEmAdmin", map);
+	}
 }

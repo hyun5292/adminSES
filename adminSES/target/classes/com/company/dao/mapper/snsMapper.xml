@@ -50,7 +50,7 @@
 	</update>
 	
 	<select id="ChkTodaySNS" parameterType="hashmap"
-		resultType="com.company.dto.SnsDTO">
-		SELECT * FROM sns WHERE M_ID LIKE #{mId} AND S_START_DT LIKE #{sStartDT};
+		resultType="int">
+		SELECT count(*) FROM sns WHERE M_ID LIKE #{sKind} AND S_START_DT LIKE #{sStartDT};
 	</select>
 </mapper>

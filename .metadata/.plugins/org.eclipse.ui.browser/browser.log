@@ -66,3 +66,23 @@
 11월 26, 2020 02:21:42.50 [1126/022142.508:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
 11월 26, 2020 03:01:55.47 [1126/030155.471:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
 11월 26, 2020 03:41:20.88 [1126/034120.884:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+
+11월 26, 2020 10:01:35.60 NEW SESSION
+11월 26, 2020 10:01:35.60 [8748:5644:1126/100135.597:ERROR:get_updates_processor.cc(257)] PostClientToServerMessage() failed during GetUpdates with error 15
+11월 26, 2020 10:07:05.53 [2968:8860:1126/100705.529:ERROR:get_updates_processor.cc(257)] PostClientToServerMessage() failed during GetUpdates with error 15
+11월 26, 2020 10:17:02.21 [1126/101702.215:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+11월 26, 2020 11:25:28.84 [10272:10200:1126/112528.841:ERROR:get_updates_processor.cc(257)] PostClientToServerMessage() failed during GetUpdates with error 15
+11월 26, 2020 11:35:24.40 [1126/113524.404:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+11월 26, 2020 11:37:13.66 [10272:11216:1126/113713.666:ERROR:connection_factory_impl.cc(428)] Failed to connect to MCS endpoint with error -106
+11월 26, 2020 11:58:35.93 [10272:11216:1126/115835.938:ERROR:socket_stream.cc(219)] Closing stream with result -2
+11월 26, 2020 11:58:36.03 [10272:11216:1126/115836.032:ERROR:connection_factory_impl.cc(428)] Failed to connect to MCS endpoint with error -105
+11월 26, 2020 12:30:26.67 [9844:5280:1126/123026.672:ERROR:get_updates_processor.cc(257)] PostClientToServerMessage() failed during GetUpdates with error 15
+11월 26, 2020 12:32:47.42 [12048:5416:1126/123247.428:ERROR:get_updates_processor.cc(257)] PostClientToServerMessage() failed during GetUpdates with error 15
+
+12월 01, 2020 21:00:20.02 NEW SESSION
+12월 01, 2020 21:00:20.02 [1201/210020.021:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+12월 01, 2020 21:45:07.54 [1201/214507.544:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+12월 01, 2020 23:42:25.01 [1201/234225.016:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+12월 02, 2020 01:03:16.85 [1202/010316.856:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+12월 02, 2020 01:41:12.73 [1202/014112.732:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+12월 02, 2020 02:44:21.80 [1202/024421.808:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)

@@ -59,7 +59,7 @@ public class SnsService implements SService{
 
 	// 오늘 등록된 다른 SNS 담당자가 있는지 확인
 	@Override
-	public SnsDTO ChkTodaySNS(Map<String, Object> map) {
+	public int ChkTodaySNS(Map<String, Object> map) {
 		return sDAO.ChkTodaySNS(map);
 	}
 

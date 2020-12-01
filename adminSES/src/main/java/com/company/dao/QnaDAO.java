@@ -55,4 +55,9 @@ public class QnaDAO {
 	public int GetSchSnsQListCnt(Map<String, Object> map) {
 		return temp.selectOne("qMap.GetSchSnsQListCnt", map);
 	}
+
+	// 메인화면용 최신 문의 내역 가져오기
+	public List<QnaDTO> GetQRecentList() {
+		return temp.selectList("qMap.GetQRecentList");
+	}
 }
