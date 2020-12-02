@@ -168,7 +168,7 @@ table {
 									<tbody>
 										<tr>
 											<td>${SUsercnt}명</td>
-											<td>${SUserpct}명</td>
+											<td>${SUserpct}%</td>
 										</tr>
 									</tbody>
 								</table>

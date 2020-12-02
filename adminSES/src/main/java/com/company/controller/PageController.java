@@ -60,10 +60,11 @@ public class PageController {
 		int MCnt = Ser_M.PageCnt();
 		int NoMCnt = Ser_M.GeneralNotUseCnt();
 		int SUsercnt = Ser_M.GetServiceUserCnt();
-		float SUserpct = 0;
+		int SUserpct = 0;
 		
 		// 유료서비스 이용률 계산
-		SUserpct = MCnt;
+		SUserpct = Math.round(((float)SUsercnt / (float)MCnt) * 100);
+		System.out.println(SUserpct);
 		
 		// 문의 목록 불러오기
 		List<QnaDTO> dtos = Ser_Q.GetQRecentList();
@@ -73,7 +74,7 @@ public class PageController {
 		model.addAttribute("MCnt", MCnt);
 		model.addAttribute("NoMCnt", NoMCnt);
 		model.addAttribute("SUsercnt", SUsercnt);
-		model.addAttribute("SUserpct", SUsercnt/MCnt+SUsercnt%MCnt);
+		model.addAttribute("SUserpct", SUserpct);
 
 		return "/main";
 	}
@@ -522,7 +523,7 @@ public class PageController {
 			}
 		}
 
-		userAvg = (float) (Math.round((serviceUsercnt / gcnt) * 100) / 100.0);
+		userAvg = (float) Math.round(serviceUsercnt / gcnt);
 		userAvg *= 100;
 		userAvg = Math.round(userAvg);
 
