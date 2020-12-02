@@ -39,7 +39,7 @@ public interface MService {
 
 	// 유료서비스 이용자 수 구하기
 	public int GetServiceUserCnt();
-	
+
 	// 이메일용 회원 목록 불러오기
 	public List<MemberDTO> GetMEmailList(Map<String, Object> map);
 
@@ -51,4 +51,7 @@ public interface MService {
 
 	// 이메일 검색된 일반 회원 수 구하기
 	public int GetsSchEmGCnt(Map<String, Object> map);
+
+	// PayLog 회원 목록 불러오기
+	public List<MemberDTO> GetPlMList(Map<String, Object> map);
 }

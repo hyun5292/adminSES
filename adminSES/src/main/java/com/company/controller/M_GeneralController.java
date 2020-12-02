@@ -279,7 +279,11 @@ public class M_GeneralController {
 				Link = "&lStartDT="+lStartDT+"&lEndDT="+lEndDT;
 			}
 		}
+
+		int totalPay = 0;
+		totalPay = 19900 * Ser_PL.getMPayList(mId);
 		
+		model.addAttribute("totalPay", totalPay);
 		model.addAttribute("qStartDT", qStartDT);
 		model.addAttribute("qEndDT", qEndDT);
 		model.addAttribute("lStartDT", lStartDT);

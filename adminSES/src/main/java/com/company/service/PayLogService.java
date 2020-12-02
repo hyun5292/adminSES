@@ -16,7 +16,7 @@ public class PayLogService implements PLService{
 	@Inject
 	PayLogDAO plDAO;
 
-	// 회원의 문의 내역 가져오기
+	// 회원의 Pay내역 가져오기
 	@Override
 	public List<PayLogDTO> getMemberPLList(Map<String, Object> plmap) {
 		return plDAO.getMemberPLList(plmap);
@@ -38,5 +38,17 @@ public class PayLogService implements PLService{
 	@Override
 	public List<PayLogDTO> getSearchedMemberPLList(Map<String, Object> pmap) {
 		return plDAO.getSearchedMemberPLList(pmap);
+	}
+
+	// 해당 회원의 이번달 내역 가져오기
+	@Override
+	public int getChkPay(Map<String, Object> map) {
+		return plDAO.getChkPay(map);
+	}
+
+	// 검색된 회원의 Pay 횟수 구하기
+	@Override
+	public int getMPayList(String mId) {
+		return plDAO.getMPayList(mId);
 	}
 }

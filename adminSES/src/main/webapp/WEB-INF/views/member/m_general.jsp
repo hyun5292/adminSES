@@ -62,21 +62,21 @@ thead {
 		var qStartDT = $('#qStartDT').val();
 		var qEndDT = $('#qEndDT').val();
 		var result = "";
-		
-		if(qStartDT != null && qEndDT != null) {
+
+		if (qStartDT != null && qEndDT != null) {
 			result += "&qStartDT=" + qStartDT + "&qEndDT=" + qEndDT;
 		}
 
 		location.href = "g_dt_search?mId=" + mId + result;
 	}
-	
+
 	function SearchLDT() {
 		var mId = $('#mId').val();
 		var lStartDT = $('#lStartDT').val();
 		var lEndDT = $('#lEndDT').val();
 		var result = "";
-		
-		if(lStartDT != null && lEndDT != null) {
+
+		if (lStartDT != null && lEndDT != null) {
 			result += "&lStartDT=" + lStartDT + "&lEndDT=" + lEndDT;
 		}
 
@@ -166,7 +166,7 @@ thead {
 										<td colspan="4">${FB}&nbsp;${KT}&nbsp;${N}&nbsp;${G}</td>
 										<td align="right">유료서비스 월 납부 금액</td>
 										<td width="10px"></td>
-										<td>000,000 원</td>
+										<td>19,900 원</td>
 									</tr>
 									<tr>
 										<td colspan="9" height="10px"></td>
@@ -175,7 +175,8 @@ thead {
 										<td colspan="6"></td>
 										<td align="right">총 납부 금액</td>
 										<td width="10px"></td>
-										<td>000,000,000 원</td>
+										<td><fmt:formatNumber value="${totalPay}" pattern="#,###" />
+											원</td>
 									</tr>
 								</tbody>
 							</table>
@@ -183,7 +184,7 @@ thead {
 					</div>
 				</div>
 				<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-				<!--<input type="hidden" id="qpgnum" name="qpgnum" value="${qpgnum}">-->
+					<!--<input type="hidden" id="qpgnum" name="qpgnum" value="${qpgnum}">-->
 					<table width="100%">
 						<tr>
 							<td width="60%" align="right">
@@ -237,8 +238,9 @@ thead {
 									</tr>
 									<tr>
 										<td colspan="4" align="center"><a
-											href="${QLink}&lpgnum=${lpgnum}&qpgnum=1" style="text-decoration: none">${qprev}${qprev}</a>
-											<a href="${QLink}&lpgnum=${lpgnum}&qpgnum=${qbefore}"
+											href="${QLink}&lpgnum=${lpgnum}&qpgnum=1"
+											style="text-decoration: none">${qprev}${qprev}</a> <a
+											href="${QLink}&lpgnum=${lpgnum}&qpgnum=${qbefore}"
 											style="text-decoration: none">${qprev}</a> <c:forEach
 												items="${qpg}" var="qp">
 												<a href="${QLink}&lpgnum=${lpgnum}&qpgnum=${qp}"
@@ -254,7 +256,7 @@ thead {
 					</div>
 				</div>
 				<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-				<!--<input type="hidden" id="lpgnum" name="lpgnum" value="${lpgnum}">-->
+					<!--<input type="hidden" id="lpgnum" name="lpgnum" value="${lpgnum}">-->
 					<table width="100%">
 						<tr>
 							<td width="60%" align="right">
@@ -306,8 +308,9 @@ thead {
 									</tr>
 									<tr>
 										<td colspan="4" align="center"><a
-											href="${LLink}&qpgnum=${qpgnum}&lpgnum=1" style="text-decoration: none">${lprev}${lprev}</a>
-											<a href="${LLink}&qpgnum=${qpgnum}&lpgnum=${lbefore}"
+											href="${LLink}&qpgnum=${qpgnum}&lpgnum=1"
+											style="text-decoration: none">${lprev}${lprev}</a> <a
+											href="${LLink}&qpgnum=${qpgnum}&lpgnum=${lbefore}"
 											style="text-decoration: none">${lprev}</a> <c:forEach
 												items="${lpg}" var="lp">
 												<a href="${LLink}&qpgnum=${qpgnum}&lpgnum=${lp}"

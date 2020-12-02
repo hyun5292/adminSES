@@ -118,7 +118,7 @@ public class PayServiceController {
 		}
 
 		// 값 넘겨주기
-		model.addAttribute("mgPLLink", "service_Schpaylog?mId="+mId+"&pStartDT="+pStartDT+"&pEndDT="+pEndDT);
+		model.addAttribute("mgPLLink", "service_Schpaylog?mId=" + mId + "&pStartDT=" + pStartDT + "&pEndDT=" + pEndDT);
 		model.addAttribute("pStartDT", pStartDT);
 		model.addAttribute("pEndDT", pEndDT);
 		model.addAttribute("Usercnt", Usercnt);
@@ -134,6 +134,13 @@ public class PayServiceController {
 			model.addAttribute("plast", PpgDTO.getTotalCnt() / PpgDTO.getContentNum() + 1);
 		else
 			model.addAttribute("plast", PpgDTO.getTotalCnt() / PpgDTO.getContentNum());
+
+		return "/pay_service";
+	}
+
+	// 회원 조건 검색
+	@RequestMapping("/schMember")
+	public String schMember(HttpServletRequest request, Model model) {
 
 		return "/pay_service";
 	}

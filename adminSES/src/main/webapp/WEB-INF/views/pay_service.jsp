@@ -73,6 +73,16 @@ panel-heading {
 		location.href = "service_Schpaylog?mId=" + mId + "&pStartDT="
 				+ pStartDT + "&pEndDT=" + pEndDT;
 	}
+	
+	function SearchMember() {
+		var mKind = $('#mKind').val();
+		var mId = $('#mId').val();
+		var mName = $('#mName').val();
+		
+		
+		
+		location.href = "schMember";
+	}
 </script>
 </head>
 <body>
@@ -121,7 +131,7 @@ panel-heading {
 									<td>
 										<table class="tblInfo" border="1" width="100%" height="100%">
 											<tr>
-												<td colspan="3" align="center">유료서비스(납부 말일:20일)</td>
+												<td colspan="3" align="center">유료서비스 정보</td>
 											</tr>
 											<tr>
 												<td align="right" width="48%">총 이용자 수</td>
@@ -131,7 +141,8 @@ panel-heading {
 											<tr>
 												<td align="right" width="48%">이번 달 예정 금액</td>
 												<td width="4%"></td>
-												<td width="48%"><fmt:formatNumber value="${ThisMoney}" pattern="#,###"/> 원</td>
+												<td width="48%"><fmt:formatNumber value="${ThisMoney}"
+														pattern="#,###" /> 원</td>
 											</tr>
 										</table>
 									<td>
@@ -182,8 +193,8 @@ panel-heading {
 									<td height="5px"></td>
 								</tr>
 								<tr>
-									<td align="right"><button type="button"
-											class="btn btn-secondary">조회</button></td>
+									<td align="right"><input type="button" onclick="SearchMember()"
+										class="btn btn-secondary" value="조회"></td>
 								</tr>
 								<tr>
 									<td height="5px"></td>
@@ -201,73 +212,31 @@ panel-heading {
 												</tr>
 											</thead>
 											<tbody>
-												<tr>
-													<td>00</td>
-													<td>아이디</td>
-													<td>가입</td>
-													<td>미납</td>
-												</tr>
-												<tr>
-													<td>00</td>
-													<td>아이디</td>
-													<td>가입</td>
-													<td>미납</td>
-												</tr>
-												<tr>
-													<td>00</td>
-													<td>아이디</td>
-													<td>가입</td>
-													<td>미납</td>
-												</tr>
-												<tr>
-													<td>00</td>
-													<td>아이디</td>
-													<td>가입</td>
-													<td>미납</td>
-												</tr>
-												<tr>
-													<td>00</td>
-													<td>아이디</td>
-													<td>가입</td>
-													<td>미납</td>
-												</tr>
-												<tr>
-													<td>00</td>
-													<td>아이디</td>
-													<td>가입</td>
-													<td>미납</td>
-												</tr>
-												<tr>
-													<td>00</td>
-													<td>아이디</td>
-													<td>가입</td>
-													<td>미납</td>
-												</tr>
-												<tr>
-													<td>00</td>
-													<td>아이디</td>
-													<td>가입</td>
-													<td>미납</td>
-												</tr>
-												<tr>
-													<td>00</td>
-													<td>아이디</td>
-													<td>가입</td>
-													<td>미납</td>
-												</tr>
-												<tr>
-													<td>00</td>
-													<td>아이디</td>
-													<td>가입</td>
-													<td>미납</td>
-												</tr>
+												<c:forEach items="${mdtos}" var="mdto">
+													<tr>
+														<td>${mdto.getNUM()}</td>
+														<td>${mdto.getM_ID()}</td>
+														<td>${mdto.getM_SERVICE_CHK()}</td>
+														<td>${mdto.getM_PAY_CHK()}</td>
+													</tr>
+												</c:forEach>
 											</tbody>
 											<tfoot>
 												<tr>
 													<td colspan="4"></td>
 												</tr>
-												<tr align="center">
-													<td colspan="4"><< < 1 2 3 4 5 6 7 8 9 10 > >></td>
+												<tr>
+													<td colspan="4" align="center"><a
+														href="${mPLLink}&mpgnum=1" style="text-decoration: none">${mprev}${mprev}</a>
+														<a href="${mPLLink}&mpgnum=${mbefore}"
+														style="text-decoration: none">${mprev}</a> <c:forEach
+															items="${mpg}" var="mp">
+															<a href="${mPLLink}&mpgnum=${mp}"
+																style="text-decoration: none">${mp}</a>
+														</c:forEach> <a href="${mPLLink}&mpgnum=${mafter}"
+														style="text-decoration: none">${mnext}</a> <a
+														href="${mPLLink}&mpgnum=${mlast}"
+														style="text-decoration: none">${mnext}${mnext}</a></td>
 												</tr>
 											</tfoot>
 										</table>
@@ -377,7 +346,8 @@ panel-heading {
 											<tr>
 												<td>${pdto.getNUM()}</td>
 												<td>${pdto.getPL_TITLE()}</td>
-												<td><fmt:formatNumber value="${pdto.getPL_PRICE()}" pattern="#,###"/> 원</td>
+												<td><fmt:formatNumber value="${pdto.getPL_PRICE()}"
+														pattern="#,###" /> 원</td>
 												<td>${pdto.getPL_DATE()}</td>
 											</tr>
 										</c:forEach>

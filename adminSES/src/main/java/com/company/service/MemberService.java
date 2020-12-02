@@ -104,4 +104,10 @@ public class MemberService implements MService {
 	public int GetsSchEmGCnt(Map<String, Object> map) {
 		return mDAO.GetsSchEmGCnt(map);
 	}
+
+	// PayLog 회원 목록 불러오기
+	@Override
+	public List<MemberDTO> GetPlMList(Map<String, Object> map) {
+		return mDAO.GetPlMList(map);
+	}
 }

@@ -24,6 +24,7 @@ public class MemberDTO {
 	private int M_SERVICE_DATE1 = 0;
 	private int M_SERVICE_DATE2 = 0;
 	private int M_SERVICE_DATE3 = 0;
+	private String M_PAY_CHK = "";
 	private String M_STATE = "";
 	
 	public MemberDTO() {}
@@ -249,6 +250,14 @@ public class MemberDTO {
 
 	public void setM_STATE(String m_STATE) {
 		M_STATE = m_STATE;
+	}
+
+	public String getM_PAY_CHK() {
+		return M_PAY_CHK;
+	}
+
+	public void setM_PAY_CHK(String m_PAY_CHK) {
+		M_PAY_CHK = m_PAY_CHK;
 	}
 	
 	

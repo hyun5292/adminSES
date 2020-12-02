@@ -71,4 +71,10 @@
 	<select id="GetsSchEmGCnt" parameterType="hashmap" resultType="int">
 		SELECT count(*) FROM member WHERE M_ID LIKE #{mId} AND M_NAME LIKE #{mName} AND M_EMAIL_CHK="Y" AND M_STATE = "Y";
 	</select>
+	
+	<select id="GetPlMList" parameterType="hashmap"
+		resultType="com.company.dto.MemberDTO">
+		SELECT * FROM member WHERE M_STATE = "Y" ORDER BY M_ID ASC, M_SERVICE_CHK DESC limit
+		#{startNum}, #{ContentNum};
+	</select>
 </mapper>

@@ -18,4 +18,10 @@ public interface PLService {
 
 	// 검색된 회원의 결제 내역 가져오기
 	public List<PayLogDTO> getSearchedMemberPLList(Map<String, Object> pmap);
+
+	// 해당 회원의 이번달 내역 가져오기
+	public int getChkPay(Map<String, Object> map);
+
+	// 검색된 회원의 Pay 횟수 구하기
+	public int getMPayList(String mId);
 }

@@ -100,4 +100,9 @@ public class MemberDAO {
 	public int GetsSchEmGCnt(Map<String, Object> map) {
 		return temp.selectOne("mMap.GetsSchEmGCnt", map);
 	}
+
+	// PayLog 회원 목록 불러오기
+	public List<MemberDTO> GetPlMList(Map<String, Object> map) {
+		return temp.selectList("mMap.GetPlMList", map);
+	}
 }

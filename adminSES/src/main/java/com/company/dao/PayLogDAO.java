@@ -36,4 +36,14 @@ public class PayLogDAO {
 	public List<PayLogDTO> getSearchedMemberPLList(Map<String, Object> pmap) {
 		return temp.selectList("plMap.getSearchedMemberPLList", pmap);
 	}
+
+	// 해당 회원의 이번달 내역 가져오기
+	public int getChkPay(Map<String, Object> map) {
+		return temp.selectOne("plMap.getChkPay", map);
+	}
+
+	// 검색된 회원의 Pay 횟수 구하기
+	public int getMPayList(String mId) {
+		return temp.selectOne("plMap.getMPayList", mId);
+	}
 }

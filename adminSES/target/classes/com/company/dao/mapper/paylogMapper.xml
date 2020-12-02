@@ -31,4 +31,15 @@
 		#{startNum},
 		#{ContentNum};
 	</select>
+	
+	<select id="getChkPay" parameterType="hashmap"
+		resultType="int">
+		SELECT count(*) FROM pay_log WHERE M_ID LIKE #{mId} AND
+		PL_DATE LIKE #{plDT};
+	</select>
+	
+	<select id="getMPayList" parameterType="String"
+		resultType="int">
+		SELECT count(*) FROM pay_log WHERE M_ID LIKE #{mId};
+	</select>
 </mapper>
