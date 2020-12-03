@@ -42,4 +42,15 @@
 		resultType="int">
 		SELECT count(*) FROM pay_log WHERE M_ID LIKE #{mId};
 	</select>
+	
+	<insert id="MakePay" parameterType="hashmap">
+		INSERT INTO pay_log (M_ID, PL_TITLE, PL_PRICE, PL_DATE)
+		VALUES
+		(#{mId}, #{plTitle}, #{plPrice}, #{today})
+	</insert>
+	
+	<delete id="MakeNoPay" parameterType="hashmap">
+		DELETE FROM pay_log WHERE M_ID
+		= #{mId} AND PL_DATE LIKE #{payDT};
+	</delete>
 </mapper>

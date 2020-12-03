@@ -73,15 +73,37 @@ panel-heading {
 		location.href = "service_Schpaylog?mId=" + mId + "&pStartDT="
 				+ pStartDT + "&pEndDT=" + pEndDT;
 	}
-	
+
 	function SearchMember() {
 		var mKind = $('#mKind').val();
 		var mId = $('#mId').val();
 		var mName = $('#mName').val();
-		
-		
-		
+
 		location.href = "schMember";
+	}
+	
+	function DoJoin() {
+		var mId = $('#mId').val();
+		
+		location.href = "dojoinpay?mId=" + mId;
+	}
+	
+	function DontJoin() {
+		var mId = $('#mId').val();
+		
+		location.href = "dontjoinpay?mId=" + mId;
+	}
+	
+	function DoPay() {
+		var mId = $('#mId').val();
+		
+		location.href = "dopayed?mId=" + mId;
+	}
+	
+	function DontPay() {
+		var mId = $('#mId').val();
+		
+		location.href = "dontpayed?mId=" + mId;
 	}
 </script>
 </head>
@@ -193,8 +215,8 @@ panel-heading {
 									<td height="5px"></td>
 								</tr>
 								<tr>
-									<td align="right"><input type="button" onclick="SearchMember()"
-										class="btn btn-secondary" value="조회"></td>
+									<td align="right"><input type="button"
+										onclick="SearchMember()" class="btn btn-secondary" value="조회"></td>
 								</tr>
 								<tr>
 									<td height="5px"></td>
@@ -215,7 +237,7 @@ panel-heading {
 												<c:forEach items="${mdtos}" var="mdto">
 													<tr>
 														<td>${mdto.getNUM()}</td>
-														<td>${mdto.getM_ID()}</td>
+														<td><a href="pay_service?mId=${mdto.getM_ID()}">${mdto.getM_ID()}</a></td>
 														<td>${mdto.getM_SERVICE_CHK()}</td>
 														<td>${mdto.getM_PAY_CHK()}</td>
 													</tr>
@@ -278,20 +300,45 @@ panel-heading {
 									<tr height="15%">
 										<td align="right">이번 달 납부 여부</td>
 										<td width="10px"></td>
-										<td>납부</td>
+										<td>${mdto.getM_PAY_CHK()}</td>
 									</tr>
 									<tr height="10%">
 										<td height="10%" colspan="3">
 											<table>
 												<tr>
-													<td><button type="button" class="btn btn-secondary">서비스
-															가입</button></td>
-													<td><button type="button" class="btn btn-secondary">서비스
-															해지</button></td>
-													<td><button type="button" class="btn btn-secondary">납부
-															처리</button></td>
-													<td><button type="button" class="btn btn-secondary">미납
-															처리</button></td>
+													<c:set var="mdto" value="${mdto.getM_SERVICE_CHK()}" />
+													<c:choose>
+														<c:when test="${mdto eq '미가입'}">
+															<td><button type="button" class="btn btn-secondary"
+																	onClick="DoJoin()">서비스 가입</button></td>
+															<td><button type="button" class="btn btn-secondary"
+																	disabled>서비스 해지</button></td>
+															<td><button type="button" class="btn btn-secondary"
+																	disabled>납부 처리</button></td>
+															<td><button type="button" class="btn btn-secondary"
+																	disabled>미납 처리</button></td>
+														</c:when>
+														<c:when test="${mdto eq '가입'}">
+															<td><button type="button" class="btn btn-secondary"
+																	disabled>서비스 가입</button></td>
+															<td><button type="button" class="btn btn-secondary"
+																	onClick="DontJoin()">서비스 해지</button></td>
+															<td><button type="button" class="btn btn-secondary"
+																	onClick="DoPay()">납부 처리</button></td>
+															<td><button type="button" class="btn btn-secondary"
+																	onClick="DontPay()">미납 처리</button></td>
+														</c:when>
+														<c:otherwise>
+															<td><button type="button" class="btn btn-secondary" disabled>서비스
+																	가입</button></td>
+															<td><button type="button" class="btn btn-secondary" disabled>서비스
+																	해지</button></td>
+															<td><button type="button" class="btn btn-secondary" disabled>납부
+																	처리</button></td>
+															<td><button type="button" class="btn btn-secondary" disabled>미납
+																	처리</button></td>
+														</c:otherwise>
+													</c:choose>
 												</tr>
 											</table>
 										</td>

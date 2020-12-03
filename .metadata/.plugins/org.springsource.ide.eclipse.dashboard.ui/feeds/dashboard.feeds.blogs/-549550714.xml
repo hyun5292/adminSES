@@ -5,7 +5,37 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2020-12-02T15:49:55Z</updated>
+  <updated>2020-12-02T18:54:00Z</updated>
+  <entry>
+    <title>Spring Cloud Data Flow 2.6.4 and 2.7.0 Released</title>
+    <link rel="alternate" href="https://spring.io/blog/2020/12/02/spring-cloud-data-flow-2-6-4-and-2-7-0-released" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Ilayaperumal Gopinathan</name>
+    </author>
+    <id>tag:spring.io,2020-12-02:4283</id>
+    <updated>2020-12-02T18:54:00Z</updated>
+    <content type="html">&lt;p&gt;Spring Cloud Data Flow team is pleased to announce the release of 2.7.0 and 2.6.4&lt;/p&gt;
+&lt;p&gt;While the release 2.6.4 has &lt;a href="https://github.com/spring-cloud/spring-cloud-dataflow/issues/4227"&gt;the bug fixes&lt;/a&gt;, the 2.7.0 has the following updates along with the &lt;a href="https://github.com/spring-cloud/spring-cloud-dataflow/releases/tag/v2.7.0"&gt;bug fixes and improvements&lt;/a&gt; :&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;SCDF dashboard re-design using VMware Clarity toolkit&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;SCDF dashboard is re-designed using &lt;a href="https://clarity.design/"&gt;VMware Clarity design system&lt;/a&gt;. This is a complete rewrite of SCDF dashboard GUI to get the benefits of the Clarity design.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Spring Boot 2.3. Update&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;SCDF server components are now updated to use Spring Boot 2.3.5 release.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Wavefront integration&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Spring Cloud Data Flow dashboards for streams, tasks, SCDF server components and Kafka Streams dashboard are available in VMware Wavefront dashboards for integrations. The configurations required to set up the wavefront integration are simplified at the SCDF as well. More information on this can be found &lt;a href="https://github.com/spring-cloud/spring-cloud-dataflow/issues/3965"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Stream Application starters&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The out of box streaming applications have been re-designed and developed from the scratch to have Spring Cloud Stream function support as the foundation. These applications are available for the users to import in SCDF. You can refer to &lt;a href="https://spring.io/projects/spring-cloud-stream-applications"&gt;this&lt;/a&gt; page to get the import URL links for the out of the box applications. &lt;/p&gt;
+&lt;p&gt;We have also a dedicated documentation available &lt;a href="https://dataflow.spring.io/docs/applications/pre-packaged-3x/#getting-started"&gt;here&lt;/a&gt; for the users on how to use these applications including the migration documentation if you want to migrate from the previous out of the box stream app starters.&lt;/p&gt;
+&lt;p&gt;Please refer to the &lt;a href="https://spring.io/blog/2020/11/16/case-study-elasticsearch-sink"&gt;blog series&lt;/a&gt; which provides detailed analysis of all the streaming applications and use cases.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Task Java DSL&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Task Java DSL is now available as part of SCDF REST client component and gives the developers the ability to programmatically control task lifecycle operations using this Java DSL. For more information you can refer &lt;a href="https://dataflow.spring.io/docs/feature-guides/batch/java-dsl/"&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;JDK11 Compatibility&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;SCDF and Skipper components are compatible with Java 11 Runtime&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Deprecation of Helm Hub Chart&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Helm charts for SCDF are now deprecated and moved into &lt;a href="https://github.com/bitnami/charts/tree/master/bitnami/spring-cloud-dataflow"&gt;Bitnami OSS charts&lt;/a&gt;&lt;/p&gt;&lt;h2&gt;&lt;a href="#stay-in-touch-hellip" class="anchor" name="stay-in-touch-hellip"&gt;&lt;/a&gt;Stay in touch&amp;hellip;&lt;/h2&gt;
+&lt;p&gt;As always, we welcome feedback and contributions, so please reach out to us on &lt;a href="https://stackoverflow.com/questions/tagged/spring-cloud-dataflow"&gt;Stackoverflow&lt;/a&gt; or &lt;a href="https://github.com/spring-cloud/spring-cloud-dataflow/issues"&gt;GitHub&lt;/a&gt; or via &lt;a href="https://gitter.im/spring-cloud/spring-cloud-dataflow"&gt;Gitter&lt;/a&gt;.&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
   <entry>
     <title>Spring Cloud 2020.0.0-M6 (aka Ilford) Is Available</title>
     <link rel="alternate" href="https://spring.io/blog/2020/12/02/spring-cloud-2020-0-0-m6-aka-ilford-is-available" />
@@ -1554,39 +1584,6 @@ $ ./run-dev-container.sh&#xD;
 &lt;p&gt;We want to take this opportunity to again thank all our users and contributors. We&amp;rsquo;ve now had over &lt;a href="https://github.com/spring-projects/spring-boot/graphs/contributors"&gt;760 people&lt;/a&gt; submit code, and there have been over &lt;a href="https://github.com/spring-projects/spring-boot/commits/master"&gt;29000 commits&lt;/a&gt; to the project.&lt;/p&gt;
 &lt;p&gt;If you&amp;rsquo;re interested in helping out, check out the &lt;a href="https://github.com/spring-projects/spring-boot/labels/status%3A%20ideal-for-contribution"&gt;&amp;ldquo;ideal for contribution&amp;rdquo; tag&lt;/a&gt; in the issue repository. If you have general questions, please ask at &lt;a href="http://stackoverflow.com"&gt;stackoverflow.com&lt;/a&gt; using the &lt;a href="http://stackoverflow.com/tags/spring-boot"&gt;&lt;code&gt;spring-boot&lt;/code&gt; tag&lt;/a&gt; or chat with the community &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;on Gitter&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://spring.io/projects/spring-boot/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot"&gt;GitHub&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot/issues"&gt;Issues&lt;/a&gt; | &lt;a href="http://docs.spring.io/spring-boot/docs/2.4.0/reference/html"&gt;Documentation&lt;/a&gt; | &lt;a href="http://stackoverflow.com/questions/tagged/spring-boot"&gt;Stack Overflow&lt;/a&gt; | &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;Gitter&lt;/a&gt;&lt;/p&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>Spring Data 2020.0.1 released</title>
-    <link rel="alternate" href="https://spring.io/blog/2020/11/11/spring-data-2020-0-1-released" />
-    <category term="releases" label="Releases" />
-    <author>
-      <name>Mark Paluch</name>
-    </author>
-    <id>tag:spring.io,2020-11-11:4267</id>
-    <updated>2020-11-11T13:28:00Z</updated>
-    <content type="html">&lt;p&gt;On behalf of the team, I&amp;rsquo;m pleased to announce Spring Data service release &lt;code&gt;2020.0.1&lt;/code&gt;. This service release is built on top of Spring Framework &lt;code&gt;5.3.1&lt;/code&gt; and Reactor &lt;code&gt;2020.0.1&lt;/code&gt;. It contains mostly dependency upgrades and fixes.&lt;/p&gt;
-&lt;p&gt;Spring Data &lt;code&gt;2020.0.1&lt;/code&gt; ships &lt;a href="https://jira.spring.io/issues/?filter=17237"&gt;34 improvements and fixes&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;This release will be picked up by the upcoming Spring Boot &lt;code&gt;2.4.0&lt;/code&gt; release for your convenience.&lt;/p&gt;
-&lt;p&gt;To round things off, here are the links to the individual modules along with their documentation:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Spring Data Commons 2.4.1 - &lt;a href="https://repo.spring.io/libs-release/org/springframework/data/spring-data-commons/2.4.1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/commons/docs/2.4.1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/commons/docs/2.4.1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/commons/docs/2.4.1/changelog.txt"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Spring Data JDBC 2.1.1 - &lt;a href="https://repo.spring.io/libs-release/org/springframework/data/spring-data-jdbc/2.1.1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/jdbc/docs/2.1.1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/jdbc/docs/2.1.1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/jdbc/docs/2.1.1/changelog.txt"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Spring Data JPA 2.4.1 - &lt;a href="https://repo.spring.io/libs-release/org/springframework/data/spring-data-jpa/2.4.1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/jpa/docs/2.4.1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/jpa/docs/2.4.1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/jpa/docs/2.4.1/changelog.txt"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Spring Data for Apache Cassandra 3.1.1 - &lt;a href="https://repo.spring.io/libs-release/org/springframework/data/spring-data-cassandra/3.1.1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/cassandra/docs/3.1.1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/cassandra/docs/3.1.1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/cassandra/docs/3.1.1/changelog.txt"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Spring Data MongoDB 3.1.1 - &lt;a href="https://repo.spring.io/libs-release/org/springframework/data/spring-data-mongodb/3.1.1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/mongodb/docs/3.1.1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/mongodb/docs/3.1.1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/mongodb/docs/3.1.1/changelog.txt"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Spring Data KeyValue 2.4.1 - &lt;a href="https://repo.spring.io/libs-release/org/springframework/data/spring-data-keyvalue/2.4.1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/keyvalue/docs/2.4.1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/keyvalue/docs/2.4.1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/keyvalue/docs/2.4.1/changelog.txt"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Spring Data Neo4j 6.0.1 - &lt;a href="https://repo.spring.io/libs-release/org/springframework/data/spring-data-neo4j/6.0.1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/neo4j/docs/6.0.1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/neo4j/docs/6.0.1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/neo4j/docs/6.0.1/changelog.txt"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Spring Data for Apache Geode 2.4.1 - &lt;a href="https://repo.spring.io/libs-release/org/springframework/data/spring-data-geode/2.4.1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/geode/docs/2.4.1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/geode/docs/2.4.1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/geode/docs/2.4.1/changelog.txt"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Spring Data for Apache Solr 4.3.1 - &lt;a href="https://repo.spring.io/libs-release/org/springframework/data/spring-data-solr/4.3.1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/solr/docs/4.3.1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/solr/docs/4.3.1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/solr/docs/4.3.1/changelog.txt"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Spring Data R2DBC 1.2.1 - &lt;a href="https://repo.spring.io/libs-release/org/springframework/data/spring-data-r2dbc/1.2.1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/r2dbc/docs/1.2.1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/r2dbc/docs/1.2.1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/r2dbc/docs/1.2.1/changelog.txt"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Spring Data LDAP 2.4.1 - &lt;a href="https://repo.spring.io/libs-release/org/springframework/data/spring-data-ldap/2.4.1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/ldap/docs/2.4.1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/ldap/docs/2.4.1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/ldap/docs/2.4.1/changelog.txt"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Spring Data Envers 2.4.1 - &lt;a href="https://repo.spring.io/libs-release/org/springframework/data/spring-data-envers/2.4.1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/envers/docs/2.4.1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/envers/docs/2.4.1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/envers/docs/2.4.1/changelog.txt"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Spring Data REST 3.4.1 - &lt;a href="https://repo.spring.io/libs-release/org/springframework/data/spring-data-rest-webmvc/3.4.1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/rest/docs/3.4.1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/rest/docs/3.4.1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/rest/docs/3.4.1/changelog.txt"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Spring Data Redis 2.4.1 - &lt;a href="https://repo.spring.io/libs-release/org/springframework/data/spring-data-redis/2.4.1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/redis/docs/2.4.1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/redis/docs/2.4.1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/redis/docs/2.4.1/changelog.txt"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Spring Data Elasticsearch 4.1.1 - &lt;a href="https://repo.spring.io/libs-release/org/springframework/data/spring-data-elasticsearch/4.1.1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/elasticsearch/docs/4.1.1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/elasticsearch/docs/4.1.1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/elasticsearch/docs/4.1.1/changelog.txt"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Spring Data Couchbase 4.1.1 - &lt;a href="https://repo.spring.io/libs-release/org/springframework/data/spring-data-couchbase/4.1.1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/couchbase/docs/4.1.1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/couchbase/docs/4.1.1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/couchbase/docs/4.1.1/changelog.txt"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
 &lt;!-- rendered by Sagan Renderer Service --&gt;</content>
   </entry>
 </feed>

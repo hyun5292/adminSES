@@ -24,4 +24,10 @@ public interface PLService {
 
 	// 검색된 회원의 Pay 횟수 구하기
 	public int getMPayList(String mId);
+
+	// 유료서비스 납부 처리
+	public boolean MakePay(Map<String, Object> map);
+
+	// 유료서비스 미납 처리
+	public boolean MakeNoPay(Map<String, Object> map);
 }

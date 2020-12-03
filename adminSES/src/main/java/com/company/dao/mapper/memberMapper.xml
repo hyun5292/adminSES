@@ -4,23 +4,29 @@
 <mapper namespace="mMap">
 	<select id="GetMList" parameterType="hashmap"
 		resultType="com.company.dto.MemberDTO">
-		SELECT * FROM member WHERE M_STATE = "Y" ORDER BY M_NAME DESC limit
+		SELECT * FROM member WHERE M_STATE = "Y" ORDER BY M_NAME
+		DESC limit
 		#{startNum}, #{ContentNum};
 	</select>
-	
+
 	<select id="ListCnt" resultType="int">
-		SELECT count(*) FROM member WHERE M_STATE = "Y";
+		SELECT count(*) FROM member
+		WHERE M_STATE = "Y";
 	</select>
-	
+
 	<select id="GetSchMList" parameterType="hashmap"
 		resultType="com.company.dto.MemberDTO">
-		SELECT * FROM member WHERE M_ID LIKE #{mId} AND M_NAME LIKE #{mName} AND M_STATE = "Y" ORDER BY M_NAME DESC limit #{startNum}, #{ContentNum};
+		SELECT * FROM member WHERE M_ID LIKE #{mId} AND M_NAME LIKE
+		#{mName} AND M_STATE = "Y" ORDER BY M_NAME DESC limit #{startNum},
+		#{ContentNum};
 	</select>
-	
-	<select id="GetSchPageCnt" parameterType="hashmap" resultType="int">
-		SELECT count(*) FROM member WHERE M_ID LIKE #{mId} AND M_NAME LIKE #{mName} AND M_STATE = "Y";
+
+	<select id="GetSchPageCnt" parameterType="hashmap"
+		resultType="int">
+		SELECT count(*) FROM member WHERE M_ID LIKE #{mId} AND
+		M_NAME LIKE #{mName} AND M_STATE = "Y";
 	</select>
-	
+
 	<select id="GetMKind" parameterType="String" resultType="String">
 		SELECT
 		M_KIND FROM member WHERE M_ID = #{mId} AND M_STATE = "Y";
@@ -31,50 +37,72 @@
 		SELECT
 		* FROM member WHERE M_ID = #{mId} AND M_STATE = "Y";
 	</select>
-	
+
 	<select id="GeneralNotUseCnt" resultType="int">
-		SELECT count(*) FROM member WHERE M_STATE = "N";
+		SELECT count(*) FROM
+		member WHERE M_STATE = "N";
 	</select>
-	
+
 	<select id="GetM_NCHK" resultType="int">
-		SELECT count(*) FROM member WHERE M_NCHK = 'Y' AND M_STATE = "Y";
+		SELECT count(*) FROM member
+		WHERE M_NCHK = 'Y' AND M_STATE = "Y";
 	</select>
-	
+
 	<select id="GetM_FBCHK" resultType="int">
-		SELECT count(*) FROM member WHERE M_FBCHK = 'Y' AND M_STATE = "Y";
+		SELECT count(*) FROM member
+		WHERE M_FBCHK = 'Y' AND M_STATE = "Y";
 	</select>
-	
+
 	<select id="GetM_GCHK" resultType="int">
-		SELECT count(*) FROM member WHERE M_GCHK = 'Y' AND M_STATE = "Y";
+		SELECT count(*) FROM member
+		WHERE M_GCHK = 'Y' AND M_STATE = "Y";
 	</select>
-	
+
 	<select id="GetM_KTCHK" resultType="int">
-		SELECT count(*) FROM member WHERE M_KTCHK = 'Y' AND M_STATE = "Y";
+		SELECT count(*) FROM member
+		WHERE M_KTCHK = 'Y' AND M_STATE = "Y";
 	</select>
-	
+
 	<select id="GetServiceUserCnt" resultType="int">
-		SELECT count(*) FROM member WHERE M_SERVICE_CHK = "가입" AND M_STATE = "Y";
+		SELECT count(*) FROM
+		member WHERE M_SERVICE_CHK = "가입" AND M_STATE = "Y";
 	</select>
-	
-	<select id="GetMEmailList" parameterType="hashmap" resultType="com.company.dto.MemberDTO">
-		SELECT * FROM member WHERE M_EMAIL_CHK="Y" AND M_STATE = "Y" ORDER BY M_NAME DESC limit #{startNum}, #{ContentNum};
+
+	<select id="GetMEmailList" parameterType="hashmap"
+		resultType="com.company.dto.MemberDTO">
+		SELECT * FROM member WHERE M_EMAIL_CHK="Y" AND M_STATE =
+		"Y" ORDER BY M_NAME DESC limit #{startNum}, #{ContentNum};
 	</select>
-	
+
 	<select id="GetMEmailCnt" resultType="int">
-		SELECT count(*) FROM member WHERE M_EMAIL_CHK="Y" AND M_STATE = "Y" ORDER BY M_NAME DESC;
+		SELECT count(*) FROM member
+		WHERE M_EMAIL_CHK="Y" AND M_STATE = "Y" ORDER BY M_NAME DESC;
 	</select>
-	
-	<select id="GetsSchEmGeneral" parameterType="hashmap" resultType="com.company.dto.MemberDTO">
-		SELECT * FROM member WHERE M_ID LIKE #{mId} AND M_NAME LIKE #{mName} AND M_EMAIL_CHK="Y" AND M_STATE = "Y" ORDER BY M_NAME DESC limit #{startNum}, #{ContentNum};
+
+	<select id="GetsSchEmGeneral" parameterType="hashmap"
+		resultType="com.company.dto.MemberDTO">
+		SELECT * FROM member WHERE M_ID LIKE #{mId} AND M_NAME LIKE
+		#{mName} AND M_EMAIL_CHK="Y" AND M_STATE = "Y" ORDER BY M_NAME DESC
+		limit #{startNum}, #{ContentNum};
 	</select>
-	
-	<select id="GetsSchEmGCnt" parameterType="hashmap" resultType="int">
-		SELECT count(*) FROM member WHERE M_ID LIKE #{mId} AND M_NAME LIKE #{mName} AND M_EMAIL_CHK="Y" AND M_STATE = "Y";
+
+	<select id="GetsSchEmGCnt" parameterType="hashmap"
+		resultType="int">
+		SELECT count(*) FROM member WHERE M_ID LIKE #{mId} AND
+		M_NAME LIKE #{mName} AND M_EMAIL_CHK="Y" AND M_STATE = "Y";
 	</select>
-	
+
 	<select id="GetPlMList" parameterType="hashmap"
 		resultType="com.company.dto.MemberDTO">
-		SELECT * FROM member WHERE M_STATE = "Y" ORDER BY M_ID ASC, M_SERVICE_CHK DESC limit
+		SELECT * FROM member WHERE M_STATE = "Y" ORDER BY M_ID ASC,
+		M_SERVICE_CHK DESC limit
 		#{startNum}, #{ContentNum};
 	</select>
+
+	<update id="MakePLJoin" parameterType="hashmap">
+		UPDATE member SET
+		M_SERVICE_CHK=#{join}, M_SERVICE_DATE1 = #{today_year},
+		M_SERVICE_DATE2 = #{today_month}, M_SERVICE_DATE3 = #{today_date}
+		WHERE M_ID = #{mId};
+	</update>
 </mapper>

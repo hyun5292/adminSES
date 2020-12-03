@@ -105,4 +105,13 @@ public class MemberDAO {
 	public List<MemberDTO> GetPlMList(Map<String, Object> map) {
 		return temp.selectList("mMap.GetPlMList", map);
 	}
+
+	// 유료서비스 미가입/가입 처리
+	public boolean MakePLJoin(Map<String, Object> map) {
+		int rs = temp.update("mMap.MakePLJoin", map);
+		if (rs == 1)
+			return true;
+		else
+			return false;
+	}
 }

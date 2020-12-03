@@ -1,10 +1,15 @@
 package com.company.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +37,7 @@ public class PayServiceController {
 	// 일반 회원 결제 내역 날짜 검색
 	@RequestMapping("/service_Schpaylog")
 	public String EPayLogSearchedList(HttpServletRequest request, Model model) {
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> Pmap = new HashMap<String, Object>();
 		MemberDTO mdto = new MemberDTO();
 		String mId = request.getParameter("mId");
@@ -143,5 +149,114 @@ public class PayServiceController {
 	public String schMember(HttpServletRequest request, Model model) {
 
 		return "/pay_service";
+	}
+
+	// 유료서비스 가입 처리
+	@RequestMapping("/dojoinpay")
+	public String DoJoinPay(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException {
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> map = new HashMap<String, Object>();
+		String mId = request.getParameter("mId");
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH) + 1;
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+
+		map.put("join", "가입");
+		map.put("mId", mId);
+		map.put("today_year", year);
+		map.put("today_month", month);
+		map.put("today_date", day);
+
+		boolean chkJoin = Ser_M.MakePLJoin(map);
+
+		if (!chkJoin) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
+		return "redirect:/pay_service?mId=" + mId;
+	}
+
+	// 유료서비스 가입 해제 처리
+	@RequestMapping("/dontjoinpay")
+	public String DontJoinPay(HttpServletResponse response, HttpServletRequest request, Model model)
+			throws IOException {
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> map = new HashMap<String, Object>();
+		String mId = request.getParameter("mId");
+
+		map.put("join", "미가입");
+		map.put("mId", mId);
+		map.put("today_year", "0");
+		map.put("today_month", "0");
+		map.put("today_date", "0");
+
+		boolean chkJoin = Ser_M.MakePLJoin(map);
+
+		if (!chkJoin) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
+		return "redirect:/pay_service?mId=" + mId;
+	}
+
+	// 유료서비스 납부 처리
+	@RequestMapping("/dopayed")
+	public String DoPayed(HttpServletResponse response, HttpServletRequest request, Model model)
+			throws IOException {
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> map = new HashMap<String, Object>();
+		String mId = request.getParameter("mId");
+		SimpleDateFormat format1 = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String now = format1.format(time.getTime());
+
+		map.put("mId", mId);
+		map.put("plTitle", "알림 서비스");
+		map.put("plPrice", "19900");
+		map.put("today", now);
+
+		boolean chkPay = Ser_PL.MakePay(map);
+
+		if (!chkPay) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
+		return "redirect:/pay_service?mId=" + mId;
+	}
+
+	// 유료서비스 미납 처리
+	@RequestMapping("/dontpayed")
+	public String DontPayed(HttpServletResponse response, HttpServletRequest request, Model model)
+			throws IOException {
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> map = new HashMap<String, Object>();
+		String mId = request.getParameter("mId");
+		SimpleDateFormat format1 = new SimpleDateFormat ("yyyy-MM");
+		Calendar time = Calendar.getInstance();
+		String now = format1.format(time.getTime());
+		
+		map.put("mId", mId);
+		map.put("payDT", "%"+now+"%");
+		
+		boolean chkNoPay = Ser_PL.MakeNoPay(map);
+		
+		if (!chkNoPay) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
+		return "redirect:/pay_service?mId=" + mId;
 	}
 }

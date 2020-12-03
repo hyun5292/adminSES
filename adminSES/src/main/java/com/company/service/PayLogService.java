@@ -51,4 +51,16 @@ public class PayLogService implements PLService{
 	public int getMPayList(String mId) {
 		return plDAO.getMPayList(mId);
 	}
+
+	// 유료서비스 납부 처리
+	@Override
+	public boolean MakePay(Map<String, Object> map) {
+		return plDAO.MakePay(map);
+	}
+
+	// 유료서비스 미납 처리
+	@Override
+	public boolean MakeNoPay(Map<String, Object> map) {
+		return plDAO.MakeNoPay(map);
+	}
 }

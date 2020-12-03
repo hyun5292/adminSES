@@ -110,4 +110,10 @@ public class MemberService implements MService {
 	public List<MemberDTO> GetPlMList(Map<String, Object> map) {
 		return mDAO.GetPlMList(map);
 	}
+
+	// 유료서비스 미가입/가입 처리
+	@Override
+	public boolean MakePLJoin(Map<String, Object> map) {
+		return mDAO.MakePLJoin(map);
+	}
 }

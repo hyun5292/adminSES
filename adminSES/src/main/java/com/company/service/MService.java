@@ -54,4 +54,7 @@ public interface MService {
 
 	// PayLog 회원 목록 불러오기
 	public List<MemberDTO> GetPlMList(Map<String, Object> map);
+
+	// 유료서비스 미가입/가입 처리
+	boolean MakePLJoin(Map<String, Object> map);
 }

@@ -748,6 +748,9 @@ public class PageController {
 		String MpgNum = request.getParameter("mpgnum");
 		// 이용자 수
 		int Usercnt = Ser_M.GetServiceUserCnt();
+		SimpleDateFormat format1 = new SimpleDateFormat ("yyyy-MM");
+		Calendar time = Calendar.getInstance();
+		String now = format1.format(time.getTime());
 
 		if (PpgNum == null || PpgNum.equals("")) // null이면 맨 처음
 			PpgNum = "1";
@@ -762,6 +765,15 @@ public class PageController {
 			mdto = new MemberDTO(0, "", "", "", "", "", "", 0, 0, 0, 0, 0, 0, "", "", "", "", "", "", "", 0, 0, 0, "");
 		} else {
 			mdto = Ser_M.GetMInfo(mId);
+		}
+		
+		map.put("mId", mdto.getM_ID());
+		map.put("plDT", "%"+now+"%");
+		int pl_chk = Ser_PL.getChkPay(map);
+		if(pl_chk > 0) {	// 있으면
+			mdto.setM_PAY_CHK("납부");
+		} else {	// 없으면
+			mdto.setM_PAY_CHK("미납");
 		}
 
 		// 전체 게시글 개수 설정
@@ -801,18 +813,14 @@ public class PageController {
 		// 회원 목록 불러오기
 		List<MemberDTO> mdtos = Ser_M.GetPlMList(Mmap);
 		
-		SimpleDateFormat format1 = new SimpleDateFormat ("yyyy-MM");
-		Calendar time = Calendar.getInstance();
-		String now = format1.format(time.getTime());
-		
 		for(int i = 0; i < mdtos.size(); i++) {
 			map.put("mId", mdtos.get(i).getM_ID());
 			map.put("plDT", "%"+now+"%");
-			int pl_chk = Ser_PL.getChkPay(map);
-			if(pl_chk > 0) {	// 있으면
-				mdtos.get(i).setM_PAY_CHK("O");
+			int chk_pl = Ser_PL.getChkPay(map);
+			if(chk_pl > 0) {	// 있으면
+				mdtos.get(i).setM_PAY_CHK("납부");
 			} else {	// 없으면
-				mdtos.get(i).setM_PAY_CHK("X");
+				mdtos.get(i).setM_PAY_CHK("미납");
 			}
 		}
 

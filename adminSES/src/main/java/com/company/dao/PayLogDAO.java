@@ -46,4 +46,22 @@ public class PayLogDAO {
 	public int getMPayList(String mId) {
 		return temp.selectOne("plMap.getMPayList", mId);
 	}
+
+	// 유료서비스 납부 처리
+	public boolean MakePay(Map<String, Object> map) {
+		int rs = temp.insert("plMap.MakePay", map);
+		if (rs == 1)
+			return true;
+		else
+			return false;
+	}
+
+	// 유료서비스 미납 처리
+	public boolean MakeNoPay(Map<String, Object> map) {
+		int rs = temp.delete("plMap.MakeNoPay", map);
+		if (rs == 1)
+			return true;
+		else
+			return false;
+	}
 }
