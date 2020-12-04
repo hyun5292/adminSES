@@ -4,7 +4,8 @@
 <mapper namespace="qMap">
 	<select id="getMemberQList" parameterType="hashmap"
 		resultType="com.company.dto.QnaDTO">
-		SELECT * FROM qna WHERE M_ID LIKE #{mId} ORDER BY Q_DATE DESC limit
+		SELECT * FROM qna WHERE M_ID LIKE #{mId} ORDER BY Q_DATE
+		DESC limit
 		#{startNum},
 		#{ContentNum};
 	</select>
@@ -16,12 +17,14 @@
 
 	<select id="getSearchedMemberQListCnt" parameterType="hashmap"
 		resultType="int">
-		SELECT count(*) FROM qna WHERE M_ID LIKE #{mId} AND Q_DATE BETWEEN #{qSDate} AND #{qEDate};
+		SELECT count(*) FROM qna WHERE M_ID LIKE #{mId} AND Q_DATE
+		BETWEEN #{qSDate} AND #{qEDate};
 	</select>
 
 	<select id="getSearchedMemberQList" parameterType="hashmap"
 		resultType="com.company.dto.QnaDTO">
-		SELECT * FROM qna WHERE M_ID LIKE #{mId} AND Q_DATE BETWEEN #{qSDate} AND #{qEDate}
+		SELECT * FROM qna WHERE M_ID LIKE #{mId} AND Q_DATE BETWEEN
+		#{qSDate} AND #{qEDate}
 		ORDER BY Q_DATE DESC limit
 		#{startNum},
 		#{ContentNum};
@@ -29,7 +32,8 @@
 
 	<select id="GetSnsQList" parameterType="hashmap"
 		resultType="com.company.dto.QnaDTO">
-		SELECT * FROM qna WHERE M_ID LIKE #{mId} ORDER BY Q_DATE DESC limit
+		SELECT * FROM qna WHERE M_ID LIKE #{mId} ORDER BY Q_DATE
+		DESC limit
 		#{startNum},
 		#{ContentNum};
 	</select>
@@ -38,20 +42,49 @@
 		resultType="int">
 		SELECT count(*) FROM qna WHERE M_ID LIKE #{mId};
 	</select>
-	
+
 	<select id="GetSchSnsQList" parameterType="hashmap"
 		resultType="com.company.dto.QnaDTO">
-		SELECT * FROM qna WHERE M_ID LIKE #{mId} AND Q_DATE BETWEEN #{StartDT} AND #{EndDT} ORDER BY Q_DATE DESC limit
+		SELECT * FROM qna WHERE M_ID LIKE #{mId} AND Q_DATE BETWEEN
+		#{StartDT} AND #{EndDT} ORDER BY Q_DATE DESC limit
 		#{startNum},
 		#{ContentNum};
 	</select>
 
 	<select id="GetSchSnsQListCnt" parameterType="String"
 		resultType="int">
-		SELECT count(*) FROM qna WHERE M_ID LIKE #{mId} AND Q_DATE BETWEEN #{StartDT} AND #{EndDT};
+		SELECT count(*) FROM qna WHERE M_ID LIKE #{mId} AND Q_DATE
+		BETWEEN #{StartDT} AND #{EndDT};
 	</select>
-	
+
 	<select id="GetQRecentList" resultType="com.company.dto.QnaDTO">
-		SELECT * FROM qna ORDER BY Q_DATE DESC limit 0,4;
+		SELECT * FROM qna ORDER
+		BY Q_DATE DESC limit 0,4;
+	</select>
+
+	<select id="GetQListCnt" resultType="int">
+		SELECT count(*) FROM qna;
+	</select>
+
+	<select id="GetQList" resultType="com.company.dto.QnaDTO">
+		SELECT * FROM qna ORDER BY
+		Q_DATE DESC limit
+		#{startNum},
+		#{ContentNum};
+	</select>
+
+	<select id="GetSchQListCnt" parameterType="hashmap"
+		resultType="int">
+		SELECT count(*) FROM qna WHERE Q_DATE BETWEEN #{StartDT}
+		AND #{EndDT};
+	</select>
+
+	<select id="GetSchQList" parameterType="hashmap"
+		resultType="com.company.dto.QnaDTO">
+		SELECT * FROM qna WHERE Q_DATE BETWEEN #{StartDT} AND
+		#{EndDT} ORDER BY
+		Q_DATE DESC limit
+		#{startNum},
+		#{ContentNum};
 	</select>
 </mapper>

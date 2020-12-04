@@ -105,4 +105,15 @@
 		M_SERVICE_DATE2 = #{today_month}, M_SERVICE_DATE3 = #{today_date}
 		WHERE M_ID = #{mId};
 	</update>
+	
+	<select id="GetsSchPayMCnt" parameterType="hashmap" resultType="int">
+		SELECT count(*) FROM
+		member WHERE M_ID LIKE #{schId} AND M_NAME LIKE #{schName} AND M_SERVICE_CHK LIKE #{join};
+	</select>
+	
+	<select id="GetsSchPayM" parameterType="hashmap" resultType="com.company.dto.MemberDTO">
+		SELECT * FROM
+		member WHERE M_ID LIKE #{schId} AND M_NAME LIKE #{schName} AND M_SERVICE_CHK LIKE #{join} ORDER BY M_ID ASC limit
+		#{startNum}, #{ContentNum};
+	</select>
 </mapper>

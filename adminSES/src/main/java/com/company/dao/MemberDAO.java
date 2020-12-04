@@ -114,4 +114,14 @@ public class MemberDAO {
 		else
 			return false;
 	}
+
+	// 유료서비스 회원 조건 검색 수 구하기
+	public int GetsSchPayMCnt(Map<String, Object> map) {
+		return temp.selectOne("mMap.GetsSchPayMCnt", map);
+	}
+
+	// 유료서비스 회원 조건 검색 목록 구하기
+	public List<MemberDTO> GetsSchPayM(Map<String, Object> mmap) {
+		return temp.selectList("mMap.GetsSchPayM", mmap);
+	}
 }

@@ -48,32 +48,12 @@ table {
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
 <script type="text/javascript">
-	$("#joinDT").datepicker({
-		weekStart : 1,
-		daysOfWeekHighlighted : "6,0",
-		autoclose : true,
-		todayHighlight : true,
-		format : "yyyy/mm/dd",
-		endDate : "today"
-	});
-	$("#joinDT").datepicker("setDate", new Date());
-	$("#joinDT").each(function() {
-		var $inputs = $(this).find('input');
+	function SearchDT() {
+		var StartDT = $('#StartDT').val();
+		var EndDT = $('#EndDT').val();
 
-		$inputs.datepicker();
-		if ($inputs.length >= 2) {
-			var $from = $inputs.eq(0);
-			var $to = $inputs.eq(1);
-			$from.on('changeDate', function(e) {
-				var d = new Date(e.date.valueOf());
-				$to.datepicker('setStartDate', d); // 종료일은 시작일보다 빠를 수 없다.
-			});
-			$to.on('changeDate', function(e) {
-				var d = new Date(e.date.valueOf());
-				$from.datepicker('setEndDate', d); // 시작일은 종료일보다 늦을 수 없다.
-			});
-		}
-	})
+		location.href = "sch_qna?StartDT=" + StartDT + "&EndDT=" + EndDT;
+	}
 </script>
 </head>
 <body>
@@ -124,14 +104,15 @@ table {
 										<table width="50%">
 											<tr>
 												<td>
-													<div class="input-group input-daterange" id="qnaDate"
-														align="right">
-														<div class="input-group input-daterange" align="right">
-															<input type="text" class="form-control"
-																data-date-format="yyyy-mm-dd" maxlength="15">
-															<div class="input-group-addon" align="right">to</div>
-															<input type="text" class="form-control"
-																data-date-format="yyyy-mm-dd" maxlength="15">
+													<div class="input-group input-daterange" id="searchDT">
+														<div class="input-group input-daterange">
+															<input type="text" class="form-control" id="StartDT"
+																name="StartDT" data-date-format="yyyy-mm-dd"
+																maxlength="15" value="${StartDT}">
+															<div class="input-group-addon">to</div>
+															<input type="text" class="form-control" id="EndDT"
+																name="EndDT" data-date-format="yyyy-mm-dd"
+																maxlength="15" value="${EndDT}">
 														</div>
 													</div>
 												</td>
@@ -139,7 +120,7 @@ table {
 										</table>
 									</td>
 									<td align="right"><button type="button"
-											class="btn btn-secondary">검색</button></td>
+											onclick="SearchDT()" class="btn btn-secondary">검색</button></td>
 								</tr>
 							</table>
 						</div>
@@ -156,83 +137,37 @@ table {
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>1</td>
-									<td>문의 드립니다1</td>
-									<td>Honggildong</td>
-									<td>2020-11-01</td>
-									<td>X</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>문의 드립니다2</td>
-									<td>Honggildong</td>
-									<td>2020-11-01</td>
-									<td>O</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>문의 드립니다3</td>
-									<td>Honggildong</td>
-									<td>2020-11-01</td>
-									<td>O</td>
-								</tr>
-								<tr>
-									<td>4</td>
-									<td>문의 드립니다4</td>
-									<td>Honggildong</td>
-									<td>2020-11-01</td>
-									<td>O</td>
-								</tr>
-								<tr>
-									<td>5</td>
-									<td>문의 드립니다5</td>
-									<td>Honggildong</td>
-									<td>2020-11-01</td>
-									<td>O</td>
-								</tr>
-								<tr>
-									<td>6</td>
-									<td>문의 드립니다6</td>
-									<td>Honggildong</td>
-									<td>2020-11-01</td>
-									<td>O</td>
-								</tr>
-								<tr>
-									<td>7</td>
-									<td>문의 드립니다7</td>
-									<td>Honggildong</td>
-									<td>2020-11-01</td>
-									<td>O</td>
-								</tr>
-								<tr>
-									<td>8</td>
-									<td>문의 드립니다8</td>
-									<td>Honggildong</td>
-									<td>2020-11-01</td>
-									<td>O</td>
-								</tr>
-								<tr>
-									<td>9</td>
-									<td>문의 드립니다9</td>
-									<td>Honggildong</td>
-									<td>2020-11-01</td>
-									<td>O</td>
-								</tr>
-								<tr>
-									<td>10</td>
-									<td>문의 드립니다10</td>
-									<td>Honggildong</td>
-									<td>2020-11-01</td>
-									<td>O</td>
-								</tr>
+								<c:forEach items="${dtos}" var="dto">
+									<tr>
+										<td>${dto.getNUM()}</td>
+										<td><a href="qna_answer"><c:if
+													test="${dto.getQ_REPLY() eq ''}">
+													<span class="badge badge-pill badge-warning">New</span>
+												</c:if> <c:if test="${dto.getQ_REPLY() ne ''}">
+														&nbsp;&nbsp;&nbsp;
+													</c:if>${dto.getQ_TITLE()}</a></td>
+										<td>${dto.getM_ID()}</td>
+										<td>${dto.getQ_DATE()}</td>
+										<td>${dto.getQ_chkREPLY()}</td>
+										<input type="hidden" id="Qnum" name="Qnum"
+											value="${dto.getQ_NUM()}">
+									</tr>
+								</c:forEach>
 							</tbody>
 							<tfoot>
 								<tr>
 									<td colspan="4"></td>
 								</tr>
 								<tr align="center">
-									<td colspan="4"><< < 1 2 3 4 5 6 7 8 9 10 > >></td>
+									<td colspan="4"><a href="${QLink}pgnum=1"
+										style="text-decoration: none">${prev}${prev}</a> <a
+										href="${QLink}pgnum=${before}" style="text-decoration: none">${prev}</a>
+										<c:forEach items="${pg}" var="p">
+											<a href="${QLink}pgnum=${p}" style="text-decoration: none">${p}</a>
+										</c:forEach> <a href="${QLink}pgnum=${after}"
+										style="text-decoration: none">${next}</a> <a
+										href="${QLink}pgnum=${last}" style="text-decoration: none">${next}${next}</a></td>
+									</td>
 								</tr>
 							</tfoot>
 						</table>
@@ -243,5 +178,41 @@ table {
 		</main>
 		<!-- contents -->
 	</div>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		$("#searchDT").datepicker({
+			weekStart : 1,
+			daysOfWeekHighlighted : "6,0",
+			autoclose : true,
+			todayHighlight : true,
+			format : "yyyy/mm/dd",
+			endDate : "today"
+		});
+		$("#searchDT").datepicker("setDate", new Date());
+		$("#searchDT").each(function() {
+			var $inputs = $(this).find('input');
+
+			$inputs.datepicker();
+			if ($inputs.length >= 2) {
+				var $from = $inputs.eq(0);
+				var $to = $inputs.eq(1);
+				$from.on('changeDate', function(e) {
+					var d = new Date(e.date.valueOf());
+					$to.datepicker('setStartDate', d); // 종료일은 시작일보다 빠를 수 없다.
+				});
+				$to.on('changeDate', function(e) {
+					var d = new Date(e.date.valueOf());
+					$from.datepicker('setEndDate', d); // 시작일은 종료일보다 늦을 수 없다.
+				});
+			}
+		})
+	</script>
 </body>
 </html>

@@ -68,4 +68,28 @@ public class QnaService implements QService {
 	public List<QnaDTO> GetQRecentList() {
 		return qDAO.GetQRecentList();
 	}
+
+	// 문의 목록 가져오기
+	@Override
+	public List<QnaDTO> GetQList(Map<String, Object> map) {
+		return qDAO.GetQList(map);
+	}
+
+	// 문의 목록 개수 가져오기
+	@Override
+	public int GetQListCnt() {
+		return qDAO.GetQListCnt();
+	}
+
+	// 문의 날짜 검색 수 가져오기
+	@Override
+	public int GetSchQListCnt(Map<String, Object> map) {
+		return qDAO.GetSchQListCnt(map);
+	}
+
+	// 문의 날짜 검색 목록 가져오기
+	@Override
+	public List<QnaDTO> GetSchQList(Map<String, Object> map) {
+		return qDAO.GetSchQList(map);
+	}
 }

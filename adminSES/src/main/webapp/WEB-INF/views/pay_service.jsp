@@ -58,14 +58,6 @@ panel-heading {
 		$(this).datepicker('clearDates');
 	});
 
-	function DoEnable() {
-		if (document.getElementById('joinChk_s')[0].checked == true) {
-			document.getElementById('payChk_s').attr("disabled", false);
-		} else if (document.getElementById('joinChk_s')[1].checked == true) {
-			document.getElementById('payChk_s').attr("disabled", true);
-		}
-	}
-
 	function SearchPayLog() {
 		var mId = $('#mId').val();
 		var pStartDT = $('#pStartDT').val();
@@ -75,34 +67,43 @@ panel-heading {
 	}
 
 	function SearchMember() {
-		var mKind = $('#mKind').val();
+		var joins = document.getElementsByName('joinChk_s');
+		var joins_value;
+		var schId = $('#inputID').val();
+		var schName = $('#inputName').val();
 		var mId = $('#mId').val();
-		var mName = $('#mName').val();
 
-		location.href = "schMember";
+		for (var i = 0; i < joins.length; i++) {
+			if (joins[i].checked) {
+				joins_value = joins[i].value;
+			}
+		}
+
+		location.href = "PaySch?mId="+mId+"&join=" + joins_value
+				+ "&schId=" + schId + "&schName=" + schName;
 	}
-	
+
 	function DoJoin() {
 		var mId = $('#mId').val();
-		
+
 		location.href = "dojoinpay?mId=" + mId;
 	}
-	
+
 	function DontJoin() {
 		var mId = $('#mId').val();
-		
+
 		location.href = "dontjoinpay?mId=" + mId;
 	}
-	
+
 	function DoPay() {
 		var mId = $('#mId').val();
-		
+
 		location.href = "dopayed?mId=" + mId;
 	}
-	
+
 	function DontPay() {
 		var mId = $('#mId').val();
-		
+
 		location.href = "dontpayed?mId=" + mId;
 	}
 </script>
@@ -176,25 +177,31 @@ panel-heading {
 									<td>
 										<table class="tblSearch" width="100%" height="100%">
 											<tr>
-												<td align="right" width="30%">가입여부</td>
-												<td width="5px"></td>
-												<td><input type="radio" name="joinChk_s" id="jRd_join"
-													value="Yes" onclick="DoEnable();" checked> 가입 <input
-													type="radio" name="joinChk_s" id="jRd_nojoin" value="No"
-													onclick="DoEnable();"> 비가입</td>
-											</tr>
-											<tr>
-												<td align="right" width="30%">납부</td>
-												<td width="5px"></td>
-												<td><input type="radio" name="payChk_s" id="pRd_pay"
-													value="Yes" checked> 납부 <input type="radio"
-													name="payChk_s" id="pRd_nopay" value="No"> 미납</td>
+												<c:set var="join" value="${join}" />
+												<c:choose>
+													<c:when test="${join eq '미가입'}">
+														<td align="right" width="30%">가입여부</td>
+														<td width="5px"></td>
+														<td><input type="radio" name="joinChk_s"
+															id="joinChk_s" value="가입"> 가입 <input type="radio"
+															name="joinChk_s" id="joinChk_s" value="미가입" checked>
+															미가입</td>
+													</c:when>
+													<c:otherwise>
+														<td align="right" width="30%">가입여부</td>
+														<td width="5px"></td>
+														<td><input type="radio" name="joinChk_s"
+															id="joinChk_s" value="가입" checked> 가입 <input
+															type="radio" name="joinChk_s" id="joinChk_s" value="미가입">
+															미가입</td>
+													</c:otherwise>
+												</c:choose>
 											</tr>
 											<tr>
 												<td align="right" width="30%">아이디</td>
 												<td width="5px"></td>
 												<td><input type="text" class="form-control"
-													id="inputID" width="90%" placeholder="아이디"></td>
+													id="inputID" width="90%" placeholder="아이디" value="${schId}"></td>
 											</tr>
 											<tr>
 												<td height="10px"></td>
@@ -203,7 +210,7 @@ panel-heading {
 												<td align="right" width="30%">성명</td>
 												<td width="5px"></td>
 												<td><input type="text" class="form-control"
-													id="inputName" width="90%" placeholder="성명"></td>
+													id="inputName" width="90%" placeholder="성명" value="${schName}"></td>
 											</tr>
 											<tr>
 												<td height="5px"></td>
@@ -329,14 +336,14 @@ panel-heading {
 																	onClick="DontPay()">미납 처리</button></td>
 														</c:when>
 														<c:otherwise>
-															<td><button type="button" class="btn btn-secondary" disabled>서비스
-																	가입</button></td>
-															<td><button type="button" class="btn btn-secondary" disabled>서비스
-																	해지</button></td>
-															<td><button type="button" class="btn btn-secondary" disabled>납부
-																	처리</button></td>
-															<td><button type="button" class="btn btn-secondary" disabled>미납
-																	처리</button></td>
+															<td><button type="button" class="btn btn-secondary"
+																	disabled>서비스 가입</button></td>
+															<td><button type="button" class="btn btn-secondary"
+																	disabled>서비스 해지</button></td>
+															<td><button type="button" class="btn btn-secondary"
+																	disabled>납부 처리</button></td>
+															<td><button type="button" class="btn btn-secondary"
+																	disabled>미납 처리</button></td>
 														</c:otherwise>
 													</c:choose>
 												</tr>

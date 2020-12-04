@@ -57,4 +57,10 @@ public interface MService {
 
 	// 유료서비스 미가입/가입 처리
 	boolean MakePLJoin(Map<String, Object> map);
+
+	// 유료서비스 회원 조건 검색 수 구하기
+	public int GetsSchPayMCnt(Map<String, Object> map);
+
+	// 유료서비스 회원 조건 검색 목록 구하기
+	public List<MemberDTO> GetsSchPayM(Map<String, Object> mmap);
 }

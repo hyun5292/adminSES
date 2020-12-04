@@ -116,4 +116,16 @@ public class MemberService implements MService {
 	public boolean MakePLJoin(Map<String, Object> map) {
 		return mDAO.MakePLJoin(map);
 	}
+
+	// 유료서비스 회원 조건 검색 수 구하기
+	@Override
+	public int GetsSchPayMCnt(Map<String, Object> map) {
+		return mDAO.GetsSchPayMCnt(map);
+	}
+
+	// 유료서비스 회원 조건 검색 목록 구하기
+	@Override
+	public List<MemberDTO> GetsSchPayM(Map<String, Object> mmap) {
+		return mDAO.GetsSchPayM(mmap);
+	}
 }

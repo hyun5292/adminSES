@@ -60,4 +60,24 @@ public class QnaDAO {
 	public List<QnaDTO> GetQRecentList() {
 		return temp.selectList("qMap.GetQRecentList");
 	}
+
+	// 문의 목록 가져오기
+	public List<QnaDTO> GetQList(Map<String, Object> map) {
+		return temp.selectList("qMap.GetQList", map);
+	}
+
+	// 문의 목록 개수 가져오기
+	public int GetQListCnt() {
+		return temp.selectOne("qMap.GetQListCnt");
+	}
+
+	// 문의 날짜 검색 수 가져오기
+	public int GetSchQListCnt(Map<String, Object> map) {
+		return temp.selectOne("qMap.GetSchQListCnt", map);
+	}
+
+	// 문의 날짜 검색 목록 가져오기
+	public List<QnaDTO> GetSchQList(Map<String, Object> map) {
+		return temp.selectList("qMap.GetSchQList", map);
+	}
 }
