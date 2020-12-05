@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- mapper는 여러 개가 존재할 수 있으니 다른 maper아 중복이 되지 않도록 namespace를 선언 -->
 <mapper namespace="eMap">
+	<select id="ELogin" parameterType="String"
+		resultType="com.company.dto.EmployeeDTO">
+		SELECT * from employee
+		WHERE M_ID like #{param1} AND M_PW IS NOT NULL;
+	</select>
+
 	<select id="GetSchEList" parameterType="hashmap"
 		resultType="com.company.dto.EmployeeDTO">
 		SELECT * FROM employee WHERE M_ID LIKE #{mId} AND M_NAME

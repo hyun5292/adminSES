@@ -8,8 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,9 @@ import com.company.service.SService;
 @Controller
 @Repository
 public class Q_QnaController {
+	@Inject
+	HttpSession session;
+	
 	@Autowired
 	QService Ser_Q;
 	@Autowired
@@ -35,6 +40,11 @@ public class Q_QnaController {
 	// 문의 작성 페이지로 이동
 	@RequestMapping("/new_qna")
 	public String GoNewQAnswer(HttpServletRequest request, Model model) {
+		// 로그인 확인
+		if (session.getAttribute("eId") == null) {
+			return "redirect:/login";
+		}
+		
 		int NewQnum = Ser_Q.GetLastQnum() + 1;
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		Calendar time = Calendar.getInstance();
@@ -87,6 +97,11 @@ public class Q_QnaController {
 	// 받은 문의 답변으로 이동
 	@RequestMapping("/qna_answer")
 	public String GoQnaAnswer(HttpServletRequest request, Model model) {
+		// 로그인 확인
+		if (session.getAttribute("eId") == null) {
+			return "redirect:/login";
+		}
+		
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 		String Qnum = request.getParameter("Qnum");

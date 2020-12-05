@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -17,6 +18,9 @@ import com.company.dto.MemberDTO;
 public class EmployeeDAO {
 	@Autowired
 	public SqlSessionTemplate temp;
+
+	@Inject
+	private SqlSession sqlSession;
 
 	// 조건 검색 직원 목록 불러오기
 	public List<EmployeeDTO> GetSchEList(Map<String, Object> map) {
@@ -59,5 +63,10 @@ public class EmployeeDAO {
 	// 이메일 검색된 직원 목록 구하기
 	public List<EmployeeDTO> GetsSchEmAdmin(Map<String, Object> map) {
 		return temp.selectList("eMap.GetsSchEmAdmin", map);
+	}
+
+	// 로그인
+	public EmployeeDTO ELogin(String mId) {
+		return sqlSession.selectOne("eMap.ELogin", mId);
 	}
 }

@@ -60,7 +60,15 @@ table {
 						src="${pageContext.request.contextPath}/resources/images/mainmark.png"
 						class="img-fluid flex-center"></a>
 				</div>
-				&nbsp;
+				<div class="sidebar-header">
+					<div class="user-info">
+						<span class="user-name"><strong>${eId}</strong><a href="logout">
+								<i class="fa fa-power-off"></i>
+						</a></span> <span class="user-role">Administrator</span> <span
+							class="user-status"> <i class="fa fa-circle"></i> <span>Online</span>
+						</span>
+					</div>
+				</div>
 				<!-- sidebar-header  -->
 				<div class="sidebar-search">
 					<div>
@@ -125,11 +133,9 @@ table {
 											<tr>
 												<td>&nbsp;<c:if test="${dto.getQ_REPLY() eq ''}">
 														<span class="badge badge-pill badge-warning">New</span>
-													</c:if> 
-													<c:if test="${dto.getQ_REPLY() ne ''}">
+													</c:if> <c:if test="${dto.getQ_REPLY() ne ''}">
 														&nbsp;&nbsp;&nbsp;
-													</c:if> 
-													<a href="qna_answer?Qnum=${dto.getQ_NUM()}">${dto.getQ_TITLE()}</a></td>
+													</c:if> <a href="qna_answer?Qnum=${dto.getQ_NUM()}">${dto.getQ_TITLE()}</a></td>
 												<td><center>${dto.getM_ID()}</center></td>
 											</tr>
 										</c:forEach>

@@ -150,6 +150,7 @@
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
       <Context docBase="adminSES" path="/" reloadable="true" source="org.eclipse.jst.jee.server:adminSES"/></Host>
+      <Connector port="8181" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443"  URIEncoding="UTF-8"/>
     </Engine>
   </Service>
 </Server>

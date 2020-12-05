@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +36,9 @@ import com.company.service.SService;
 @Controller
 @Repository
 public class PageController {
+	@Inject
+	HttpSession session;
+	
 	// 서비스 인터페이스 갖고 와서 여기서 정의
 	@Autowired
 	MService Ser_M;
@@ -59,6 +64,11 @@ public class PageController {
 	// 메인으로 이동
 	@RequestMapping("/main")
 	public String GoMain(HttpServletRequest request, Model model) {
+		// 로그인 확인
+		if (session.getAttribute("eId") == null) {
+			return "redirect:/login";
+		}
+		
 		int MCnt = Ser_M.PageCnt();
 		int NoMCnt = Ser_M.GeneralNotUseCnt();
 		int SUsercnt = Ser_M.GetServiceUserCnt();
@@ -83,6 +93,11 @@ public class PageController {
 	// 받은 문의로 이동
 	@RequestMapping("/qna")
 	public String GoQna(HttpServletRequest request, Model model) {
+		// 로그인 확인
+		if (session.getAttribute("eId") == null) {
+			return "redirect:/login";
+		}
+		
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageDTO pgDTO = new PageDTO();
@@ -179,6 +194,11 @@ public class PageController {
 	// 회원 검색으로 이동
 	@RequestMapping("/m_search")
 	public String GoMSearch(HttpServletRequest request, Model model) {
+		// 로그인 확인
+		if (session.getAttribute("eId") == null) {
+			return "redirect:/login";
+		}
+		
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageDTO pgDTO = new PageDTO();
@@ -272,6 +292,11 @@ public class PageController {
 	// 일반 회원으로 이동
 	@RequestMapping("/m_general")
 	public String GoMGeneral(HttpServletRequest request, Model model) {
+		// 로그인 확인
+		if (session.getAttribute("eId") == null) {
+			return "redirect:/login";
+		}
+		
 		Map<String, Object> Qmap = new HashMap<String, Object>();
 		Map<String, Object> Lmap = new HashMap<String, Object>();
 		MemberDTO mdto = new MemberDTO();
@@ -483,6 +508,11 @@ public class PageController {
 	// 직원 회원으로 이동
 	@RequestMapping("/m_admin")
 	public String GoMAdmin(HttpServletRequest request, Model model) {
+		// 로그인 확인
+		if (session.getAttribute("eId") == null) {
+			return "redirect:/login";
+		}
+		
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageDTO pgDTO = new PageDTO();
@@ -586,6 +616,11 @@ public class PageController {
 	// SNS사로 이동
 	@RequestMapping("/m_sns")
 	public String GoMSns(HttpServletRequest request, Model model) {
+		// 로그인 확인
+		if (session.getAttribute("eId") == null) {
+			return "redirect:/login";
+		}
+		
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageDTO pgDTO = new PageDTO();
@@ -723,6 +758,11 @@ public class PageController {
 	// 회원 메일 전송으로 이동
 	@RequestMapping("/m_mail")
 	public String GoMMail(HttpServletRequest request, Model model) {
+		// 로그인 확인
+		if (session.getAttribute("eId") == null) {
+			return "redirect:/login";
+		}
+		
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageDTO pgDTO = new PageDTO();
@@ -820,6 +860,11 @@ public class PageController {
 	// 유료서비스로 이동
 	@RequestMapping("/pay_service")
 	public String GoPayService(HttpServletRequest request, Model model) {
+		// 로그인 확인
+		if (session.getAttribute("eId") == null) {
+			return "redirect:/login";
+		}
+		
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> Pmap = new HashMap<String, Object>();

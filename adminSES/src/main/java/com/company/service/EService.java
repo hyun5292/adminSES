@@ -29,5 +29,8 @@ public interface EService {
 
 	// 이메일 검색된 직원 목록 구하기
 	List<EmployeeDTO> GetsSchEmAdmin(Map<String, Object> map);
+
+	// 로그인
+	EmployeeDTO ELogin(HttpServletRequest request);
 	
 }

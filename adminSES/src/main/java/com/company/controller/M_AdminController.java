@@ -6,14 +6,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.company.dto.EmpLogDTO;
 import com.company.dto.EmployeeDTO;
@@ -28,6 +32,50 @@ public class M_AdminController {
 	EService Ser_E;
 	@Autowired
 	ELService Ser_EL;
+
+	@Inject
+	HttpSession session;
+
+	// 로그인
+	@RequestMapping(value = "/doLogin", method = RequestMethod.POST)
+	public String MLogin(HttpServletResponse response, HttpServletRequest request, RedirectAttributes attr)
+			throws Exception {
+		EmployeeDTO dto = Ser_E.ELogin(request);
+
+		if (dto == null) { // 해당 직원이 존재하지 않을 경우
+			session.setAttribute("eId", null);
+			session.setAttribute("ePw", null);
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('존재하지 않는 회원입니다!!'); history.go(-1); </script>");
+			out.flush();
+		} else if (!dto.getM_PW().equals(request.getParameter("ePw"))) { // 비밀번호가 일치하지 않을 경우
+			session.setAttribute("eId", null);
+			session.setAttribute("ePw", null);
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('비밀번호가 틀렸습니다!!'); history.go(-1); </script>");
+			out.flush();
+		} else { // 성공
+			session.setAttribute("eId", dto.getM_ID());
+			session.setAttribute("ePw", dto.getM_PW());
+			return "redirect:/main";
+		}
+
+		return "/login";
+	}
+
+	// 로그아웃
+	@RequestMapping("/logout")
+	public String MLogout(HttpServletResponse response, HttpServletRequest request, RedirectAttributes attr)
+			throws Exception {
+		System.out.println("Controller - Logout()");
+
+		session.removeAttribute("user");
+		session.invalidate();
+
+		return "redirect:/main";
+	}
 
 	// 직원 활동 내역 날짜 검색
 	@RequestMapping("/el_sch")
@@ -142,10 +190,10 @@ public class M_AdminController {
 	public String DoAuth(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException {
 		String mId = request.getParameter("mId");
 		boolean result;
-		
+
 		result = Ser_E.MakeDoAuth(mId);
-		
-		if(!result) {
+
+		if (!result) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
@@ -162,8 +210,8 @@ public class M_AdminController {
 		boolean result;
 
 		result = Ser_E.MakeDontAuth(mId);
-		
-		if(!result) {
+
+		if (!result) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");

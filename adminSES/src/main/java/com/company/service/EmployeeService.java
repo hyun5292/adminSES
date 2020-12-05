@@ -57,5 +57,11 @@ public class EmployeeService implements EService{
 	public List<EmployeeDTO> GetsSchEmAdmin(Map<String, Object> map) {
 		return eDAO.GetsSchEmAdmin(map);
 	}
+
+	// ·Î±×ÀÎ
+	@Override
+	public EmployeeDTO ELogin(HttpServletRequest request) {
+		return eDAO.ELogin(request.getParameter("eId"));
+	}
 	
 }

@@ -38,7 +38,8 @@
 }
 
 .login-box {
-	width: 300px; align : center;
+	width: 300px;
+	align: center;
 	font-size: 1em;
 	color: #aaa;
 	margin-top: 1em;
@@ -54,7 +55,7 @@
 	function check() {
 		var eId = $('#eId').val();
 		var ePw = $('#ePw').val();
-		
+
 		if (eId == "") {
 			alert("아이디를 입력하세요!!");
 			document.loginForm.eId.focus();
@@ -107,7 +108,8 @@
 				<tr>
 					<td align="center">
 						<div class="login-box well" align="center">
-							<form method="post" name="loginForm" action="doLogin" onSubmit="return check()">
+							<form method="post" name="loginForm" action="doLogin"
+								onSubmit="return check()">
 								<legend>로그인</legend>
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-user"></i></span>
@@ -123,6 +125,11 @@
 									class="btn btn-default btn-block" />
 								로그인
 								</button>
+								<div class="clearfix">
+									<p class="text-center">
+										<a href="gofindPW">Forgot Password?</a>
+									</p>
+								</div>
 							</form>
 						</div>
 					</td>
