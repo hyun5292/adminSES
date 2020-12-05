@@ -54,6 +54,27 @@ table {
 
 		location.href = "sch_qna?StartDT=" + StartDT + "&EndDT=" + EndDT;
 	}
+	
+	function NewQna() {
+		location.href = "new_qna";
+	}
+	
+	function SearchKeyWord() {
+		var mKind = $('#kwKind').val();
+		var Key = $('#schKeyword').val();
+		var result_title = "";
+		var result_id = "";
+		
+		if(mKind == "제목") {
+			result_title = Key;
+			result_id = "";
+		} else {
+			result_title = "";
+			result_id = Key;
+		}
+		
+		location.href = "schKW_qna?kind="+mKind+"&title=" + result_title + "&qId=" + result_id;
+	}
 </script>
 </head>
 <body>
@@ -121,6 +142,11 @@ table {
 									</td>
 									<td align="right"><button type="button"
 											onclick="SearchDT()" class="btn btn-secondary">검색</button></td>
+									<td width="3px"></td>
+									<td align="right">
+										<button type="button" onclick="NewQna()"
+											class="btn btn-secondary">문의작성</button>
+									</td>
 								</tr>
 							</table>
 						</div>
@@ -140,7 +166,7 @@ table {
 								<c:forEach items="${dtos}" var="dto">
 									<tr>
 										<td>${dto.getNUM()}</td>
-										<td><a href="qna_answer"><c:if
+										<td><a href="qna_answer?Qnum=${dto.getQ_NUM()}"><c:if
 													test="${dto.getQ_REPLY() eq ''}">
 													<span class="badge badge-pill badge-warning">New</span>
 												</c:if> <c:if test="${dto.getQ_REPLY() ne ''}">
@@ -153,13 +179,37 @@ table {
 											value="${dto.getQ_NUM()}">
 									</tr>
 								</c:forEach>
+								<tr>
+									<td colspan="5"></td>
+								</tr>
+								<tr>
+									<td colspan="5" align="center">
+										<table>
+											<tr>
+												<td><select class="custom-select" id="kwKind" name="kwKind">
+														<option value="${kind}" selected="true">${kind}</option>
+														<option value="제목">제목</option>
+														<option value="아이디">아이디</option>
+												</select></td>
+												<td width="3px"></td>
+												<td><input type="text" class="form-control"
+													id="schKeyword" name="schKeyword" value="${qId}${title}"></td>
+												<td width="3px"></td>
+												<td>
+													<button type="button" class="btn btn-secondary"
+														onclick="SearchKeyWord()">검색</button>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
 							</tbody>
 							<tfoot>
 								<tr>
-									<td colspan="4"></td>
+									<td colspan="5"></td>
 								</tr>
 								<tr align="center">
-									<td colspan="4"><a href="${QLink}pgnum=1"
+									<td colspan="5"><a href="${QLink}pgnum=1"
 										style="text-decoration: none">${prev}${prev}</a> <a
 										href="${QLink}pgnum=${before}" style="text-decoration: none">${prev}</a>
 										<c:forEach items="${pg}" var="p">

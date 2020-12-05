@@ -71,5 +71,10 @@ public class SnsDAO {
 	public int ChkTodaySNS(Map<String, Object> map) {
 		return temp.selectOne("snsMap.ChkTodaySNS", map);
 	}
+
+	// sns사 담당자 목록 불러오기
+	public List<SnsDTO> GetSnsList() {
+		return temp.selectList("snsMap.GetSnsList");
+	}
 	
 }

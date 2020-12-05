@@ -129,7 +129,7 @@ table {
 													<c:if test="${dto.getQ_REPLY() ne ''}">
 														&nbsp;&nbsp;&nbsp;
 													</c:if> 
-													<a href="#">${dto.getQ_TITLE()}</a></td>
+													<a href="qna_answer?Qnum=${dto.getQ_NUM()}">${dto.getQ_TITLE()}</a></td>
 												<td><center>${dto.getM_ID()}</center></td>
 											</tr>
 										</c:forEach>

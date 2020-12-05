@@ -63,4 +63,10 @@ public class SnsService implements SService{
 		return sDAO.ChkTodaySNS(map);
 	}
 
+	// sns사 담당자 목록 불러오기
+	@Override
+	public List<SnsDTO> GetSnsList() {
+		return sDAO.GetSnsList();
+	}
+
 }

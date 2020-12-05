@@ -53,4 +53,8 @@
 		resultType="int">
 		SELECT count(*) FROM sns WHERE M_ID LIKE #{sKind} AND S_START_DT LIKE #{sStartDT};
 	</select>
+	
+	<select id="GetSnsList" resultType="com.company.dto.SnsDTO">
+		SELECT * FROM sns ORDER BY M_ID DESC;
+	</select>
 </mapper>

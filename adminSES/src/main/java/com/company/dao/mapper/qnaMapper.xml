@@ -87,4 +87,48 @@
 		#{startNum},
 		#{ContentNum};
 	</select>
+
+	<select id="GetLastQnum" resultType="int">
+		SELECT MAX(Q_NUM) FROM qna;
+	</select>
+
+	<select id="GetQData" parameterType="hashmap"
+		resultType="com.company.dto.QnaDTO">
+		SELECT * FROM qna WHERE Q_NUM=#{Qnum};
+	</select>
+
+	<update id="AddReply" parameterType="hashmap">
+		UPDATE
+		qna SET
+		Q_REPLY =
+		#{QReply} WHERE Q_NUM = #{Qnum};
+	</update>
+
+	<insert id="AddMewQna" parameterType="hashmap">
+		INSERT INTO qna(Q_TITLE,
+		M_ID, Q_PWD, Q_CONTENT, Q_DATE, Q_REPLY)
+		VALUES
+		(#{QTitle}, #{QWriter},
+		#{QPwd}, #{QContent}, #{QnaDT}, #{QReply});
+	</insert>
+
+	<delete id="DeleteQna" parameterType="String">
+		DELETE FROM qna WHERE Q_NUM
+		= #{Qnum};
+	</delete>
+
+	<select id="GetSchKWQListCnt" parameterType="hashmap"
+		resultType="int">
+		SELECT count(*) FROM qna WHERE Q_TITLE LIKE #{title} AND
+		M_ID LIKE #{qId};
+	</select>
+
+	<select id="GetSchKWQList" parameterType="hashmap"
+		resultType="com.company.dto.QnaDTO">
+		SELECT * FROM qna WHERE Q_TITLE LIKE #{title} AND M_ID LIKE
+		#{qId} ORDER BY
+		Q_DATE DESC limit
+		#{startNum},
+		#{ContentNum};
+	</select>
 </mapper>

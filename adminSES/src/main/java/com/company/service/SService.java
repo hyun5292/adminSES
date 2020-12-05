@@ -31,4 +31,7 @@ public interface SService {
 	// 오늘 등록된 다른 SNS 담당자가 있는지 확인
 	int ChkTodaySNS(Map<String, Object> map);
 
+	// sns사 담당자 목록 불러오기
+	List<SnsDTO> GetSnsList();
+
 }
