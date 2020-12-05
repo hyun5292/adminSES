@@ -2,12 +2,16 @@ package com.company.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +23,7 @@ import com.company.dto.EmployeeDTO;
 import com.company.dto.MemberDTO;
 import com.company.dto.PageDTO;
 import com.company.dto.SnsDTO;
+import com.company.service.ELService;
 import com.company.service.EService;
 import com.company.service.MService;
 import com.company.service.SService;
@@ -33,10 +38,16 @@ public class M_SearchController {
 	EService Ser_E;
 	@Autowired
 	SService Ser_S;
+	@Autowired
+	ELService Ser_EL;
+
+	@Inject
+	HttpSession session;
 
 	// 일반 회원 전체 검색
 	@RequestMapping("/sch_general")
-	public String SchGeneral(HttpServletRequest request, Model model) {
+	public String SchGeneral(HttpServletResponse response, HttpServletRequest request, Model model)
+			throws IOException {
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageDTO pgDTO = new PageDTO();
@@ -138,7 +149,8 @@ public class M_SearchController {
 
 	// 직원 전체 검색
 	@RequestMapping("/sch_admin")
-	public String SchAdmin(HttpServletRequest request, Model model) {
+	public String SchAdmin(HttpServletResponse response, HttpServletRequest request, Model model)
+			throws IOException {
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageDTO pgDTO = new PageDTO();
@@ -240,7 +252,8 @@ public class M_SearchController {
 
 	// SNS사 조건 검색
 	@RequestMapping("/sch_sns")
-	public String SchSns(HttpServletRequest request, Model model) {
+	public String SchSns(HttpServletResponse response, HttpServletRequest request, Model model)
+			throws IOException {
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageDTO pgDTO = new PageDTO();

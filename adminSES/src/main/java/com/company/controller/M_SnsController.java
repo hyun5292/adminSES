@@ -9,8 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.company.dto.PageDTO;
 import com.company.dto.QnaDTO;
 import com.company.dto.SnsDTO;
+import com.company.service.ELService;
 import com.company.service.MService;
 import com.company.service.QService;
 import com.company.service.SService;
@@ -36,6 +39,11 @@ public class M_SnsController {
 	QService Ser_Q;
 	@Autowired
 	SService Ser_S;
+	@Autowired
+	ELService Ser_EL;
+
+	@Inject
+	HttpSession session;
 
 	// SNS사 담당자 문의 내역 날짜 검색
 	@RequestMapping("/sns_qsch")
@@ -222,6 +230,25 @@ public class M_SnsController {
 			}
 		}
 
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> session_map = new HashMap<String, Object>();
+		SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Calendar time2 = Calendar.getInstance();
+		String now2 = format1.format(time.getTime());
+
+		session_map.put("el_Id", session.getAttribute("eId"));
+		session_map.put("el_Activity", request.getParameter("sKind") + " - " + request.getParameter("inDT") + " 담당자 등록");
+		session_map.put("el_DT", now2);
+
+		boolean rslt = Ser_EL.WriteLog(session_map);
+
+		if (!rslt) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
 		return "redirect:/" + "m_search";
 	}
 
@@ -256,6 +283,25 @@ public class M_SnsController {
 			out.flush();
 		}
 
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> session_map = new HashMap<String, Object>();
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String now = format1.format(time.getTime());
+
+		session_map.put("el_Id", session.getAttribute("eId"));
+		session_map.put("el_Activity", request.getParameter("sKind2") + "-" + request.getParameter("inDT2") + " 관리자 정보 수정");
+		session_map.put("el_DT", now);
+
+		boolean rslt = Ser_EL.WriteLog(session_map);
+
+		if (!rslt) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+		
 		return "redirect:/" + "m_search";
 	}
 
@@ -275,6 +321,25 @@ public class M_SnsController {
 		result = Ser_S.DeleteSNS(map);
 		
 		if (!result) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> session_map = new HashMap<String, Object>();
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String now = format1.format(time.getTime());
+
+		session_map.put("el_Id", session.getAttribute("eId"));
+		session_map.put("el_Activity", sKind+"-"+inDT + " 관리자 삭제");
+		session_map.put("el_DT", now);
+
+		boolean rslt = Ser_EL.WriteLog(session_map);
+
+		if (!rslt) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");

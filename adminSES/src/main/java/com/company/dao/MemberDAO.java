@@ -124,4 +124,9 @@ public class MemberDAO {
 	public List<MemberDTO> GetsSchPayM(Map<String, Object> mmap) {
 		return temp.selectList("mMap.GetsSchPayM", mmap);
 	}
+
+	// 메인화면 멤버 Name 검색
+	public List<MemberDTO> GetSchMmain(Map<String, Object> map) {
+		return temp.selectList("mMap.GetSchMmain", map);
+	}
 }

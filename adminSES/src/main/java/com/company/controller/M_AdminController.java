@@ -2,6 +2,8 @@ package com.company.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +61,26 @@ public class M_AdminController {
 		} else { // 성공
 			session.setAttribute("eId", dto.getM_ID());
 			session.setAttribute("ePw", dto.getM_PW());
+
+			// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+			Map<String, Object> session_map = new HashMap<String, Object>();
+			SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			Calendar time = Calendar.getInstance();
+			String now = format1.format(time.getTime());
+
+			session_map.put("el_Id", session.getAttribute("eId"));
+			session_map.put("el_Activity", "로그인");
+			session_map.put("el_DT", now);
+
+			boolean rslt = Ser_EL.WriteLog(session_map);
+
+			if (!rslt) {
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+				out.flush();
+			}
+
 			return "redirect:/main";
 		}
 
@@ -69,7 +91,25 @@ public class M_AdminController {
 	@RequestMapping("/logout")
 	public String MLogout(HttpServletResponse response, HttpServletRequest request, RedirectAttributes attr)
 			throws Exception {
-		System.out.println("Controller - Logout()");
+
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> session_map = new HashMap<String, Object>();
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String now = format1.format(time.getTime());
+
+		session_map.put("el_Id", session.getAttribute("eId"));
+		session_map.put("el_Activity", "로그아웃");
+		session_map.put("el_DT", now);
+
+		boolean rslt = Ser_EL.WriteLog(session_map);
+
+		if (!rslt) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
 
 		session.removeAttribute("user");
 		session.invalidate();
@@ -199,6 +239,25 @@ public class M_AdminController {
 			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
 			out.flush();
 		}
+		
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> session_map = new HashMap<String, Object>();
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String now = format1.format(time.getTime());
+
+		session_map.put("el_Id", session.getAttribute("eId"));
+		session_map.put("el_Activity", mId + " 관리자 권한 부여");
+		session_map.put("el_DT", now);
+
+		boolean rslt = Ser_EL.WriteLog(session_map);
+
+		if (!rslt) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
 
 		return "/member/m_search";
 	}
@@ -212,6 +271,26 @@ public class M_AdminController {
 		result = Ser_E.MakeDontAuth(mId);
 
 		if (!result) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+		
+
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> session_map = new HashMap<String, Object>();
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String now = format1.format(time.getTime());
+
+		session_map.put("el_Id", session.getAttribute("eId"));
+		session_map.put("el_Activity", mId + " 관리자 권한 해제");
+		session_map.put("el_DT", now);
+
+		boolean rslt = Ser_EL.WriteLog(session_map);
+
+		if (!rslt) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");

@@ -19,4 +19,10 @@
 		resultType="com.company.dto.EmpLogDTO">
 		SELECT * FROM emp_log WHERE EL_ID LIKE #{mId} AND EL_DATE BETWEEN #{StartDT} AND #{EndDT} ORDER BY EL_DATE DESC limit #{startNum}, #{ContentNum};
 	</select>
+	
+	<insert id="WriteLog" parameterType="hashmap">
+		INSERT INTO emp_log(EL_ID, EL_ACTIVITY, EL_DATE)
+		VALUES
+		(#{el_Id}, #{el_Activity}, #{el_DT})
+	</insert>
 </mapper>

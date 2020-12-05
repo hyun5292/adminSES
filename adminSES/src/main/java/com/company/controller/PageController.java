@@ -1,5 +1,7 @@
 package com.company.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,6 +11,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +41,7 @@ import com.company.service.SService;
 public class PageController {
 	@Inject
 	HttpSession session;
-	
+
 	// 서비스 인터페이스 갖고 와서 여기서 정의
 	@Autowired
 	MService Ser_M;
@@ -68,11 +71,14 @@ public class PageController {
 		if (session.getAttribute("eId") == null) {
 			return "redirect:/login";
 		}
-		
+
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> map = new HashMap<String, Object>();
 		int MCnt = Ser_M.PageCnt();
 		int NoMCnt = Ser_M.GeneralNotUseCnt();
 		int SUsercnt = Ser_M.GetServiceUserCnt();
 		int SUserpct = 0;
+		String schNm = request.getParameter("schNm");
 
 		// 유료서비스 이용률 계산
 		SUserpct = Math.round(((float) SUsercnt / (float) MCnt) * 100);
@@ -80,7 +86,21 @@ public class PageController {
 		// 문의 목록 불러오기
 		List<QnaDTO> dtos = Ser_Q.GetQRecentList();
 
+		if (schNm != null || schNm != "") {
+			map.put("schNm", '%' + schNm + '%');
+
+			// 회원 목록 불러오기
+			List<MemberDTO> mdtos = Ser_M.GetSchMmain(map);
+
+			model.addAttribute("mdtos", mdtos);
+			model.addAttribute("schNm", schNm);
+		} else {
+			model.addAttribute("mdtos", null);
+			model.addAttribute("schNm", "");
+		}
+		
 		// 값 넘겨주기
+		model.addAttribute("mkind", "일반");
 		model.addAttribute("dtos", dtos);
 		model.addAttribute("MCnt", MCnt);
 		model.addAttribute("NoMCnt", NoMCnt);
@@ -97,7 +117,7 @@ public class PageController {
 		if (session.getAttribute("eId") == null) {
 			return "redirect:/login";
 		}
-		
+
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageDTO pgDTO = new PageDTO();
@@ -129,7 +149,7 @@ public class PageController {
 
 		// 문의 목록 불러오기
 		List<QnaDTO> dtos = Ser_Q.GetQList(map);
-		
+
 		for (int i = 0; i < dtos.size(); i++) {
 			if (dtos.get(i).getQ_REPLY() == null || dtos.get(i).getQ_REPLY() == "") {
 				dtos.get(i).setQ_chkREPLY("X");
@@ -198,7 +218,7 @@ public class PageController {
 		if (session.getAttribute("eId") == null) {
 			return "redirect:/login";
 		}
-		
+
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageDTO pgDTO = new PageDTO();
@@ -291,12 +311,12 @@ public class PageController {
 
 	// 일반 회원으로 이동
 	@RequestMapping("/m_general")
-	public String GoMGeneral(HttpServletRequest request, Model model) {
+	public String GoMGeneral(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException {
 		// 로그인 확인
 		if (session.getAttribute("eId") == null) {
 			return "redirect:/login";
 		}
-		
+
 		Map<String, Object> Qmap = new HashMap<String, Object>();
 		Map<String, Object> Lmap = new HashMap<String, Object>();
 		MemberDTO mdto = new MemberDTO();
@@ -502,17 +522,36 @@ public class PageController {
 		else
 			model.addAttribute("llast", LpgDTO.getTotalCnt() / LpgDTO.getContentNum());
 
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> session_map = new HashMap<String, Object>();
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String now = format1.format(time.getTime());
+
+		session_map.put("el_Id", session.getAttribute("eId"));
+		session_map.put("el_Activity", mId + " 회원 정보 확인");
+		session_map.put("el_DT", now);
+
+		boolean rslt = Ser_EL.WriteLog(session_map);
+
+		if (!rslt) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
 		return "/member/m_general";
 	}
 
 	// 직원 회원으로 이동
 	@RequestMapping("/m_admin")
-	public String GoMAdmin(HttpServletRequest request, Model model) {
+	public String GoMAdmin(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException {
 		// 로그인 확인
 		if (session.getAttribute("eId") == null) {
 			return "redirect:/login";
 		}
-		
+
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageDTO pgDTO = new PageDTO();
@@ -610,17 +649,36 @@ public class PageController {
 		else
 			model.addAttribute("last", pgDTO.getTotalCnt() / pgDTO.getContentNum());
 
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> session_map = new HashMap<String, Object>();
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String now = format1.format(time.getTime());
+
+		session_map.put("el_Id", session.getAttribute("eId"));
+		session_map.put("el_Activity", mId + " 직원 정보 확인");
+		session_map.put("el_DT", now);
+
+		boolean rslt = Ser_EL.WriteLog(session_map);
+
+		if (!rslt) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
 		return "/member/m_admin";
 	}
 
 	// SNS사로 이동
 	@RequestMapping("/m_sns")
-	public String GoMSns(HttpServletRequest request, Model model) {
+	public String GoMSns(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException {
 		// 로그인 확인
 		if (session.getAttribute("eId") == null) {
 			return "redirect:/login";
 		}
-		
+
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageDTO pgDTO = new PageDTO();
@@ -752,6 +810,25 @@ public class PageController {
 		else
 			model.addAttribute("last", pgDTO.getTotalCnt() / pgDTO.getContentNum());
 
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> session_map = new HashMap<String, Object>();
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String now = format1.format(time.getTime());
+
+		session_map.put("el_Id", session.getAttribute("eId"));
+		session_map.put("el_Activity", mId + " 관리자 정보 확인");
+		session_map.put("el_DT", now);
+
+		boolean rslt = Ser_EL.WriteLog(session_map);
+
+		if (!rslt) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
 		return "/member/m_sns";
 	}
 
@@ -762,7 +839,7 @@ public class PageController {
 		if (session.getAttribute("eId") == null) {
 			return "redirect:/login";
 		}
-		
+
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 		PageDTO pgDTO = new PageDTO();
@@ -864,7 +941,7 @@ public class PageController {
 		if (session.getAttribute("eId") == null) {
 			return "redirect:/login";
 		}
-		
+
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> Pmap = new HashMap<String, Object>();

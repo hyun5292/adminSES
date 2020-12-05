@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.company.dto.PageDTO;
 import com.company.dto.QnaDTO;
 import com.company.dto.SnsDTO;
+import com.company.service.ELService;
 import com.company.service.QService;
 import com.company.service.SService;
 
@@ -36,6 +37,8 @@ public class Q_QnaController {
 	QService Ser_Q;
 	@Autowired
 	SService Ser_S;
+	@Autowired
+	ELService Ser_EL;
 
 	// 문의 작성 페이지로 이동
 	@RequestMapping("/new_qna")
@@ -90,6 +93,25 @@ public class Q_QnaController {
 			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
 			out.flush();
 		}
+		
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> session_map = new HashMap<String, Object>();
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String now = format1.format(time.getTime());
+
+		session_map.put("el_Id", session.getAttribute("eId"));
+		session_map.put("el_Activity", request.getParameter("QTitle") + " 문의 입력");
+		session_map.put("el_DT", now);
+
+		boolean rslt = Ser_EL.WriteLog(session_map);
+
+		if (!rslt) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
 
 		return "redirect:/" + "qna";
 	}
@@ -130,6 +152,25 @@ public class Q_QnaController {
 			out.flush();
 		}
 
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> session_map = new HashMap<String, Object>();
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String now = format1.format(time.getTime());
+
+		session_map.put("el_Id", session.getAttribute("eId"));
+		session_map.put("el_Activity", Qnum + "번 문의 삭제");
+		session_map.put("el_DT", now);
+
+		boolean rslt = Ser_EL.WriteLog(session_map);
+
+		if (!rslt) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+		
 		return "redirect:/" + "qna";
 	}
 
@@ -146,6 +187,25 @@ public class Q_QnaController {
 		boolean result = Ser_Q.AddReply(map);
 
 		if (!result) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> session_map = new HashMap<String, Object>();
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String now = format1.format(time.getTime());
+
+		session_map.put("el_Id", session.getAttribute("eId"));
+		session_map.put("el_Activity", request.getParameter("Qnum") + "번 문의 답변 입력");
+		session_map.put("el_DT", now);
+
+		boolean rslt = Ser_EL.WriteLog(session_map);
+
+		if (!rslt) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");

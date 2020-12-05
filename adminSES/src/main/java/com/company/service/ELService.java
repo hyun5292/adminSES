@@ -18,4 +18,8 @@ public interface ELService {
 	// 날짜별로 검색된 회원의 활동 로그 전체 가져오기
 	List<EmpLogDTO> GetSchELList(Map<String, Object> map);
 
+	// 활동 기록 남기기
+	boolean WriteLog(Map<String, Object> map);
+
+	
 }

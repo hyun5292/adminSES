@@ -39,4 +39,10 @@ public class EmpLogService implements ELService{
 		return elDAO.GetSchELList(map);
 	}
 
+	// 활동 기록 남기기
+	@Override
+	public boolean WriteLog(Map<String, Object> map) {
+		return elDAO.WriteLog(map);
+	}
+
 }

@@ -35,5 +35,14 @@ public class EmpLogDAO {
 	public List<EmpLogDTO> GetSchELList(Map<String, Object> map) {
 		return temp.selectList("elMap.GetSchELList", map);
 	}
+
+	// 활동 기록 남기기
+	public boolean WriteLog(Map<String, Object> map) {
+		int rs = temp.insert("elMap.WriteLog", map);
+		if (rs == 1)
+			return true;
+		else
+			return false;
+	}
 	
 }

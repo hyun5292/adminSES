@@ -46,6 +46,13 @@ table {
 }
 </style>
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+<script>
+	function SchMemberName() {
+		var schNm = $('#schNm').val();
+
+		location.href = "main?schNm=" + schNm;
+	}
+</script>
 </head>
 
 <body>
@@ -62,8 +69,8 @@ table {
 				</div>
 				<div class="sidebar-header">
 					<div class="user-info">
-						<span class="user-name"><strong>${eId}</strong><a href="logout">
-								<i class="fa fa-power-off"></i>
+						<span class="user-name"><strong>${eId}</strong><a
+							href="logout"> <i class="fa fa-power-off"></i>
 						</a></span> <span class="user-role">Administrator</span> <span
 							class="user-status"> <i class="fa fa-circle"></i> <span>Online</span>
 						</span>
@@ -72,21 +79,38 @@ table {
 				<!-- sidebar-header  -->
 				<div class="sidebar-search">
 					<div>
-						<div class="input-group">
-							<table>
-								<tr>
-									<td><input type="text" class="form-control search-menu"
-										placeholder="Search..."></td>
-									<td>
-										<div class="input-group-append">
-											<span class="input-group-text"> <i
-												class="fa fa-search" height="100%" aria-hidden="true"></i>
-											</span>
-										</div>
-									</td>
-								</tr>
+						<table>
+							<tr>
+								<td width="95%"><input type="text" class="form-control"
+									id="schNm" name="schNm" value="${schNm}"></td>
+								<td width="5%">
+									<button type="button" class="btn btn-secondary"
+										onclick="SchMemberName()">
+										<i class="fa fa-search" aria-hidden="true"></i>
+									</button>
+								</td>
+							</tr>
+						</table>
+						<c:set var="mdtos" value="${mdtos}" />
+						<c:if test="${!empty mdtos}">
+							<table width="100%">
+								<thead style="text-align: center;">
+									<tr>
+										<th width="25%" bgcolor="white"><center>아이디</center></th>
+										<th width="20%" bgcolor="white"><center>성명</center></th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach items="${mdtos}" var="mdto">
+										<tr>
+											<td width="50%" align="center" bgcolor="white"><a
+												href="chklistmkind?mId=${mdto.getM_ID()}&mKind=${mkind}">${mdto.getM_ID()}</a></td>
+											<td width="50%" align="center" bgcolor="white">${mdto.getM_NAME()}</td>
+										</tr>
+									</c:forEach>
+								</tbody>
 							</table>
-						</div>
+						</c:if>
 					</div>
 				</div>
 				<!-- sidebar-search  -->

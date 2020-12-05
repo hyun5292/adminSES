@@ -116,4 +116,9 @@
 		member WHERE M_ID LIKE #{schId} AND M_NAME LIKE #{schName} AND M_SERVICE_CHK LIKE #{join} ORDER BY M_ID ASC limit
 		#{startNum}, #{ContentNum};
 	</select>
+	
+	<select id="GetSchMmain" parameterType="hashmap"
+		resultType="com.company.dto.MemberDTO">
+		SELECT * FROM member WHERE M_NAME LIKE #{schNm} AND M_STATE = "Y" ORDER BY M_ID ASC;
+	</select>
 </mapper>

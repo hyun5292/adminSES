@@ -8,8 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import com.company.dto.MemberDTO;
 import com.company.dto.PageDTO;
 import com.company.dto.PayLogDTO;
 import com.company.dto.QnaDTO;
+import com.company.service.ELService;
 import com.company.service.MService;
 import com.company.service.PLService;
 import com.company.service.QService;
@@ -33,10 +36,16 @@ public class PayServiceController {
 	MService Ser_M;
 	@Autowired
 	PLService Ser_PL;
+	@Autowired
+	ELService Ser_EL;
+
+	@Inject
+	HttpSession session;
 
 	// 유료서비스 조건 검색
 	@RequestMapping("/PaySch")
-	public String SchMPayService(HttpServletRequest request, Model model) {
+	public String SchMPayService(HttpServletResponse response, HttpServletRequest request, Model model)
+			throws IOException {
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 		Map<String, Object> Pmap = new HashMap<String, Object>();
@@ -346,13 +355,6 @@ public class PayServiceController {
 		return "/pay_service";
 	}
 
-	// 회원 조건 검색
-	@RequestMapping("/schMember")
-	public String schMember(HttpServletRequest request, Model model) {
-
-		return "/pay_service";
-	}
-
 	// 유료서비스 가입 처리
 	@RequestMapping("/dojoinpay")
 	public String DoJoinPay(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException {
@@ -379,6 +381,25 @@ public class PayServiceController {
 			out.flush();
 		}
 
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> session_map = new HashMap<String, Object>();
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String now = format1.format(time.getTime());
+
+		session_map.put("el_Id", session.getAttribute("eId"));
+		session_map.put("el_Activity", mId + " 유료서비스 가입 처리");
+		session_map.put("el_DT", now);
+
+		boolean rslt = Ser_EL.WriteLog(session_map);
+
+		if (!rslt) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
 		return "redirect:/pay_service?mId=" + mId;
 	}
 
@@ -399,6 +420,25 @@ public class PayServiceController {
 		boolean chkJoin = Ser_M.MakePLJoin(map);
 
 		if (!chkJoin) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> session_map = new HashMap<String, Object>();
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String now = format1.format(time.getTime());
+
+		session_map.put("el_Id", session.getAttribute("eId"));
+		session_map.put("el_Activity", mId + " 유료서비스 가입 해제 처리");
+		session_map.put("el_DT", now);
+
+		boolean rslt = Ser_EL.WriteLog(session_map);
+
+		if (!rslt) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
@@ -432,6 +472,21 @@ public class PayServiceController {
 			out.flush();
 		}
 
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> session_map = new HashMap<String, Object>();
+		session_map.put("el_Id", session.getAttribute("eId"));
+		session_map.put("el_Activity", mId + " 유료서비스 납부 처리");
+		session_map.put("el_DT", now);
+
+		boolean rslt = Ser_EL.WriteLog(session_map);
+
+		if (!rslt) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
 		return "redirect:/pay_service?mId=" + mId;
 	}
 
@@ -451,6 +506,21 @@ public class PayServiceController {
 		boolean chkNoPay = Ser_PL.MakeNoPay(map);
 
 		if (!chkNoPay) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> session_map = new HashMap<String, Object>();
+		session_map.put("el_Id", session.getAttribute("eId"));
+		session_map.put("el_Activity", mId + " 유료서비스 미납 처리");
+		session_map.put("el_DT", now);
+
+		boolean rslt = Ser_EL.WriteLog(session_map);
+
+		if (!rslt) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");

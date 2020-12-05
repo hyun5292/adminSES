@@ -141,3 +141,9 @@
 12월 06, 2020 01:11:02.95 [2400:3936:1206/011102.951:ERROR:get_updates_processor.cc(257)] PostClientToServerMessage() failed during GetUpdates with error 15
 12월 06, 2020 01:14:44.63 [13268:13036:1206/011444.632:ERROR:get_updates_processor.cc(257)] PostClientToServerMessage() failed during GetUpdates with error 15
 12월 06, 2020 01:24:40.82 [1206/012440.823:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+12월 06, 2020 02:08:14.53 [1068:6680:1206/020814.532:ERROR:get_updates_processor.cc(257)] PostClientToServerMessage() failed during GetUpdates with error 15
+12월 06, 2020 02:11:55.86 [8344:9648:1206/021155.863:ERROR:get_updates_processor.cc(257)] PostClientToServerMessage() failed during GetUpdates with error 15
+12월 06, 2020 02:14:34.24 [2708:12340:1206/021434.243:ERROR:get_updates_processor.cc(257)] PostClientToServerMessage() failed during GetUpdates with error 15
+12월 06, 2020 02:24:30.91 [1206/022430.911:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+12월 06, 2020 03:41:52.69 [1206/034152.695:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+12월 06, 2020 03:58:02.59 [1206/035802.597:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
