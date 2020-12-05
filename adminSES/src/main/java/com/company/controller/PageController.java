@@ -64,6 +64,12 @@ public class PageController {
 		return "/login";
 	}
 
+	// 비밀번호 변경 페이지로 이동
+	@RequestMapping("/modify")
+	public String GoModify(HttpServletRequest request, Model model) {
+		return "/modifypwd";
+	}
+
 	// 메인으로 이동
 	@RequestMapping("/main")
 	public String GoMain(HttpServletRequest request, Model model) {
@@ -98,7 +104,7 @@ public class PageController {
 			model.addAttribute("mdtos", null);
 			model.addAttribute("schNm", "");
 		}
-		
+
 		// 값 넘겨주기
 		model.addAttribute("mkind", "일반");
 		model.addAttribute("dtos", dtos);

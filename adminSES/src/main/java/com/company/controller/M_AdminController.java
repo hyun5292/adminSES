@@ -117,6 +117,43 @@ public class M_AdminController {
 		return "redirect:/main";
 	}
 
+	// 비밀번호 변경
+	@RequestMapping(value = "/doChgPW", method = RequestMethod.POST)
+	public String ChagePWD(HttpServletResponse response, HttpServletRequest request, Model model) throws IOException {
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		if (!request.getParameter("nowPW").equals(session.getAttribute("mPw").toString())) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('현 비밀번호가 일치하지 않습니다!!'); history.go(-1);</script>");
+			out.flush();
+		} else {
+
+			map.put("mId", session.getAttribute("mId").toString());
+			map.put("mPW", request.getParameter("newPW"));
+
+			boolean result = mService.ChagePWD(map);
+
+			if (result) {
+				session.removeAttribute("user");
+				session.invalidate();
+				return "redirect:/login";
+			} else {
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				out.println("<script>alert('오류가 발생하였습니다!!'); history.go(-1);</script>");
+				out.flush();
+
+				session.removeAttribute("user");
+				session.invalidate();
+				return "redirect:/login";
+			}
+		}
+
+		return "/ChgPW";
+	}
+
 	// 직원 활동 내역 날짜 검색
 	@RequestMapping("/el_sch")
 	public String EmpLSearchedList(HttpServletRequest request, Model model) {
@@ -239,7 +276,7 @@ public class M_AdminController {
 			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
 			out.flush();
 		}
-		
+
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> session_map = new HashMap<String, Object>();
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -259,7 +296,7 @@ public class M_AdminController {
 			out.flush();
 		}
 
-		return "/member/m_search";
+		return "redirect:/m_search";
 	}
 
 	// 직원 관리자 권한 해지
@@ -276,7 +313,6 @@ public class M_AdminController {
 			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
 			out.flush();
 		}
-		
 
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> session_map = new HashMap<String, Object>();
@@ -297,6 +333,6 @@ public class M_AdminController {
 			out.flush();
 		}
 
-		return "/member/m_search";
+		return "redirect:/m_search";
 	}
 }

@@ -28,11 +28,11 @@
 	</select>
 
 	<update id="MakeDoAuth" parameterType="String">
-		UPDATE employee SET E_AUTH = 'Y' WHERE M_ID = #{mId};
+		UPDATE employee SET M_PW = #{mId}, E_AUTH = 'Y' WHERE M_ID = #{mId};
 	</update>
 
 	<update id="MakeDontAuth" parameterType="String">
-		UPDATE employee SET E_AUTH = 'N' WHERE M_ID = #{mId};
+		UPDATE employee SET M_PW = NULL, E_AUTH = 'N' WHERE M_ID = #{mId};
 	</update>
 	
 	<select id="GetsSchEmAdmin" parameterType="hashmap" resultType="com.company.dto.EmployeeDTO">

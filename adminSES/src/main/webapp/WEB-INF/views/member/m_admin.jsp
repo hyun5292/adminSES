@@ -48,30 +48,43 @@ thead {
 	});
 
 	function SearchEmpLog() {
-		var mId = $('#eId').val();
+		var mId = $('#mId').val();
 		var StartDT = $('#StartDT').val();
 		var EndDT = $('#EndDT').val();
 		location.href = "el_sch?mId=" + mId + "&StartDT=" + StartDT + "&EndDT=" + EndDT;
 	}
 	
 	function DobtnYesAuth() {
-		var mId = $('#eId').val();
+		var mId = $('#mId').val();
 		location.href = "doAuth?mId=" + mId;
 	}
 	
 	function DobtnNoAuth() {
-		var mId = $('#eId').val();
+		var mId = $('#mId').val();
 		location.href = "dontAuth?mId=" + mId;
+	}
+	
+	function ModifyPWD() {
+		location.href = "modify";
 	}
 	
 	function isAuth() {
 		var eAuth = $('#eAuth').val();
+		var mId = $('#mId').val();
+		var sessId = $('#eId').val();
+		
 		if (eAuth == 'Y') {
 			$("#btnDontAuth").show();
 			$("#btnDoAuth").hide();
 		} else if (eAuth == 'N') {
 			$("#btnDontAuth").hide();
 			$("#btnDoAuth").show();
+		}
+		
+		if(mId == sessId) {
+			$("#btnModifyPWD").show();
+		} else {
+			$("#btnModifyPWD").hide();
 		}
 	}
 	window.onload = isAuth;
@@ -90,7 +103,8 @@ thead {
 				</div>
 				<div class="sidebar-header">
 					<div class="user-info">
-						<span class="user-name"><strong>${eId}</strong><a
+						<span class="user-name"><strong>${eId}
+							<input type="hidden" id="eId" name="eId" value="${eId}"></strong><a
 							href="logout"> <i class="fa fa-power-off"></i>
 						</a></span> <span class="user-role">Administrator</span> <span
 							class="user-status"> <i class="fa fa-circle"></i> <span>Online</span>
@@ -127,13 +141,16 @@ thead {
 						<div class="panel-heading">
 							<table class="tblInfo" width="100%">
 								<tr>
-									<td>직원 정보</td>
-									<td colspan="10" align="right">
-										<button type="button" id="btnDoAuth" name="btnDoAuth"
+									<td width="10%">직원 정보</td>
+									<td width="75%" align="right">
+										<button type="button" id="btnModifyPWD" name="btnModifyPWD"
+											class="btn btn-secondary" onclick="ModifyPWD()">비밀번호 변경</button>
+									</td>
+									<td width="2%"></td>
+									<td width="13%"><button type="button" id="btnDoAuth" name="btnDoAuth"
 											class="btn btn-secondary" onclick="DobtnYesAuth()">관리자 권한 부여</button>
 										<button type="button" id="btnDontAuth" name="btnDontAuth"
-											class="btn btn-secondary"onclick="DobtnNoAuth()">관리자 권한 해제</button>
-									</td>
+											class="btn btn-secondary"onclick="DobtnNoAuth()">관리자 권한 해제</button></td>
 								</tr>
 							</table>
 						</div>
@@ -188,7 +205,7 @@ thead {
 									</tr>
 								</tbody>
 							</table>
-							<input type="hidden" id="eId" name="eId" value="${dto.getM_ID()}">
+							<input type="hidden" id="mId" name="mId" value="${dto.getM_ID()}">
 							<input type="hidden" id="eAuth" name="eAuth" value="${dto.getE_AUTH()}">
 						</div>
 					</div>
