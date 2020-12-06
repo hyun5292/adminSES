@@ -51,40 +51,42 @@ thead {
 		var mId = $('#mId').val();
 		var StartDT = $('#StartDT').val();
 		var EndDT = $('#EndDT').val();
-		location.href = "el_sch?mId=" + mId + "&StartDT=" + StartDT + "&EndDT=" + EndDT;
+		location.href = "el_sch?mId=" + mId + "&StartDT=" + StartDT + "&EndDT="
+				+ EndDT;
 	}
-	
+
 	function DobtnYesAuth() {
 		var mId = $('#mId').val();
 		location.href = "doAuth?mId=" + mId;
 	}
-	
+
 	function DobtnNoAuth() {
 		var mId = $('#mId').val();
 		location.href = "dontAuth?mId=" + mId;
 	}
-	
+
 	function ModifyPWD() {
 		location.href = "modify";
 	}
-	
+
 	function isAuth() {
 		var eAuth = $('#eAuth').val();
 		var mId = $('#mId').val();
 		var sessId = $('#eId').val();
-		
-		if (eAuth == 'Y') {
-			$("#btnDontAuth").show();
-			$("#btnDoAuth").hide();
-		} else if (eAuth == 'N') {
-			$("#btnDontAuth").hide();
-			$("#btnDoAuth").show();
-		}
-		
-		if(mId == sessId) {
+
+		if (mId == sessId) {
 			$("#btnModifyPWD").show();
+			$("#btnDontAuth").hide();
+			$("#btnDoAuth").hide();
 		} else {
 			$("#btnModifyPWD").hide();
+			if (eAuth == 'Y') {
+				$("#btnDontAuth").show();
+				$("#btnDoAuth").hide();
+			} else if (eAuth == 'N') {
+				$("#btnDontAuth").hide();
+				$("#btnDoAuth").show();
+			}
 		}
 	}
 	window.onload = isAuth;
@@ -103,8 +105,8 @@ thead {
 				</div>
 				<div class="sidebar-header">
 					<div class="user-info">
-						<span class="user-name"><strong>${eId}
-							<input type="hidden" id="eId" name="eId" value="${eId}"></strong><a
+						<span class="user-name"><strong>${eId} <input
+								type="hidden" id="eId" name="eId" value="${eId}"></strong><a
 							href="logout"> <i class="fa fa-power-off"></i>
 						</a></span> <span class="user-role">Administrator</span> <span
 							class="user-status"> <i class="fa fa-circle"></i> <span>Online</span>
@@ -144,13 +146,16 @@ thead {
 									<td width="10%">직원 정보</td>
 									<td width="75%" align="right">
 										<button type="button" id="btnModifyPWD" name="btnModifyPWD"
-											class="btn btn-secondary" onclick="ModifyPWD()">비밀번호 변경</button>
+											class="btn btn-secondary" onclick="ModifyPWD()">비밀번호
+											변경</button>
 									</td>
 									<td width="2%"></td>
-									<td width="13%"><button type="button" id="btnDoAuth" name="btnDoAuth"
-											class="btn btn-secondary" onclick="DobtnYesAuth()">관리자 권한 부여</button>
+									<td width="13%"><button type="button" id="btnDoAuth"
+											name="btnDoAuth" class="btn btn-secondary"
+											onclick="DobtnYesAuth()">관리자 권한 부여</button>
 										<button type="button" id="btnDontAuth" name="btnDontAuth"
-											class="btn btn-secondary"onclick="DobtnNoAuth()">관리자 권한 해제</button></td>
+											class="btn btn-secondary" onclick="DobtnNoAuth()">관리자
+											권한 해제</button></td>
 								</tr>
 							</table>
 						</div>
@@ -206,7 +211,8 @@ thead {
 								</tbody>
 							</table>
 							<input type="hidden" id="mId" name="mId" value="${dto.getM_ID()}">
-							<input type="hidden" id="eAuth" name="eAuth" value="${dto.getE_AUTH()}">
+							<input type="hidden" id="eAuth" name="eAuth"
+								value="${dto.getE_AUTH()}">
 						</div>
 					</div>
 				</div>

@@ -148,3 +148,19 @@
 12월 06, 2020 03:41:52.69 [1206/034152.695:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
 12월 06, 2020 03:58:02.59 [1206/035802.597:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
 12월 06, 2020 05:20:56.99 [1206/052056.995:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+
+12월 06, 2020 14:37:32.26 NEW SESSION
+12월 06, 2020 14:37:32.26 [1206/143732.260:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+12월 06, 2020 15:11:48.40 [1206/151148.403:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+12월 06, 2020 16:16:28.46 [9716:2364:1206/161628.459:ERROR:page_load_metrics_update_dispatcher.cc(165)] Invalid first_paint 0.924 s for first_image_paint 0.923 s
+12월 06, 2020 16:16:29.47 [9716:2364:1206/161629.475:ERROR:page_load_metrics_update_dispatcher.cc(165)] Invalid first_paint 0.924 s for first_image_paint 0.923 s
+12월 06, 2020 16:16:30.50 [9716:2364:1206/161630.504:ERROR:page_load_metrics_update_dispatcher.cc(165)] Invalid first_paint 0.924 s for first_image_paint 0.923 s
+12월 06, 2020 16:16:33.79 [9716:2364:1206/161633.794:ERROR:page_load_metrics_update_dispatcher.cc(165)] Invalid first_paint 0.924 s for first_image_paint 0.923 s
+12월 06, 2020 16:16:36.72 [9716:2364:1206/161636.724:ERROR:page_load_metrics_update_dispatcher.cc(165)] Invalid first_paint 0.924 s for first_image_paint 0.923 s
+12월 06, 2020 16:16:39.24 [9716:2364:1206/161639.247:ERROR:page_load_metrics_update_dispatcher.cc(165)] Invalid first_paint 0.924 s for first_image_paint 0.923 s
+12월 06, 2020 16:47:53.31 [9716:9060:1206/164753.316:ERROR:get_updates_processor.cc(257)] PostClientToServerMessage() failed during GetUpdates with error 15
+12월 06, 2020 17:14:41.75 [228:1548:1206/171441.753:ERROR:get_updates_processor.cc(257)] PostClientToServerMessage() failed during GetUpdates with error 15
+12월 06, 2020 17:24:38.16 [1206/172438.168:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+12월 06, 2020 18:39:26.42 [4856:10452:1206/183926.419:ERROR:get_updates_processor.cc(257)] PostClientToServerMessage() failed during GetUpdates with error 15
+12월 06, 2020 18:49:14.41 [9348:9180:1206/184914.412:ERROR:get_updates_processor.cc(257)] PostClientToServerMessage() failed during GetUpdates with error 15
+12월 06, 2020 18:55:47.62 [10136:11532:1206/185547.623:ERROR:get_updates_processor.cc(257)] PostClientToServerMessage() failed during GetUpdates with error 15

@@ -69,4 +69,13 @@ public class EmployeeDAO {
 	public EmployeeDTO ELogin(String mId) {
 		return sqlSession.selectOne("eMap.ELogin", mId);
 	}
+
+	// 비밀번호 변경
+	public boolean ChagePWD(Map<String, Object> map) {
+		int rs = temp.update("eMap.ChagePWD", map);
+		if (rs == 1)
+			return true;
+		else
+			return false;
+	}
 }

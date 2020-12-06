@@ -46,6 +46,7 @@ table {
 }
 </style>
 <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script>
 	function SchMemberName() {
 		var schNm = $('#schNm').val();

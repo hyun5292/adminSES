@@ -42,4 +42,8 @@
 	<select id="GetsSchEmACnt" parameterType="hashmap" resultType="int">
 		SELECT count(*) FROM employee WHERE M_ID LIKE #{mId} AND M_NAME LIKE #{mName};
 	</select>
+	
+	<update id="ChagePWD" parameterType="hashmap">
+		UPDATE employee SET M_PW = #{ePw} WHERE M_ID = #{eId};
+	</update>
 </mapper>

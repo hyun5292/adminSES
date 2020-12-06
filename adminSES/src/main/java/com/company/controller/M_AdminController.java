@@ -123,21 +123,42 @@ public class M_AdminController {
 		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		if (!request.getParameter("nowPW").equals(session.getAttribute("mPw").toString())) {
+		if (!request.getParameter("nowPW").equals(session.getAttribute("ePw").toString())) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
-			out.println("<script>alert('현 비밀번호가 일치하지 않습니다!!'); history.go(-1);</script>");
+			out.println("<script>alert('현 비밀번호가 일치하지 않습니다!!');</script>");
 			out.flush();
+			
+			return "modifypwd";
 		} else {
+			map.put("eId", session.getAttribute("eId").toString());
+			map.put("ePw", request.getParameter("newPW"));
 
-			map.put("mId", session.getAttribute("mId").toString());
-			map.put("mPW", request.getParameter("newPW"));
-
-			boolean result = mService.ChagePWD(map);
+			boolean result = Ser_E.ChagePWD(map);
 
 			if (result) {
 				session.removeAttribute("user");
 				session.invalidate();
+
+				// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+				Map<String, Object> session_map = new HashMap<String, Object>();
+				SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				Calendar time = Calendar.getInstance();
+				String now = format1.format(time.getTime());
+
+				session_map.put("el_Id", session.getAttribute("eId"));
+				session_map.put("el_Activity", session.getAttribute("eId") + " 비밀번호 변경");
+				session_map.put("el_DT", now);
+
+				boolean rslt = Ser_EL.WriteLog(session_map);
+
+				if (!rslt) {
+					response.setContentType("text/html; charset=UTF-8");
+					PrintWriter out = response.getWriter();
+					out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+					out.flush();
+				}
+				
 				return "redirect:/login";
 			} else {
 				response.setContentType("text/html; charset=UTF-8");
@@ -150,8 +171,6 @@ public class M_AdminController {
 				return "redirect:/login";
 			}
 		}
-
-		return "/ChgPW";
 	}
 
 	// 직원 활동 내역 날짜 검색

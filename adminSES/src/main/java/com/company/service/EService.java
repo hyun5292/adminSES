@@ -32,5 +32,8 @@ public interface EService {
 
 	// 로그인
 	EmployeeDTO ELogin(HttpServletRequest request);
+
+	// 비밀번호 변경
+	boolean ChagePWD(Map<String, Object> map);
 	
 }

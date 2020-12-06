@@ -206,7 +206,7 @@ panel-heading {
 											<td align="right">회원분류</td>
 											<td width="5px"></td>
 											<td><select class="custom-select" id="mKind"
-												name="mKind">
+												name="mKind" value="${mKind}">
 													<option value="${mKind}" selected="true">${mKind}</option>
 													<option value="일반">일반</option>
 													<option value="직원">직원</option>
@@ -237,7 +237,7 @@ panel-heading {
 								<td colspan="4" align="right">
 									<hr />
 									<button type="button" class="btn btn-secondary"
-										onClick="SelectMembers()">선택</button>
+										onClick="SelectMembers()" disabled>선택</button>
 									<button type="button" class="btn btn-secondary"
 										onClick="RemoveMembers()">초기화</button>
 								</td>
@@ -250,13 +250,13 @@ panel-heading {
 									<table border="0" width="100%">
 										<tr>
 											<td><input type="checkbox" name="survey" id="chkGeneral"
-												${chkGVal}> 전체 일반 회원</td>
+												${chkGVal} disabled> 전체 일반 회원</td>
 											<td width="5px"></td>
 											<td><input type="checkbox" name="survey"
-												id="chkServiceUser" ${chkSVal}> 유료서비스 회원</td>
+												id="chkServiceUser" ${chkSVal} disabled> 유료서비스 회원</td>
 											<td width="5px"></td>
 											<td><input type="checkbox" name="survey" id="chkAdmin"
-												${chkAdVal}> 관리자</td>
+												${chkAdVal} disabled> 관리자</td>
 										</tr>
 									</table>
 									<hr />
@@ -343,7 +343,7 @@ panel-heading {
 									<td width="17%" align="right">받는사람</td>
 									<td width="3%"></td>
 									<td width="80%"><textarea class="form-control"
-											id="getMembers" name="getMembers" rows="2" disabled="true"></textarea></td>
+											id="getMembers" name="getMembers" rows="2" readonly></textarea></td>
 								</tr>
 								<tr>
 									<td colspan="3" height="10px"></td>
@@ -352,7 +352,7 @@ panel-heading {
 									<td width="17%" align="right">제목</td>
 									<td width="3%"></td>
 									<td width="80%"><input type="text" class="form-control"
-										id="inputTitle" placeholder="제목"></td>
+										id="inputTitle" name="inputTitle" placeholder="제목"></td>
 								</tr>
 								<tr>
 									<td colspan="3" height="10px"></td>
@@ -367,9 +367,10 @@ panel-heading {
 									<td colspan="3" height="10px"></td>
 								</tr>
 								<tr>
-									<td colspan="3" align="center">
-										<button type="submit" id="sendbtn" name="sendbtn" class="btn btn-secondary">전송</button>
-									</td>
+									<td colspan="3" align="center"><input type="hidden"
+										id="mkd" name="mkd" value="${mKind}">
+										<button type="submit" id="sendbtn" name="sendbtn"
+											class="btn btn-secondary">전송</button></td>
 								</tr>
 							</table>
 						</div>

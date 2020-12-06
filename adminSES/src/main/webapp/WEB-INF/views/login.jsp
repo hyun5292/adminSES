@@ -125,11 +125,6 @@
 									class="btn btn-default btn-block" />
 								로그인
 								</button>
-								<div class="clearfix">
-									<p class="text-center">
-										<a href="gofindPW">Forgot Password?</a>
-									</p>
-								</div>
 							</form>
 						</div>
 					</td>

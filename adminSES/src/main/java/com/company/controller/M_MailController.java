@@ -1,12 +1,21 @@
 package com.company.controller;
 
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
@@ -16,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.company.dto.EmployeeDTO;
 import com.company.dto.MemberDTO;
 import com.company.dto.PageDTO;
+import com.company.service.ELService;
 import com.company.service.EService;
 import com.company.service.MService;
 
@@ -27,6 +37,13 @@ public class M_MailController {
 	MService Ser_M;
 	@Autowired
 	EService Ser_E;
+	@Autowired
+	ELService Ser_EL;
+
+	@Autowired
+	private JavaMailSender mailSender;
+	@Inject
+	HttpSession session;
 
 	// 메일 관련 회원 검색
 	@RequestMapping(value = "/sch_emailG", method = RequestMethod.POST)
@@ -232,7 +249,98 @@ public class M_MailController {
 			model.addAttribute("last", pgDTO.getTotalCnt() / pgDTO.getContentNum() + 1);
 		else
 			model.addAttribute("last", pgDTO.getTotalCnt() / pgDTO.getContentNum());
-		
+
 		return "/member/m_mail";
+	}
+
+	// 메일 전송
+	@RequestMapping(value = "/doSend", method = RequestMethod.POST)
+	public String mailSending(HttpServletResponse response, HttpServletRequest request, Model model) throws Exception {
+		String setfrom = "tytyjacob5514@kyungmin.ac.kr";
+		String tomail = request.getParameter("getMembers"); // 받는 사람 명단
+		String title = request.getParameter("inputTitle"); // 제목
+		String content = request.getParameter("message"); // 내용
+		String mKind = request.getParameter("mkd"); // 종류
+		String[] mails = tomail.split(",");
+		for(int i = 0; i < mails.length; i++) {
+			System.out.println(mails[i]);
+		}
+		
+		EmployeeDTO edto = null;
+		MemberDTO mdto = null;
+		String mail = "";
+		if (mKind.equals("직원")) {
+			System.out.println(1);
+			for (int i = 0; i < mails.length; i++) {
+				edto = Ser_E.GetEInfo(mails[i]);
+				if (edto != null) {
+					mail = edto.getE_EMAIL1() + "@" + edto.getE_EMAIL2();
+				}
+
+				try {
+					MimeMessage message = mailSender.createMimeMessage();
+					MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+
+					messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
+					messageHelper.setTo(mail); // 받는사람 이메일
+					messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+					messageHelper.setText(content); // 메일 내용
+
+					mailSender.send(message);
+				} catch (Exception e) {
+					response.setContentType("text/html; charset=UTF-8");
+					PrintWriter out = response.getWriter();
+					out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+					out.flush();
+				}
+			}
+		} else {
+			System.out.println(2);
+			for (int i = 0; i < mails.length; i++) {
+				mdto = Ser_M.GetMInfo(mails[i]);
+				if (mdto != null) {
+					mail = mdto.getM_EMAIL1() + "@" + mdto.getM_EMAIL2();
+				}
+
+				try {
+					MimeMessage message = mailSender.createMimeMessage();
+					MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+
+					messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
+					messageHelper.setTo(mail); // 받는사람 이메일
+					messageHelper.setSubject(title); // 메일제목은 생략이 가능하다
+					messageHelper.setText(content); // 메일 내용
+
+					mailSender.send(message);
+				} catch (Exception e) {
+					response.setContentType("text/html; charset=UTF-8");
+					PrintWriter out = response.getWriter();
+					out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+					out.flush();
+				}
+			}
+		}
+
+		// parameter로 string으로 걍 보내니까 오류난다 이 똬식 map으로 보내야된대 똬식
+		Map<String, Object> session_map = new HashMap<String, Object>();
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		Calendar time = Calendar.getInstance();
+		String now = format1.format(time.getTime());
+
+		session_map.put("el_Id", session.getAttribute("eId"));
+		session_map.put("el_Activity", tomail + " 메일 전송");
+		session_map.put("el_DT", now);
+
+		boolean rslt = Ser_EL.WriteLog(session_map);
+
+		if (!rslt) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('오류가 발생했습니다'); history.go(-1);</script>");
+			out.flush();
+		}
+
+
+		return "redirect:/m_mail";
 	}
 }

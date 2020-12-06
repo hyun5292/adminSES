@@ -137,51 +137,30 @@ function check(){
 			<table width="100%" height="600px">
 				<tr>
 					<td align="center">
-						<div class="panel-heading">
-							<h3 class="panel-title">비밀번호 변경</h3>
-						</div>
-						<form action="doChgPW" name="pwForm" method="post"
-							onsubmit="return check()">
-							<div class="panel-body">
-								<br />
-								<table width="70%">
-									<tr>
-										<td width="30%" align="right">현 비밀번호&nbsp;&nbsp;</td>
-										<td width="70%"><input type="password" name="nowPW"
-											id="nowPW" class="form-control" placeholder="현 비밀번호"
-											required="required" style="width: 70%"></td>
-									</tr>
-									<tr style="height: 10px;">
-										<td></td>
-									</tr>
-									<tr>
-										<td width="30%" align="right">새 비밀번호&nbsp;&nbsp;</td>
-										<td width="70%"><input type="password" name="newPW"
-											id="newPW" class="form-control" placeholder="새 비밀번호"
-											required="required" style="width: 70%"></td>
-									</tr>
-									<tr style="height: 10px;">
-										<td></td>
-									</tr>
-									<tr>
-										<td width="30%" align="right">새 비밀번호 확인&nbsp;&nbsp;</td>
-										<td width="70%"><input type="password" name="chknewPW"
-											id="chknewPW" class="form-control" placeholder="새 비밀번호 확인"
-											required="required" style="width: 70%"></td>
-									</tr>
-									<tr style="height: 20px;">
-										<td></td>
-									</tr>
-									<tr>
-										<td colspan="2" align="center"><input type="image"
-											name="button" width="100px"
-											src="${pageContext.request.contextPath}/resources/images/OK.png">
-										</td>
-									</tr>
-								</table>
-								<br />
-							</div>
-						</form>
+						<div class="login-box well" align="center">
+							<form action="doChgPW" name="pwForm" method="post"
+								onsubmit="return check()">
+								<legend>비밀번호 변경</legend>
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-user"></i></span>
+									<input type="password" id="nowPW" name="nowPW" value=''
+										placeholder="현재 비밀번호를 입력하세요" class="form-control" />
+								</div>
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+									<input type="password" id="newPW" name="newPW" value=''
+										placeholder="새 비밀번호를 입력하세요" class="form-control" />
+								</div>
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+									<input type="password" id="chknewPW" name="chknewPW" value=''
+										placeholder="새 비밀번호를 다시 입력하세요" class="form-control" />
+								</div>
+								<button type="submit" id="login-submit"
+									class="btn btn-default btn-block" />
+								비밀번호 변경
+								</button>
+							</form>
 						</div>
 					</td>
 				</tr>

@@ -63,5 +63,11 @@ public class EmployeeService implements EService{
 	public EmployeeDTO ELogin(HttpServletRequest request) {
 		return eDAO.ELogin(request.getParameter("eId"));
 	}
+
+	// 비밀번호 변경
+	@Override
+	public boolean ChagePWD(Map<String, Object> map) {
+		return eDAO.ChagePWD(map);
+	}
 	
 }
