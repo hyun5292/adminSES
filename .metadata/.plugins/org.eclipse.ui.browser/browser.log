@@ -164,3 +164,10 @@
 12월 06, 2020 18:39:26.42 [4856:10452:1206/183926.419:ERROR:get_updates_processor.cc(257)] PostClientToServerMessage() failed during GetUpdates with error 15
 12월 06, 2020 18:49:14.41 [9348:9180:1206/184914.412:ERROR:get_updates_processor.cc(257)] PostClientToServerMessage() failed during GetUpdates with error 15
 12월 06, 2020 18:55:47.62 [10136:11532:1206/185547.623:ERROR:get_updates_processor.cc(257)] PostClientToServerMessage() failed during GetUpdates with error 15
+12월 06, 2020 19:05:44.16 [1206/190544.166:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+12월 06, 2020 19:33:09.89 [10136:10496:1206/193309.894:ERROR:socket_stream.cc(219)] Closing stream with result -2
+12월 06, 2020 19:39:53.84 [10136:10496:1206/193953.840:ERROR:connection_factory_impl.cc(428)] Failed to connect to MCS endpoint with error -106
+12월 06, 2020 20:10:01.39 [10136:10496:1206/201001.394:ERROR:socket_stream.cc(219)] Closing stream with result -2
+12월 06, 2020 21:10:40.90 [10136:10496:1206/211040.900:ERROR:socket_stream.cc(219)] Closing stream with result -2
+12월 06, 2020 21:10:41.00 [10136:10496:1206/211041.009:ERROR:connection_factory_impl.cc(428)] Failed to connect to MCS endpoint with error -105
+12월 06, 2020 21:10:44.17 [10136:10496:1206/211044.173:ERROR:connection_factory_impl.cc(428)] Failed to connect to MCS endpoint with error -106

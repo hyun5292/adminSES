@@ -53,11 +53,67 @@ table {
 
 		location.href = "main?schNm=" + schNm;
 	}
+
+	google.load("visualization", "1", {
+		packages : [ "corechart" ]
+	});
+	google.setOnLoadCallback(drawChart_mCome);
+	function drawChart_mCome() {
+		var data = google.visualization.arrayToDataTable([
+				[ 'Year', 'Sales' ], [ '1', 120 ], [ '2', 70 ], [ '3', 40 ],
+				[ '4', 117 ], [ '5', 66 ],
+				[ '6', 103 ] ]);
+
+		var options = {
+			title : '매일 방문자 수'
+		};
+
+		var chart = new google.visualization.LineChart(document
+				.getElementById('chart_mCome'));
+		chart.draw(data, options);
+	}
+	
+	google.load("visualization", "1", {
+		packages : [ "corechart" ]
+	});
+	google.setOnLoadCallback(drawChart_mCnt);
+	function drawChart_mCnt() {
+		var data = google.visualization.arrayToDataTable([
+				[ 'Year', 'Sales' ], [ '2015', 500 ], [ '2016', 660 ],
+				[ '2017', 840 ], [ '2018', 900 ],
+				[ '2019', 1030 ] ]);
+
+		var options = {
+			title : '월별 회원 수'
+		};
+
+		var chart = new google.visualization.LineChart(document
+				.getElementById('chart_mCnt'));
+		chart.draw(data, options);
+	}
+	
+	google.load("visualization", "1", {
+		packages : [ "corechart" ]
+	});
+	google.setOnLoadCallback(drawChart_add);
+	function drawChart_add() {
+		var data = google.visualization.arrayToDataTable([
+				[ 'Year', 'Sales' ], [ '1', 40 ], [ '2', 50 ], [ '3', 48 ],
+				[ '4', 100 ], [ '5', 60 ],
+				[ '6', 89 ] ]);
+
+		var options = {
+			title : '월별 광고 클릭 수'
+		};
+
+		var chart = new google.visualization.LineChart(document
+				.getElementById('chart_add'));
+		chart.draw(data, options);
+	}
 </script>
 </head>
 
 <body>
-
 	<div class="page-wrapper chiller-theme toggled">
 		<!-- navigation -->
 		<nav id="sidebar" class="sidebar-wrapper">
@@ -149,8 +205,8 @@ table {
 								<table class="table table-list-search">
 									<thead>
 										<tr>
-											<th width="70%"><center>제목</center></th>
-											<th width="30%"><center>아이디</center></th>
+											<th width="65%"><center>제목</center></th>
+											<th width="35%"><center>아이디</center></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -210,17 +266,16 @@ table {
 				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 					<div class="log-div">
 						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-							<img width="205px"
-								src="${pageContext.request.contextPath}/resources/images/chart1.png">&nbsp;
-							<img width="205px"
-								src="${pageContext.request.contextPath}/resources/images/chart2.png">&nbsp;
-							<img width="205px"
-								src="${pageContext.request.contextPath}/resources/images/chart3.png">
+							<div class="panel panel-default" id="chart_mCome"
+								style="width: 280px; height: 185px;"></div>
+							<div class="panel panel-default" id="chart_mCnt"
+								style="width: 280px; height: 185px;"></div>
+							<div class="panel panel-default" id="chart_add"
+								style="width: 280px; height: 185px;"></div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 		</main>
 		<!-- contents -->
 	</div>
