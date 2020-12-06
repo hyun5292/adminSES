@@ -60,7 +60,7 @@ table {
 	google.setOnLoadCallback(drawChart_mCome);
 	function drawChart_mCome() {
 		var data = google.visualization.arrayToDataTable([
-				[ 'Year', 'Sales' ], [ '1', 120 ], [ '2', 70 ], [ '3', 40 ],
+				[ 'Year', 'Sales' ], [ '2', 70 ], [ '3', 40 ],
 				[ '4', 117 ], [ '5', 66 ],
 				[ '6', 103 ] ]);
 
@@ -98,9 +98,9 @@ table {
 	google.setOnLoadCallback(drawChart_add);
 	function drawChart_add() {
 		var data = google.visualization.arrayToDataTable([
-				[ 'Year', 'Sales' ], [ '1', 40 ], [ '2', 50 ], [ '3', 48 ],
-				[ '4', 100 ], [ '5', 60 ],
-				[ '6', 89 ] ]);
+				[ 'Year', 'Sales' ], [ '8', 200 ], [ '9', 180 ],
+				[ '10', 160 ], [ '11', 210 ],
+				[ '12', 220 ] ]);
 
 		var options = {
 			title : '월별 광고 클릭 수'
